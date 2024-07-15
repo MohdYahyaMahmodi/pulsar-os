@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TalkoBrowser OS - Login</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Perfectly Centered Windows-style Login</title>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -16,166 +15,260 @@
             --color-error: #FF5252;
             --color-success: #4CAF50;
         }
-
-        body {
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
             font-family: 'VT323', monospace;
+            overflow: hidden;
             background-color: var(--color-dark);
             color: var(--color-light);
-            overflow: hidden;
         }
-
         .cover-screen {
-            background: linear-gradient(45deg, #2c3e50, #3498db);
-            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://i.redd.it/k2dos9w3br3b1.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+            z-index: 10;
         }
-
         .cover-screen.hidden {
             transform: translateY(-100%);
         }
-
+        .time {
+            font-size: 8rem;
+            font-weight: 400;
+        }
+        .date {
+            font-size: 3rem;
+            margin-top: 1rem;
+        }
+        .instruction {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 2rem;
+            opacity: 0.8;
+        }
         .login-container {
-            background-color: rgba(51, 51, 51, 0.9);
-            border: 2px solid var(--color-accent);
-            box-shadow: 0 0 20px rgba(255, 152, 0, 0.5);
-            backdrop-filter: blur(10px);
-        }
-
-        .input-field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-color: rgba(32, 32, 32, 0.8);
-            border: 1px solid var(--color-accent);
-            color: var(--color-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .accounts {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .account {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0.7;
             transition: all 0.3s ease;
+            padding: 12px 20px 12px 20px;
+            border-radius: 4px;
         }
-
-        .input-field:focus {
-            border-color: var(--color-accent-dark);
-            box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
+        .account:hover, .account.active {
+            opacity: 1;
+            background-color: rgba(255, 255, 255, 0.1);
         }
-
-        .login-btn {
+        .account .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            border: 2px solid var(--color-accent);
+        }
+        .account-name {
+            font-size: 1.2rem;
+        }
+        .login-box {
+            background-color: rgba(0, 0, 0, 0);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .login-box .avatar {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 1.5rem;
+            border: 3px solid var(--color-accent);
+            box-shadow: 0 0 15px rgba(255, 152, 0, 0.5);
+        }
+        .login-box h2 {
+            margin: 0 0 1.5rem;
+            color: var(--color-accent);
+            font-size: 1.8rem;
+        }
+        .login-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .input-group {
+            width: 100%;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: center;
+        }
+        input {
+            width: 80%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: var(--color-light);
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--color-accent);
+        }
+        button {
             background-color: var(--color-accent);
             color: var(--color-dark);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
             transition: all 0.3s ease;
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            width: 80%;
+            margin-top: 1rem;
         }
-
-        .login-btn:hover {
+        button:hover {
             background-color: var(--color-accent-dark);
             transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(255, 152, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+        .settings {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+        }
+        .settings-btn {
+            background: none;
+            border: none;
 
-        .account-btn {
-            background-color: rgba(51, 51, 51, 0.7);
-            border: 1px solid var(--color-accent);
-            color: var(--color-light);
+            font-size: 2rem;
+            cursor: pointer;
             transition: all 0.3s ease;
-            width: 200px;
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
         }
 
-        .account-btn:hover, .account-btn.active {
+        .settings-btn:hover {
+            transform: rotate(90deg);
+            background-color: #20202000;
+        }
+        .settings-menu {
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            background-color: rgba(51, 51, 51, 0.9);
+            border: 1px solid var(--color-accent);
+            border-radius: 4px;
+            display: none;
+            overflow: hidden;
+        }
+        .settings-menu.show {
+            display: block;
+        }
+        .settings-menu button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--color-light);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .settings-menu button:hover {
             background-color: var(--color-accent);
             color: var(--color-dark);
-            transform: translateX(5px);
-        }
-
-        .profile-pic {
-            border: 3px solid var(--color-accent);
-            box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
-        }
-
-        .system-info {
-            background-color: rgba(32, 32, 32, 0.8);
-            border-left: 3px solid var(--color-accent);
-        }
-
-        .loading-bar {
-            background-color: var(--color-accent);
-            transition: width 0.5s ease;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
         }
     </style>
 </head>
-<body class="h-screen flex flex-col">
-    <div class="cover-screen absolute inset-0 flex items-center justify-center z-10">
-        <div class="text-center">
-            <h1 class="text-6xl font-bold mb-4 pulse">TalkoBrowser OS</h1>
-            <div class="clock text-4xl mb-4" id="clock"></div>
-            <div class="date text-2xl mb-8" id="date"></div>
-            <p class="text-xl">Click anywhere to login</p>
-        </div>
+<body>
+    <div class="cover-screen" id="coverScreen">
+        <div class="time" id="time"></div>
+        <div class="date" id="date"></div>
+        <div class="instruction">Click anywhere to unlock</div>
     </div>
 
-    <div class="flex-grow flex">
-        <div class="w-64 flex flex-col justify-end p-8 absolute bottom-0 left-0 z-20">
-            <button id="admin-btn" class="account-btn px-6 py-3 rounded-md text-xl mb-4 active">
-                <i class="fas fa-user-shield mr-2"></i>Admin
-            </button>
-            <button id="guest-btn" class="account-btn px-6 py-3 rounded-md text-xl">
-                <i class="fas fa-user mr-2"></i>Guest
-            </button>
-        </div>
-        <div class="flex-grow flex items-center justify-center">
-            <div id="admin-login" class="login-container p-8 rounded-lg w-96 text-center">
-                <img src="https://via.placeholder.com/150" alt="Admin" class="profile-pic w-32 h-32 rounded-full mx-auto mb-6">
-                <form class="space-y-4">
-                    <input type="text" id="username" placeholder="Username" class="input-field w-full px-4 py-2 rounded-md" value="admin">
-                    <div class="relative">
-                        <input type="password" id="password" placeholder="Password" class="input-field w-full px-4 py-2 rounded-md">
-                        <button type="button" id="toggle-password" class="absolute right-3 top-2 text-gray-400">👁️</button>
-                    </div>
-                    <button type="submit" class="login-btn w-full py-2 rounded-md text-xl font-bold">Login</button>
-                </form>
-                <p id="login-message" class="mt-4 text-sm"></p>
+    <div class="login-container">
+        <div class="accounts">
+            <div class="account" data-user="guest">
+                <img src="https://via.placeholder.com/40x40.png?text=G" alt="Guest" class="avatar">
+                <div class="account-name">Guest</div>
             </div>
-            <div id="guest-login" class="login-container p-8 rounded-lg w-96 text-center hidden">
-                <img src="https://via.placeholder.com/150" alt="Guest" class="profile-pic w-32 h-32 rounded-full mx-auto mb-6">
-                <button class="login-btn w-full py-2 rounded-md text-xl font-bold">Sign in as Guest</button>
+            <div class="account" data-user="admin">
+                <img src="https://via.placeholder.com/40x40.png?text=A" alt="Admin" class="avatar">
+                <div class="account-name">Admin</div>
             </div>
         </div>
-        <div class="system-info absolute top-0 right-0 p-4 text-sm">
-            <p>CPU: TalkoBrowser Processor</p>
-            <p>RAM: 16 GB</p>
-            <p>Storage: 512 GB SSD</p>
-            <p>OS Version: TalkoBrowser OS 1.0</p>
+        <div class="login-box" id="loginBox">
+            <!-- Content will be dynamically inserted here -->
         </div>
-    </div>
-
-    <div id="loading-screen" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center hidden z-30">
-        <div class="text-center">
-            <h2 class="text-2xl mb-4">Loading TalkoBrowser OS</h2>
-            <div class="w-64 h-4 bg-gray-700 rounded-full overflow-hidden">
-                <div id="loading-bar" class="loading-bar h-full w-0"></div>
+        <div class="settings">
+            <button class="settings-btn" id="settingsBtn">⚙️</button>
+            <div class="settings-menu" id="settingsMenu">
+                <button id="shutdownBtn">Shut Down</button>
+                <button id="restartBtn">Restart</button>
             </div>
         </div>
     </div>
 
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
     <script>
-        const coverScreen = document.querySelector('.cover-screen');
-        const adminBtn = document.getElementById('admin-btn');
-        const guestBtn = document.getElementById('guest-btn');
-        const adminLogin = document.getElementById('admin-login');
-        const guestLogin = document.getElementById('guest-login');
-        const loginMessage = document.getElementById('login-message');
-        const loadingScreen = document.getElementById('loading-screen');
-        const loadingBar = document.getElementById('loading-bar');
-        const togglePassword = document.getElementById('toggle-password');
-        const passwordInput = document.getElementById('password');
+        const coverScreen = document.getElementById('coverScreen');
+        const timeElement = document.getElementById('time');
+        const dateElement = document.getElementById('date');
+        const loginBox = document.getElementById('loginBox');
+        const accounts = document.querySelectorAll('.account');
+        const settingsBtn = document.getElementById('settingsBtn');
+        const settingsMenu = document.getElementById('settingsMenu');
+        const shutdownBtn = document.getElementById('shutdownBtn');
+        const restartBtn = document.getElementById('restartBtn');
 
         function updateDateTime() {
             const now = new Date();
-            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const dateString = now.toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            document.getElementById('clock').textContent = timeString;
-            document.getElementById('date').textContent = dateString;
+            timeElement.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            dateElement.textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         }
 
         setInterval(updateDateTime, 1000);
@@ -185,59 +278,66 @@
             coverScreen.classList.add('hidden');
         });
 
-        adminBtn.addEventListener('click', () => {
-            adminBtn.classList.add('active');
-            guestBtn.classList.remove('active');
-            adminLogin.classList.remove('hidden');
-            guestLogin.classList.add('hidden');
+        function setActiveAccount(account) {
+            accounts.forEach(acc => acc.classList.remove('active'));
+            account.classList.add('active');
+            updateLoginBox(account.dataset.user);
+        }
+
+        function updateLoginBox(user) {
+            if (user === 'guest') {
+                loginBox.innerHTML = `
+                    <img src="https://preview.redd.it/gwqupsh46yn51.png?width=301&format=png&auto=webp&s=60efa3b8c4375c7589c929945a840c60c713c949" alt="Guest" class="avatar">
+                    <h2>Guest</h2>
+                    <button onclick="window.location.href='os.html'">Sign in</button>
+                `;
+            } else if (user === 'admin') {
+                loginBox.innerHTML = `
+                    <img src="https://via.placeholder.com/100x100.png?text=Admin" alt="Admin" class="avatar">
+                    <h2>Admin</h2>
+                    <form id="loginForm" class="login-form">
+                        <div class="input-group">
+                            <input type="text" placeholder="Username" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" placeholder="Password" required>
+                        </div>
+                        <button type="submit">Sign in</button>
+                    </form>
+                `;
+                document.getElementById('loginForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    // Here you would normally check the credentials
+                    alert('Admin login: Credentials would be checked here.');
+                });
+            }
+        }
+
+        accounts.forEach(account => {
+            account.addEventListener('click', () => setActiveAccount(account));
         });
 
-        guestBtn.addEventListener('click', () => {
-            guestBtn.classList.add('active');
-            adminBtn.classList.remove('active');
-            guestLogin.classList.remove('hidden');
-            adminLogin.classList.add('hidden');
+        // Set Guest as default active account
+        setActiveAccount(document.querySelector('.account[data-user="guest"]'));
+
+        settingsBtn.addEventListener('click', () => {
+            settingsMenu.classList.toggle('show');
         });
 
-        togglePassword.addEventListener('click', () => {
-            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-            togglePassword.textContent = passwordInput.type === 'password' ? '👁️' : '👁️‍🗨️';
+        shutdownBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
         });
 
-        document.querySelector('form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = passwordInput.value;
-            
-            if (username === 'admin' && password === 'password') {
-                loginMessage.textContent = 'Login successful!';
-                loginMessage.style.color = 'var(--color-success)';
-                simulateLoading();
-            } else {
-                loginMessage.textContent = 'Invalid username or password.';
-                loginMessage.style.color = 'var(--color-error)';
+        restartBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        // Close settings menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!settingsBtn.contains(e.target) && !settingsMenu.contains(e.target)) {
+                settingsMenu.classList.remove('show');
             }
         });
-
-        document.querySelector('#guest-login button').addEventListener('click', () => {
-            simulateLoading();
-        });
-
-        function simulateLoading() {
-            loadingScreen.classList.remove('hidden');
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += Math.random() * 10;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        window.location.href = 'os.html';
-                    }, 500);
-                }
-                loadingBar.style.width = `${progress}%`;
-            }, 200);
-        }
     </script>
 </body>
 </html>
