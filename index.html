@@ -311,7 +311,7 @@
         }, 10000);
 
          // Browser functionality
-         const iframe = document.getElementById('browser-frame');
+        const iframe = document.getElementById('browser-frame');
         const urlBar = document.getElementById('url-bar');
         const homeUrl = 'https://www.google.com/?igu=1';
         let currentUrl = '';
@@ -387,48 +387,27 @@
             }
         });
 
-        iframe.addEventListener('load', () => {
-            urlBar.value = iframe.contentWindow.location.href;
-            currentUrl = iframe.contentWindow.location.href;
-            if (currentUrl !== history[historyIndex]) {
-                loadUrl(currentUrl);
-            }
-        });
-
-        // Listen for messages from the iframe
-        window.addEventListener('message', function(event) {
-            if (event.data && event.data.type === 'urlChange') {
-                urlBar.value = event.data.url;
-                currentUrl = event.data.url;
-                loadUrl(currentUrl);
-            }
-        });
-
-        // Inject script into iframe to track URL changes
-        function injectScript() {
-            const script = `
-                (function() {
-                    let lastUrl = location.href;
-                    new MutationObserver(() => {
-                        const url = location.href;
-                        if (url !== lastUrl) {
-                            lastUrl = url;
-                            window.parent.postMessage({ type: 'urlChange', url: lastUrl }, '*');
-                        }
-                    }).observe(document, { subtree: true, childList: true });
-                })();
-            `;
-            
-            iframe.addEventListener('load', function() {
-                try {
-                    iframe.contentWindow.eval(script);
-                } catch (e) {
-                    console.error('Failed to inject script:', e);
+        function updateUrl() {
+            try {
+                const newUrl = iframe.contentWindow.location.href;
+                if (newUrl !== currentUrl) {
+                    currentUrl = newUrl;
+                    urlBar.value = newUrl;
+                    if (newUrl !== history[historyIndex]) {
+                        history.push(newUrl);
+                        historyIndex = history.length - 1;
+                        updateNavigationButtons();
+                    }
                 }
-            });
+            } catch (e) {
+                // Catch and ignore cross-origin errors
+            }
         }
 
-        injectScript();
+        iframe.addEventListener('load', updateUrl);
+
+        // Periodically check for URL changes
+        setInterval(updateUrl, 500);
 
         // Initialize browser content
         loadUrl(homeUrl);
