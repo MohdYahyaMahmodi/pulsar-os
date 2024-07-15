@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIOS Screen</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px; /* Adjusted font size to fit content */
+            margin: 0;
+            padding: 20px;
+            overflow: hidden; /* Prevent scrolling */
+        }
+        .hidden {
+            display: none;
+        }
+        .highlight {
+            color: yellow;
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <pre>
+        <span id="line1">The Dev Universe BIOS v4.60PGA, An Talkomatic Ally</span><br>
+        <span id="line2">Copyright (C) 2024, Talkosoftwares, Inc.</span><br><br>
+
+        <span id="version" class="hidden">Version JE4333</span><br><br>
+
+        <span id="cpu-info" class="hidden">PENTIUM ODP-MMX CPU at 200MHz</span><br>
+        <span id="memory-test-label" class="hidden">Memory Test : <span id="memory-test">0</span>K <span id="status">OK</span></span><br><br>
+
+        <span id="remaining-text" class="hidden">
+        Award Plug and Play BIOS Extension v1.0A<br>
+        Copyright (C) 1998, Award Software, Inc.<br>
+          <span id="detect-ide1" class="hidden">Detecting IDE Primary Master  ...  None</span><br>
+          <span id="detect-ide2" class="hidden">Detecting IDE Primary Slave   ...  None</span><br>
+          <span id="detect-ide3" class="hidden">Detecting IDE Secondary Master...  None</span><br>
+          <span id="detect-ide4" class="hidden">Detecting IDE Secondary Slave ...  None</span><br><br>
+        
+        <span id="continue-boot" class="hidden highlight">Press Any Key To Continue Boot</span>
+    </pre>
+
+    <script>
+        function animateMemoryTest(finalValue, duration) {
+            const memoryTestElement = document.getElementById('memory-test');
+            const statusElement = document.getElementById('status');
+            let start = 0;
+            const increment = finalValue / (duration / 10); // update every 10ms
+            const interval = setInterval(() => {
+                start += increment;
+                if (start >= finalValue) {
+                    start = finalValue;
+                    clearInterval(interval);
+                    statusElement.classList.add('success'); // Change color to green when finished
+                }
+                memoryTestElement.textContent = Math.floor(start);
+            }, 10);
+        }
+
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('version').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('cpu-info').classList.remove('hidden');
+                    document.getElementById('memory-test-label').classList.remove('hidden');
+                    animateMemoryTest(262144, 2000); // 2 seconds duration
+                    setTimeout(() => {
+                        document.getElementById('remaining-text').classList.remove('hidden');
+                        setTimeout(() => {
+                            document.getElementById('detect-ide1').classList.remove('hidden');
+                            setTimeout(() => {
+                                document.getElementById('detect-ide2').classList.remove('hidden');
+                                setTimeout(() => {
+                                    document.getElementById('detect-ide3').classList.remove('hidden');
+                                    setTimeout(() => {
+                                        document.getElementById('detect-ide4').classList.remove('hidden');
+                                        setTimeout(() => {
+                                            document.getElementById('continue-boot').classList.remove('hidden');
+                                            document.addEventListener('keydown', () => {
+                                                window.location.href = 'https://mohdyahyamahmodi.github.io/talkobrowser/'; // Replace with your desired URL
+                                            });
+                                        }, 500); // Show "Press Any Key To Continue Boot" after 0.5 seconds
+                                    }, 500); // Show "Detecting IDE Secondary Slave" after 0.5 seconds
+                                }, 500); // Show "Detecting IDE Secondary Master" after 0.5 seconds
+                            }, 500); // Show "Detecting IDE Primary Slave" after 0.5 seconds
+                        }, 500); // Show "Detecting IDE Primary Master" after 0.5 seconds
+                    }, 3000); // Show remaining text after 3 seconds
+                }, 1000); // Delay of 1 second before showing CPU info and memory test
+            }, 1000); // Delay of 1 second before showing version
+        };
+    </script>
+</body>
+</html>
