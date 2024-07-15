@@ -3,96 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BIOS Screen</title>
+    <title>TalkoBrowser BIOS</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: black;
-            color: white;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px; /* Adjusted font size to fit content */
+            font-family: 'VT323', monospace;
+            background-color: #000;
+            color: #fff;
             margin: 0;
-            padding: 20px;
-            overflow: hidden; /* Prevent scrolling */
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-size: 18px;
         }
-        .hidden {
+
+        #logo-screen, #bios-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #logo-screen {
+            z-index: 2;
+        }
+
+        #bios-screen {
+            z-index: 1;
+            padding: 20px;
+            box-sizing: border-box;
+            justify-content: flex-start;
+            align-items: flex-start;
             display: none;
         }
-        .highlight {
-            color: yellow;
+
+        #logo {
+            font-size: 72px;
+            margin-bottom: 40px;
+            color: #fff;
         }
-        .success {
-            color: green;
+
+        .loading-bar {
+            width: 300px;
+            height: 20px;
+            background-color: #000;
+            border: 2px solid #fff;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .loading-segment {
+            width: 30px;
+            height: 100%;
+            background-color: #fff;
+            margin-right: 2px;
+        }
+
+        #bios-content {
+            white-space: pre-wrap;
+        }
+
+        .highlight {
+            color: #ff9800;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .blink {
+            animation: blink 1s step-start infinite;
         }
     </style>
 </head>
 <body>
-    <pre>
-        <span id="line1">The Dev Universe BIOS v4.60PGA, An Talkomatic Ally</span><br>
-        <span id="line2">Copyright (C) 2024, Talkosoftwares, Inc.</span><br><br>
-
-        <span id="version" class="hidden">Version JE4333</span><br><br>
-
-        <span id="cpu-info" class="hidden">PENTIUM ODP-MMX CPU at 200MHz</span><br>
-        <span id="memory-test-label" class="hidden">Memory Test : <span id="memory-test">0</span>K <span id="status">OK</span></span><br><br>
-
-        <span id="remaining-text" class="hidden">
-        Award Plug and Play BIOS Extension v1.0A<br>
-        Copyright (C) 1998, Award Software, Inc.<br>
-          <span id="detect-ide1" class="hidden">Detecting IDE Primary Master  ...  None</span><br>
-          <span id="detect-ide2" class="hidden">Detecting IDE Primary Slave   ...  None</span><br>
-          <span id="detect-ide3" class="hidden">Detecting IDE Secondary Master...  None</span><br>
-          <span id="detect-ide4" class="hidden">Detecting IDE Secondary Slave ...  None</span><br><br>
-        
-        <span id="continue-boot" class="hidden highlight">Press Any Key To Continue Boot</span>
-    </pre>
+    <div id="logo-screen">
+        <div id="logo">🌐 TalkoBrowser</div>
+        <div class="loading-bar" id="loading-bar"></div>
+    </div>
+    <div id="bios-screen">
+        <div id="bios-content"></div>
+    </div>
 
     <script>
-        function animateMemoryTest(finalValue, duration) {
-            const memoryTestElement = document.getElementById('memory-test');
-            const statusElement = document.getElementById('status');
-            let start = 0;
-            const increment = finalValue / (duration / 10); // update every 10ms
+        const logoScreen = document.getElementById('logo-screen');
+        const biosScreen = document.getElementById('bios-screen');
+        const loadingBar = document.getElementById('loading-bar');
+        const biosContent = document.getElementById('bios-content');
+        
+        const biosText = [
+            "TalkoBrowser BIOS v2.1.5T",
+            "Copyright (C) 2024, Talkosoftwares, Inc.",
+            "",
+            "CPU: TalkIntel(R) Core(TM) i9-13900K",
+            "Initializing CPU Cores...",
+            "L1 Cache: {l1cache}K",
+            "L2 Cache: {l2cache}K",
+            "L3 Cache: {l3cache}K",
+            "",
+            "Memory Test: {memoryTest}K OK",
+            "",
+            "Detecting Storage Devices...",
+            "  SATA Port 0: Samsung SSD 980 PRO 2TB",
+            "  SATA Port 1: WDC WD2003FZEX-00SRLA0 2TB",
+            "  M.2 Slot 1: Crucial P5 Plus 1TB NVMe PCIe SSD",
+            "",
+            "Initializing USB Controllers...",
+            "USB 3.2 Gen 2x2 Controller: Initialized",
+            "USB 4 / Thunderbolt Controller: Initialized",
+            "",
+            "Detecting PCI Express Devices...",
+            "  PCIe x16 Slot: NVIDIA GeForce RTX 4090",
+            "  PCIe x1 Slot: Intel Wi-Fi 6E AX210",
+            "",
+            "UEFI BIOS Version: 2.1.5T",
+            "SMBIOS Version: 3.5.0",
+            "",
+            "Press ENTER to boot TalkoBrowser OS, DEL to enter setup, F12 for boot menu",
+        ];
+
+        function createLoadingBar() {
+            for (let i = 0; i < 10; i++) {
+                const segment = document.createElement('div');
+                segment.className = 'loading-segment';
+                segment.style.opacity = '0';
+                loadingBar.appendChild(segment);
+            }
+        }
+
+        function animateLoading() {
+            const segments = document.querySelectorAll('.loading-segment');
+            let index = 0;
             const interval = setInterval(() => {
-                start += increment;
-                if (start >= finalValue) {
-                    start = finalValue;
+                if (index < segments.length) {
+                    segments[index].style.opacity = '1';
+                    index++;
+                } else {
                     clearInterval(interval);
-                    statusElement.classList.add('success'); // Change color to green when finished
+                    setTimeout(() => {
+                        logoScreen.style.display = 'none';
+                        biosScreen.style.display = 'block';
+                        typeText();
+                    }, 500);
                 }
-                memoryTestElement.textContent = Math.floor(start);
-            }, 10);
+            }, 200);
+        }
+
+        function typeText() {
+            let line = 0;
+            let char = 0;
+
+            function type() {
+                if (line < biosText.length) {
+                    if (char < biosText[line].length) {
+                        let text = biosText[line];
+                        if (text.includes('{')) {
+                            const placeholder = text.match(/{(\w+)}/)[1];
+                            const value = generateValue(placeholder);
+                            biosContent.innerHTML += `<span id="${placeholder}">0</span>`;
+                            animateValue(placeholder, value);
+                            char = text.length;
+                        } else {
+                            biosContent.innerHTML += text[char];
+                        }
+                        char++;
+                        setTimeout(type, 10);
+                    } else {
+                        biosContent.innerHTML += '<br>';
+                        line++;
+                        char = 0;
+                        setTimeout(type, 100);
+                    }
+                } else {
+                    biosContent.innerHTML += "<span class='blink'>_</span>";
+                    document.addEventListener('keydown', handleKeyPress);
+                }
+            }
+
+            type();
+        }
+
+        function generateValue(placeholder) {
+            switch (placeholder) {
+                case 'l1cache': return 512;
+                case 'l2cache': return 2048;
+                case 'l3cache': return 36864;
+                case 'memoryTest': return 65536;
+                default: return 1000;
+            }
+        }
+
+        function animateValue(id, end) {
+            const elem = document.getElementById(id);
+            let start = 0;
+            const duration = 2000;
+            const interval = 10;
+            const step = end / (duration / interval);
+            
+            function updateValue() {
+                start += step;
+                if (start < end) {
+                    elem.textContent = Math.floor(start);
+                    setTimeout(updateValue, interval);
+                } else {
+                    elem.textContent = end;
+                }
+            }
+            
+            updateValue();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                biosContent.innerHTML += "<br>Booting TalkoBrowser OS...<br>";
+                setTimeout(() => {
+                    window.location.href = 'https://mohdyahyamahmodi.github.io/talkobrowser/os.html';
+                }, 1000);
+            } else if (event.key === 'Delete') {
+                biosContent.innerHTML += "<br>Entering SETUP...<br>";
+                setTimeout(() => {
+                    window.location.href = 'setup.html';
+                }, 1000);
+            } else if (event.key === 'F12') {
+                biosContent.innerHTML += "<br>Entering Boot Menu...<br>";
+                setTimeout(() => {
+                    window.location.href = 'bootmenu.html';
+                }, 1000);
+            }
         }
 
         window.onload = () => {
-            setTimeout(() => {
-                document.getElementById('version').classList.remove('hidden');
-                setTimeout(() => {
-                    document.getElementById('cpu-info').classList.remove('hidden');
-                    document.getElementById('memory-test-label').classList.remove('hidden');
-                    animateMemoryTest(262144, 2000); // 2 seconds duration
-                    setTimeout(() => {
-                        document.getElementById('remaining-text').classList.remove('hidden');
-                        setTimeout(() => {
-                            document.getElementById('detect-ide1').classList.remove('hidden');
-                            setTimeout(() => {
-                                document.getElementById('detect-ide2').classList.remove('hidden');
-                                setTimeout(() => {
-                                    document.getElementById('detect-ide3').classList.remove('hidden');
-                                    setTimeout(() => {
-                                        document.getElementById('detect-ide4').classList.remove('hidden');
-                                        setTimeout(() => {
-                                            document.getElementById('continue-boot').classList.remove('hidden');
-                                            document.addEventListener('keydown', () => {
-                                                window.location.href = 'https://mohdyahyamahmodi.github.io/talkobrowser/os.html'; // Replace with your desired URL
-                                            });
-                                        }, 500); // Show "Press Any Key To Continue Boot" after 0.5 seconds
-                                    }, 500); // Show "Detecting IDE Secondary Slave" after 0.5 seconds
-                                }, 500); // Show "Detecting IDE Secondary Master" after 0.5 seconds
-                            }, 500); // Show "Detecting IDE Primary Slave" after 0.5 seconds
-                        }, 500); // Show "Detecting IDE Primary Master" after 0.5 seconds
-                    }, 3000); // Show remaining text after 3 seconds
-                }, 1000); // Delay of 1 second before showing CPU info and memory test
-            }, 1000); // Delay of 1 second before showing version
+            createLoadingBar();
+            animateLoading();
         };
     </script>
 </body>
