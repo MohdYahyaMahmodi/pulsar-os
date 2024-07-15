@@ -118,6 +118,7 @@
             height: 100%;
             border: none;
         }
+
         #custom-homepage {
             background: linear-gradient(135deg, var(--color-dark), var(--color-medium));
             color: var(--color-light);
@@ -137,6 +138,16 @@
         #custom-homepage button:hover {
             background-color: #FFB74D;
         }
+
+        .resize-handle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--color-accent);
+            right: 0;
+            bottom: 0;
+            cursor: se-resize;
+        }
     </style>
 </head>
 <body class="select-none text-lg">
@@ -148,6 +159,10 @@
         <div class="desktop-icon cursor-pointer m-4" id="notepad-icon">
             <div class="icon w-16 h-16 flex items-center justify-center text-3xl">📝</div>
             <div class="mt-2 text-center">Notepad</div>
+        </div>
+        <div class="desktop-icon cursor-pointer m-4" id="calculator-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">🧮</div>
+            <div class="mt-2 text-center">Calculator</div>
         </div>
     </div>
 
@@ -179,9 +194,10 @@
                 <p class="mt-8 text-center">Type a search query or URL and press Enter or click Search</p>
             </div>
         </div>
+        <div class="resize-handle"></div>
     </div>
 
-    <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="notepad-window" style="width: 400px; height: 300px; left: 100px; top: 100px;">
+    <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="notepad-window" style="width: 600px; height: 400px; left: 100px; top: 100px;">
         <div class="title-bar flex justify-between items-center p-2 cursor-move">
             <span class="title px-2">Notepad</span>
             <div class="flex space-x-2">
@@ -190,9 +206,66 @@
                 <button class="window-btn px-3 py-1 rounded close-btn">X</button>
             </div>
         </div>
-        <div class="content flex-1 p-2">
-            <textarea class="w-full h-full resize-none border-none outline-none bg-white text-gray-800 p-2 rounded" spellcheck="false"></textarea>
+        <div class="toolbar flex items-center p-2 space-x-2 bg-gray-700">
+            <select id="font-select" class="bg-gray-600 text-white px-2 py-1 rounded">
+                <option value="Arial">Arial</option>
+                <option value="Helvetica">Helvetica</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Courier New">Courier New</option>
+            </select>
+            <select id="font-size" class="bg-gray-600 text-white px-2 py-1 rounded">
+                <option value="12">12</option>
+                <option value="14">14</option>
+                <option value="16">16</option>
+                <option value="18">18</option>
+                <option value="20">20</option>
+            </select>
+            <button id="bold-btn" class="bg-gray-600 text-white px-3 py-1 rounded">B</button>
+            <button id="italic-btn" class="bg-gray-600 text-white px-3 py-1 rounded"><i>I</i></button>
+            <button id="underline-btn" class="bg-gray-600 text-white px-3 py-1 rounded"><u>U</u></button>
+            <input type="color" id="color-picker" class="bg-gray-600 rounded">
+            <button id="save-btn" class="bg-green-500 text-white px-3 py-1 rounded">Save</button>
+            <button id="load-btn" class="bg-blue-500 text-white px-3 py-1 rounded">Load</button>
         </div>
+        <div class="content flex-1 p-2 bg-white">
+            <div id="editor" contenteditable="true" class="w-full h-full outline-none overflow-auto p-2"></div>
+        </div>
+        <div class="resize-handle"></div>
+    </div>
+
+    <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="calculator-window" style="width: 300px; height: 400px; left: 150px; top: 150px;">
+        <div class="title-bar flex justify-between items-center p-2 cursor-move">
+            <span class="title px-2">Calculator</span>
+            <div class="flex space-x-2">
+                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+            </div>
+        </div>
+        <div class="content flex-1 p-2 bg-gray-800">
+            <div class="calculator-screen bg-gray-700 text-white text-right p-2 text-2xl mb-2" id="calc-screen">0</div>
+            <div class="calculator-buttons grid grid-cols-4 gap-2">
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">7</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">8</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">9</button>
+                <button class="calc-btn bg-orange-500 text-white p-2 rounded">/</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">4</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">5</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">6</button>
+                <button class="calc-btn bg-orange-500 text-white p-2 rounded">*</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">1</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">2</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">3</button>
+                <button class="calc-btn bg-orange-500 text-white p-2 rounded">-</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">0</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">.</button>
+                <button class="calc-btn bg-blue-500 text-white p-2 rounded">=</button>
+                <button class="calc-btn bg-orange-500 text-white p-2 rounded">+</button>
+                <button class="calc-btn bg-red-500 text-white p-2 rounded col-span-2">C</button>
+                <button class="calc-btn bg-red-500 text-white p-2 rounded col-span-2">←</button>
+            </div>
+        </div>
+        <div class="resize-handle"></div>
     </div>
 
     <div class="taskbar fixed bottom-0 w-full h-14 flex items-center px-2 space-x-2">
@@ -210,19 +283,20 @@
     <script>
         const windows = {
             'browser-window': { icon: '🌐', title: 'Browser' },
-            'notepad-window': { icon: '📝', title: 'Notepad' }
+            'notepad-window': { icon: '📝', title: 'Notepad' },
+            'calculator-window': { icon: '🧮', title: 'Calculator' }
         };
-
+        
         function updateClock() {
             const now = new Date();
             const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             const date = now.toLocaleDateString();
             document.getElementById('time-date').textContent = `${time} ${date}`;
         }
-
+        
         setInterval(updateClock, 1000);
         updateClock();
-
+        
         function toggleWindow(windowId) {
             const window = document.getElementById(windowId);
             if (window.classList.contains('hidden')) {
@@ -231,7 +305,7 @@
             }
             bringToFront(window);
         }
-
+        
         function bringToFront(element) {
             const allWindows = document.querySelectorAll('.window');
             let maxZIndex = 0;
@@ -241,7 +315,7 @@
             });
             element.style.zIndex = maxZIndex + 1;
         }
-
+        
         function addTaskbarIcon(windowId) {
             const taskbarApps = document.getElementById('taskbar-apps');
             if (!document.getElementById(`taskbar-${windowId}`)) {
@@ -253,7 +327,7 @@
                 taskbarApps.appendChild(icon);
             }
         }
-
+        
         function toggleWindowVisibility(windowId) {
             const window = document.getElementById(windowId);
             const icon = document.getElementById(`taskbar-${windowId}`);
@@ -266,14 +340,14 @@
                 icon.classList.remove('active');
             }
         }
-
+        
         function closeWindow(windowId) {
             const window = document.getElementById(windowId);
             window.classList.add('hidden');
             const icon = document.getElementById(`taskbar-${windowId}`);
             if (icon) icon.remove();
         }
-
+        
         function maximizeWindow(windowId) {
             const window = document.getElementById(windowId);
             if (window.style.width === '100vw') {
@@ -288,7 +362,31 @@
                 window.style.left = '0';
             }
         }
-
+        
+        function makeResizable(windowId) {
+            const windowElement = document.getElementById(windowId);
+            const resizeHandle = windowElement.querySelector('.resize-handle');
+        
+            resizeHandle.addEventListener('mousedown', initResize, false);
+        
+            function initResize(e) {
+                window.addEventListener('mousemove', resize, false);
+                window.addEventListener('mouseup', stopResize, false);
+            }
+        
+            function resize(e) {
+                const newWidth = e.clientX - windowElement.offsetLeft;
+                const newHeight = e.clientY - windowElement.offsetTop;
+                windowElement.style.width = newWidth + 'px';
+                windowElement.style.height = newHeight + 'px';
+            }
+        
+            function stopResize(e) {
+                window.removeEventListener('mousemove', resize, false);
+                window.removeEventListener('mouseup', stopResize, false);
+            }
+        }
+        
         Object.keys(windows).forEach(windowId => {
             document.getElementById(`${windowId.split('-')[0]}-icon`).addEventListener('click', () => toggleWindow(windowId));
             
@@ -304,39 +402,42 @@
                 let isDragging = true;
                 const startX = e.clientX - windowElement.offsetLeft;
                 const startY = e.clientY - windowElement.offsetTop;
-
+        
                 function moveWindow(e) {
                     if (isDragging && windowElement.style.width !== '100vw') {
                         windowElement.style.left = `${e.clientX - startX}px`;
                         windowElement.style.top = `${e.clientY - startY}px`;
                     }
                 }
-
+        
                 function stopDragging() {
                     isDragging = false;
                     document.removeEventListener('mousemove', moveWindow);
                     document.removeEventListener('mouseup', stopDragging);
                 }
-
+        
                 document.addEventListener('mousemove', moveWindow);
                 document.addEventListener('mouseup', stopDragging);
             });
+        
+            makeResizable(windowId);
         });
-
+        
+        // Audio and Battery Icons
         let audioLevel = 5;
         document.getElementById('audio-icon').addEventListener('click', () => {
             audioLevel = (audioLevel % 3) + 1;
             const icon = document.getElementById('audio-icon');
             icon.textContent = audioLevel === 1 ? '🔇' : audioLevel === 2 ? '🔉' : '🔊';
         });
-
+        
         let batteryLevel = 100;
         setInterval(() => {
             batteryLevel = Math.max(0, batteryLevel - 1);
             const icon = document.getElementById('battery-icon');
             icon.textContent = batteryLevel > 66 ? '🔋' : batteryLevel > 33 ? '🪫' : '🔌';
         }, 10000);
-
+        
         // Browser functionality
         const iframe = document.getElementById('browser-frame');
         const urlBar = document.getElementById('url-bar');
@@ -347,7 +448,7 @@
         let currentUrl = '';
         let history = [];
         let historyIndex = -1;
-
+        
         function loadUrl(url, addToHistory = true) {
             if (url === 'home') {
                 showHomepage();
@@ -370,37 +471,37 @@
             }
             updateNavigationButtons();
         }
-
+        
         function showHomepage() {
             iframe.style.display = 'none';
             customHomepage.style.display = 'flex';
             urlBar.value = 'home';
         }
-
+        
         function search(query) {
             const searchUrl = `https://www.google.com/search?igu=1&q=${encodeURIComponent(query)}`;
             loadUrl(searchUrl);
         }
-
+        
         function updateNavigationButtons() {
             document.getElementById('back-btn').disabled = historyIndex <= 0;
             document.getElementById('forward-btn').disabled = historyIndex >= history.length - 1;
         }
-
+        
         document.getElementById('back-btn').addEventListener('click', () => {
             if (historyIndex > 0) {
                 historyIndex--;
                 loadUrl(history[historyIndex], false);
             }
         });
-
+        
         document.getElementById('forward-btn').addEventListener('click', () => {
             if (historyIndex < history.length - 1) {
                 historyIndex++;
                 loadUrl(history[historyIndex], false);
             }
         });
-
+        
         document.getElementById('reload-btn').addEventListener('click', () => {
             if (currentUrl === 'home') {
                 showHomepage();
@@ -408,35 +509,35 @@
                 iframe.src = iframe.src;
             }
         });
-
+        
         document.getElementById('home-btn').addEventListener('click', () => {
             loadUrl(homeUrl);
         });
-
+        
         document.getElementById('go-btn').addEventListener('click', () => {
             const input = urlBar.value.trim();
             handleInput(input);
         });
-
+        
         urlBar.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 const input = urlBar.value.trim();
                 handleInput(input);
             }
         });
-
+        
         homeSearch.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 const input = homeSearch.value.trim();
                 handleInput(input);
             }
         });
-
+        
         homeSearchBtn.addEventListener('click', () => {
             const input = homeSearch.value.trim();
             handleInput(input);
         });
-
+        
         function handleInput(input) {
             if (input === 'home') {
                 showHomepage();
@@ -448,7 +549,7 @@
                 search(input);
             }
         }
-
+        
         iframe.addEventListener('load', () => {
             currentUrl = iframe.src;
             urlBar.value = currentUrl;
@@ -458,11 +559,117 @@
                 updateNavigationButtons();
             }
         });
+        
+        // Calculator functionality
+        const calcScreen = document.getElementById('calc-screen');
+        let currentValue = '0';
+        let previousValue = null;
+        let operator = null;
+        
+        document.querySelectorAll('#calculator-window .calc-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const value = button.textContent;
+                
+                if ('0123456789.'.includes(value)) {
+                    if (currentValue === '0' && value !== '.') {
+                        currentValue = value;
+                    } else {
+                        currentValue += value;
+                    }
+                } else if ('+-*/'.includes(value)) {
+                    previousValue = currentValue;
+                    currentValue = '0';
+                    operator = value;
+                } else if (value === '=') {
+                    if (previousValue !== null && operator !== null) {
+                        currentValue = String(eval(`${previousValue}${operator}${currentValue}`));
+                        previousValue = null;
+                        operator = null;
+                    }
+                } else if (value === 'C') {
+                    currentValue = '0';
+                    previousValue = null;
+                    operator = null;
+                } else if (value === '←') {
+                    currentValue = currentValue.slice(0, -1);
+                    if (currentValue === '') currentValue = '0';
+                }
+                
+                calcScreen.textContent = currentValue;
+            });
+        });
+        
+        // Notepad functionality
+const editor = document.getElementById('editor');
+const fontSelect = document.getElementById('font-select');
+const fontSize = document.getElementById('font-size');
+const boldBtn = document.getElementById('bold-btn');
+const italicBtn = document.getElementById('italic-btn');
+const underlineBtn = document.getElementById('underline-btn');
+const colorPicker = document.getElementById('color-picker');
+const saveBtn = document.getElementById('save-btn');
+const loadBtn = document.getElementById('load-btn');
 
+function applyCommand(command, value = null) {
+    editor.focus();
+    document.execCommand(command, false, value);
+}
+
+fontSelect.addEventListener('change', () => {
+    applyCommand('fontName', fontSelect.value);
+});
+
+fontSize.addEventListener('change', () => {
+    applyCommand('fontSize', fontSize.value);
+});
+
+boldBtn.addEventListener('click', () => {
+    applyCommand('bold');
+});
+
+italicBtn.addEventListener('click', () => {
+    applyCommand('italic');
+});
+
+underlineBtn.addEventListener('click', () => {
+    applyCommand('underline');
+});
+
+colorPicker.addEventListener('change', () => {
+    applyCommand('foreColor', colorPicker.value);
+});
+
+saveBtn.addEventListener('click', () => {
+    const content = editor.innerHTML;
+    const blob = new Blob([content], {type: 'text/html'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'notepad_content.html';
+    a.click();
+});
+
+loadBtn.addEventListener('click', () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.html,.txt';
+    input.onchange = e => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            editor.innerHTML = event.target.result;
+        };
+        reader.readAsText(file);
+    };
+    input.click();
+});
+
+// Ensure the editor is focusable when the notepad window is opened
+document.getElementById('notepad-icon').addEventListener('click', () => {
+    setTimeout(() => editor.focus(), 0);
+});
+        
         // Initialize browser content
         loadUrl(homeUrl);
-
-
-    </script>
+        </script>
 </body>
 </html>
