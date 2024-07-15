@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalkoBrowser OS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-dark: #202020;
+            --color-medium: #333333;
+            --color-light: #FDF5E6;
+            --color-accent: #FF9800;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background-color: var(--color-dark);
+            color: var(--color-light);
+            overflow: hidden;
+        }
+
+        .window {
+            background-color: var(--color-medium);
+            border: 2px solid var(--color-accent);
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+        }
+
+        .title-bar {
+            background: var(--color-dark);
+            border-bottom: 2px solid var(--color-accent);
+        }
+
+        .window-btn {
+            background: var(--color-accent);
+            color: var(--color-dark);
+        }
+
+        .window-btn:hover {
+            background: #FFB74D;
+        }
+
+        .taskbar {
+            background: linear-gradient(to bottom, #3c3c3c, var(--color-medium));
+            border-top: 2px solid var(--color-accent);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .start-btn {
+            background: linear-gradient(to bottom, #FFB74D, var(--color-accent));
+            color: var(--color-dark);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .start-btn:hover {
+            background: linear-gradient(to bottom, #FFCC80, #FFB74D);
+        }
+
+        .taskbar-icon {
+            background-color: rgba(253, 245, 230, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .taskbar-icon:hover, .taskbar-icon.active {
+            background-color: rgba(253, 245, 230, 0.3);
+        }
+
+        .desktop-icon {
+            color: var(--color-light);
+        }
+
+        .icon {
+            background-color: var(--color-medium);
+            border: 2px solid var(--color-accent);
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-medium);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-accent);
+            border: 1px solid var(--color-medium);
+        }
+
+        .content {
+            background-color: var(--color-light);
+            color: var(--color-dark);
+        }
+
+        .browser-toolbar {
+            background-color: var(--color-medium);
+            border-bottom: 1px solid var(--color-accent);
+        }
+
+        .browser-btn {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+        }
+
+        .browser-btn:hover {
+            background-color: #FFB74D;
+        }
+
+        .search-bar {
+            background-color: var(--color-light);
+            color: var(--color-dark);
+        }
+
+        #browser-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        #custom-homepage {
+            background: linear-gradient(135deg, var(--color-dark), var(--color-medium));
+            color: var(--color-light);
+        }
+
+        #custom-homepage input {
+            background-color: var(--color-light);
+            color: var(--color-dark);
+            border: 2px solid var(--color-accent);
+        }
+
+        #custom-homepage button {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+        }
+
+        #custom-homepage button:hover {
+            background-color: #FFB74D;
+        }
+
+        .resize-handle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--color-accent);
+            right: 0;
+            bottom: 0;
+            cursor: se-resize;
+        }
+    </style>
+</head>
+<body class="select-none text-lg">
+    <div id="desktop" class="relative w-full h-screen flex flex-wrap content-start p-4">
+        <div class="desktop-icon cursor-pointer m-4" id="browser-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">🌐</div>
+            <div class="mt-2 text-center">Browser</div>
+        </div>
+        <div class="desktop-icon cursor-pointer m-4" id="notepad-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">📝</div>
+            <div class="mt-2 text-center">Notepad</div>
+        </div>
+        <div class="desktop-icon cursor-pointer m-4" id="calculator-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">🧮</div>
+            <div class="mt-2 text-center">Calculator</div>
+        </div>
+        <div class="desktop-icon cursor-pointer m-4" id="paint-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">🎨</div>
+            <div class="mt-2 text-center">Paint</div>
+        </div>
+        <div class="desktop-icon cursor-pointer m-4" id="music-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">🎵</div>
+            <div class="mt-2 text-center">Music</div>
+        </div>
+        <div class="desktop-icon cursor-pointer m-4" id="explorer-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">📁</div>
+            <div class="mt-2 text-center">File Explorer</div>
+        </div>
+        <div class="desktop-icon cursor-pointer m-4" id="clock-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">⏰</div>
+            <div class="mt-2 text-center">Clock & Alarm</div>
+        </div>
+    </div>
+
+    <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="browser-window" style="width: 800px; height: 600px; left: 50px; top: 50px;">
+        <div class="title-bar flex justify-between items-center p-2 cursor-move">
+            <span class="title px-2">TalkoBrowser</span>
+            <div class="flex space-x-2">
+                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+            </div>
+        </div>
+        <div class="browser-toolbar flex items-center p-2 space-x-2">
+            <button class="browser-btn px-3 py-1 rounded" id="back-btn">←</button>
+            <button class="browser-btn px-3 py-1 rounded" id="forward-btn">→</button>
+            <button class="browser-btn px-3 py-1 rounded" id="reload-btn">↻</button>
+            <button class="browser-btn px-3 py-1 rounded" id="home-btn">🏠</button>
+            <input type="text" class="search-bar flex-grow px-2 py-1 rounded" id="url-bar" placeholder="Enter search or URL">
+            <button class="browser-btn px-3 py-1 rounded" id="go-btn">Go</button>
+        </div>
+        <div class="content flex-1 overflow-hidden bg-white">
+            <iframe id="browser-frame" src="about:blank"></iframe>
+            <div id="custom-homepage" class="w-full h-full flex flex-col items-center justify-center p-8">
+                <h1 class="text-4xl font-bold mb-8">Welcome to TalkoBrowser</h1>
+                <div class="w-full max-w-md">
+                    <input type="text" id="home-search" class="w-full px-4 py-2 rounded-full text-lg" placeholder="Search or enter URL">
+                </div>
+                <button id="home-search-btn" class="mt-4 px-6 py-2 rounded-full text-lg font-bold">Search</button>
+                <p class="mt-8 text-center">Type a search query or URL and press Enter or click Search</p>
+            </div>
+        </div>
+        <div class="resize-handle"></div>
+    </div>
+
+    <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="notepad-window" style="width: 600px; height: 400px; left: 100px; top: 100px;">
+        <div class="title-bar flex justify-between items-center p-2 cursor-move">
+            <span class="title px-2">Notepad</span>
+            <div class="flex space-x-2">
+                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+            </div>
+        </div>
+        <div class="toolbar flex items-center p-2 space-x-2 bg-gray-700">
+            <select id="font-select" class="bg-gray-600 text-white px-2 py-1 rounded">
+                <option value="Arial">Arial</option>
+                <option value="Helvetica">Helvetica</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Courier New">Courier New</option>
+            </select>
+            <select id="font-size" class="bg-gray-600 text-white px-2 py-1 rounded">
+                <option value="12">12</option>
+                <option value="14">14</option>
+                <option value="16">16</option>
+                <option value="18">18</option>
+                <option value="20">20</option>
+            </select>
+            <button id="bold-btn" class="bg-gray-600 text-white px-3 py-1 rounded">B</button>
+            <button id="italic-btn" class="bg-gray-600 text-white px-3 py-1 rounded"><i>I</i></button>
+            <button id="underline-btn" class="bg-gray-600 text-white px-3 py-1 rounded"><u>U</u></button>
+            <input type="color" id="color-picker" class="bg-gray-600 rounded">
+            <button id="save-btn" class="bg-green-500 text-white px-3 py-1 rounded">Save</button>
+            <button id="load-btn" class="bg-blue-500 text-white px-3 py-1 rounded">Load</button>
+        </div>
+        <div class="content flex-1 p-2 bg-white">
+            <div id="editor" contenteditable="true" class="w-full h-full outline-none overflow-auto p-2"></div>
+        </div>
+        <div class="resize-handle"></div>
+    </div>
+
+    <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="calculator-window" style="width: 300px; height: 400px; left: 150px; top: 150px;">
+        <div class="title-bar flex justify-between items-center p-2 cursor-move">
+            <span class="title px-2">Calculator</span>
+            <div class="flex space-x-2">
+                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+            </div>
+        </div>
+        <div class="content flex-1 p-2 bg-gray-800">
+            <div class="calculator-screen bg-gray-700 text-white text-right p-2 text-2xl mb-2" id="calc-screen">0</div>
+            <div class="calculator-buttons grid grid-cols-4 gap-2">
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">7</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">8</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">9</button>
+                <button class="calc-btn bg-orange-500 text-white p-2 rounded">/</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">4</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">5</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">6</button>
+                <button class="calc-btn bg-orange-500 text-white p-2 rounded">*</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">1</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">2</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">3</button>
+                <button class="calc-btn bg-orange-500 text-white p-2 rounded">-</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">0</button>
+                <button class="calc-btn bg-gray-600 text-white p-2 rounded">.</button>
+                <button class="calc-btn bg-blue-500 text-white p-2 rounded">=</button>
+                <button class="calc-btn bg-orange-500 text-white p-2 rounded">+</button>
+                <button class="calc-btn bg-red-500 text-white p-2 rounded col-span-2">C</button>
+                <button class="calc-btn bg-red-500 text-white p-2 rounded col-span-2">←</button>
+            </div>
+        </div>
+        <div class="resize-handle"></div>
+    </div>
+
+    <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="paint-window" style="width: 800px; height: 600px; left: 200px; top: 100px;">
+        <div class="title-bar flex justify-between items-center p-2 cursor-move">
+            <span class="title px-2">Paint</span>
+            <div class="flex space-x-2">
+                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+            </div>
+        </div>
+        <div class="toolbar flex items-center p-2 space-x-2 bg-gray-700">
+            <input type="color" id="color-picker-paint" class="bg-gray-600 rounded" value="#000000">
+            <input type="range" id="brush-size" min="1" max="50" value="5" class="w-32">
+            <span id="brush-size-label" class="text-white">5px</span>
+            <button id="eraser-btn" class="bg-gray-600 text-white px-3 py-1 rounded">Eraser</button>
+            <button id="clear-btn" class="bg-red-500 text-white px-3 py-1 rounded">Clear</button>
+        </div>
+        <div class="content flex-1 p-2 bg-white">
+            <canvas id="paint-canvas" class="w-full h-full border border-gray-300"></canvas>
+        </div>
+        <div class="resize-handle"></div>
+    </div>
+
+    <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="music-window" style="width: 400px; height: 600px; left: 250px; top: 100px;">
+        <div class="title-bar flex justify-between items-center p-2 cursor-move">
+            <span class="title px-2">Music Player</span>
+            <div class="flex space-x-2">
+                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+            </div>
+        </div>
+        <div class="content flex-1 p-4 bg-gray-800 text-white flex flex-col">
+            <div id="now-playing" class="text-center mb-4">
+                <img id="album-art" src="music.webp" alt="Album Art" class="w-48 h-48 mx-auto mb-4 rounded-lg shadow-lg">
+                <h2 id="track-title" class="text-xl font-bold">No Track Selected</h2>
+                <p id="track-artist" class="text-gray-400">Artist</p>
+            </div>
+            <div id="player-controls" class="flex justify-center items-center space-x-4 mb-4">
+                <button id="prev-btn" class="text-2xl">⏮️</button>
+                <button id="play-pause-btn" class="text-4xl">▶️</button>
+                <button id="next-btn" class="text-2xl">⏭️</button>
+            </div>
+            <div id="progress-bar" class="w-full bg-gray-700 rounded-full h-2 mb-4">
+                <div id="progress" class="bg-blue-500 h-2 rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="flex justify-between items-center mb-4">
+                <span id="current-time">0:00</span>
+                <span id="total-time">0:00</span>
+            </div>
+            <div class="flex items-center space-x-2 mb-4">
+                <button id="shuffle-btn" class="bg-gray-700 px-3 py-1 rounded">🔀</button>
+                <button id="repeat-btn" class="bg-gray-700 px-3 py-1 rounded">🔁</button>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1" class="w-32">
+                <span id="volume-icon">🔊</span>
+            </div>
+            <select id="playlist" class="bg-gray-700 text-white p-2 rounded mb-4"></select>
+            <button id="load-music-btn" class="bg-blue-500 text-white px-4 py-2 rounded">Load Music</button>
+        </div>
+        <div class="resize-handle"></div>
+    </div>
+
+    <!-- Add this to your HTML, inside the <body> tag, alongside other window definitions -->
+<div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="explorer-window" style="width: 800px; height: 600px; left: 100px; top: 50px;">
+    <div class="title-bar flex justify-between items-center p-2 cursor-move">
+        <span class="title px-2">File Explorer</span>
+        <div class="flex space-x-2">
+            <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+            <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+            <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+        </div>
+    </div>
+    <div class="toolbar flex items-center p-2 space-x-2 bg-gray-700">
+        <button id="back-btn" class="bg-gray-600 text-white px-3 py-1 rounded">Back</button>
+        <button id="forward-btn" class="bg-gray-600 text-white px-3 py-1 rounded">Forward</button>
+        <button id="up-btn" class="bg-gray-600 text-white px-3 py-1 rounded">Up</button>
+        <input id="path-input" type="text" class="flex-grow bg-gray-800 text-white px-2 py-1 rounded" readonly>
+    </div>
+    <div class="content flex-1 flex bg-white">
+        <div id="folder-tree" class="w-1/4 bg-gray-100 p-2 overflow-auto"></div>
+        <div id="file-list" class="w-3/4 p-2 overflow-auto"></div>
+    </div>
+    <div class="resize-handle"></div>
+</div>
+
+<!-- File viewer/editor modal -->
+<div id="file-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center">
+    <div class="bg-white rounded-lg p-4 w-2/3 h-2/3 flex flex-col">
+        <div class="flex justify-between items-center mb-4">
+            <h2 id="file-modal-title" class="text-xl font-bold">File Viewer</h2>
+            <button id="close-modal-btn" class="text-gray-500 hover:text-gray-700">&times;</button>
+        </div>
+        <textarea id="file-content" class="flex-grow p-2 border rounded resize-none"></textarea>
+        <div class="mt-4 flex justify-end">
+            <button id="save-file-btn" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
+        </div>
+    </div>
+</div>
+
+<div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="clock-window" style="width: 350px; height: 500px; left: 300px; top: 100px;">
+    <div class="title-bar flex justify-between items-center p-2 cursor-move">
+        <span class="title px-2">Clock & Alarm</span>
+        <div class="flex space-x-2">
+            <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+            <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+            <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+        </div>
+    </div>
+    <div class="content flex-1 p-4 bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex flex-col items-center justify-between">
+        <div class="clock-face w-64 h-64 rounded-full bg-white bg-opacity-20 flex items-center justify-center shadow-lg">
+            <div class="clock-inner w-56 h-56 rounded-full bg-gradient-to-r from-blue-400 to-teal-300 flex flex-col items-center justify-center">
+                <div id="time" class="text-5xl font-bold text-indigo-900"></div>
+                <div id="date" class="text-lg text-indigo-800"></div>
+            </div>
+        </div>
+        <div class="alarm-section w-full">
+            <div class="flex justify-between items-center mb-4">
+                <input type="time" id="alarm-time" class="bg-white bg-opacity-20 text-white px-3 py-2 rounded">
+                <button id="set-alarm-btn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Set Alarm</button>
+            </div>
+            <div id="alarm-display" class="text-center text-lg font-semibold"></div>
+        </div>
+    </div>
+    <div class="resize-handle"></div>
+</div>
+
+    <div class="taskbar fixed bottom-0 w-full h-14 flex items-center px-2 space-x-2">
+        <button class="start-btn px-6 py-2 rounded-lg flex items-center text-xl font-bold">
+            Start
+        </button>
+        <div class="flex-grow flex space-x-1" id="taskbar-apps"></div>
+        <div class="flex items-center space-x-4">
+            <div class="taskbar-icon p-2 rounded cursor-pointer" id="audio-icon">🔊</div>
+            <div class="taskbar-icon p-2 rounded cursor-pointer" id="battery-icon">🔋</div>
+            <div id="time-date" class="text-xl bg-opacity-20 bg-white px-3 py-1 rounded"></div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

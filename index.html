@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalkoBrowser Boot</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #000;
+            color: #fff;
+            font-family: 'VT323', monospace;
+            overflow: hidden;
+            font-size: 24px;
+        }
+        #boot-screen {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #logo {
+            font-size: 72px;
+            text-align: center;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            animation: flicker 0.3s infinite;
+        }
+        #loading-bar {
+            width: 400px;
+            height: 30px;
+            background-color: #333;
+            border: 2px solid #fff;
+            margin-bottom: 20px;
+        }
+        #loading-progress {
+            width: 0%;
+            height: 100%;
+            background-color: #fff;
+            transition: width 0.5s;
+        }
+        #bios-prompt {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #ff0;
+        }
+    </style>
+</head>
+<body>
+    <div id="boot-screen">
+        <div id="logo">🌐 TalkoBrowser</div>
+        <div id="loading-bar">
+            <div id="loading-progress"></div>
+        </div>
+        <div id="bios-prompt" class="blink">Press F12 to enter BIOS</div>
+    </div>
+
+    <script>
+        const loadingProgress = document.getElementById('loading-progress');
+        const biosPrompt = document.getElementById('bios-prompt');
+        let canEnterBIOS = true;
+
+        function updateProgress(progress) {
+            loadingProgress.style.width = `${progress}%`;
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function bootUp() {
+            for (let i = 0; i <= 100; i += 5) {
+                updateProgress(i);
+                await sleep(200);
+            }
+            await sleep(1000);
+            if (canEnterBIOS) {
+                window.location.href = 'account.html';
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F12' && canEnterBIOS) {
+                canEnterBIOS = false;
+                biosPrompt.classList.remove('blink');
+                biosPrompt.textContent = 'Entering BIOS...';
+                setTimeout(() => {
+                    window.location.href = 'bios.html';
+                }, 1500);
+            }
+        });
+
+        window.onload = () => {
+            bootUp();
+            setTimeout(() => {
+                canEnterBIOS = false;
+                biosPrompt.classList.add('hidden');
+            }, 8000); // Hide BIOS prompt after 8 seconds
+        };
+    </script>
+</body>
+</html>

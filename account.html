@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalkoBrowser OS - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-dark: #202020;
+            --color-medium: #333333;
+            --color-light: #FDF5E6;
+            --color-accent: #FF9800;
+            --color-accent-dark: #F57C00;
+            --color-error: #FF5252;
+            --color-success: #4CAF50;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background-color: var(--color-dark);
+            color: var(--color-light);
+            overflow: hidden;
+        }
+
+        .cover-screen {
+            background: linear-gradient(45deg, #2c3e50, #3498db);
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .cover-screen.hidden {
+            transform: translateY(-100%);
+        }
+
+        .login-container {
+            background-color: rgba(51, 51, 51, 0.9);
+            border: 2px solid var(--color-accent);
+            box-shadow: 0 0 20px rgba(255, 152, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .input-field {
+            background-color: rgba(32, 32, 32, 0.8);
+            border: 1px solid var(--color-accent);
+            color: var(--color-light);
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: var(--color-accent-dark);
+            box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2);
+        }
+
+        .login-btn {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: var(--color-accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(255, 152, 0, 0.2);
+        }
+
+        .account-btn {
+            background-color: rgba(51, 51, 51, 0.7);
+            border: 1px solid var(--color-accent);
+            color: var(--color-light);
+            transition: all 0.3s ease;
+            width: 200px;
+        }
+
+        .account-btn:hover, .account-btn.active {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            transform: translateX(5px);
+        }
+
+        .profile-pic {
+            border: 3px solid var(--color-accent);
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+        }
+
+        .system-info {
+            background-color: rgba(32, 32, 32, 0.8);
+            border-left: 3px solid var(--color-accent);
+        }
+
+        .loading-bar {
+            background-color: var(--color-accent);
+            transition: width 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+    <div class="cover-screen absolute inset-0 flex items-center justify-center z-10">
+        <div class="text-center">
+            <h1 class="text-6xl font-bold mb-4 pulse">TalkoBrowser OS</h1>
+            <div class="clock text-4xl mb-4" id="clock"></div>
+            <div class="date text-2xl mb-8" id="date"></div>
+            <p class="text-xl">Click anywhere to login</p>
+        </div>
+    </div>
+
+    <div class="flex-grow flex">
+        <div class="w-64 flex flex-col justify-end p-8 absolute bottom-0 left-0 z-20">
+            <button id="admin-btn" class="account-btn px-6 py-3 rounded-md text-xl mb-4 active">
+                <i class="fas fa-user-shield mr-2"></i>Admin
+            </button>
+            <button id="guest-btn" class="account-btn px-6 py-3 rounded-md text-xl">
+                <i class="fas fa-user mr-2"></i>Guest
+            </button>
+        </div>
+        <div class="flex-grow flex items-center justify-center">
+            <div id="admin-login" class="login-container p-8 rounded-lg w-96 text-center">
+                <img src="https://via.placeholder.com/150" alt="Admin" class="profile-pic w-32 h-32 rounded-full mx-auto mb-6">
+                <form class="space-y-4">
+                    <input type="text" id="username" placeholder="Username" class="input-field w-full px-4 py-2 rounded-md" value="admin">
+                    <div class="relative">
+                        <input type="password" id="password" placeholder="Password" class="input-field w-full px-4 py-2 rounded-md">
+                        <button type="button" id="toggle-password" class="absolute right-3 top-2 text-gray-400">👁️</button>
+                    </div>
+                    <button type="submit" class="login-btn w-full py-2 rounded-md text-xl font-bold">Login</button>
+                </form>
+                <p id="login-message" class="mt-4 text-sm"></p>
+            </div>
+            <div id="guest-login" class="login-container p-8 rounded-lg w-96 text-center hidden">
+                <img src="https://via.placeholder.com/150" alt="Guest" class="profile-pic w-32 h-32 rounded-full mx-auto mb-6">
+                <button class="login-btn w-full py-2 rounded-md text-xl font-bold">Sign in as Guest</button>
+            </div>
+        </div>
+        <div class="system-info absolute top-0 right-0 p-4 text-sm">
+            <p>CPU: TalkoBrowser Processor</p>
+            <p>RAM: 16 GB</p>
+            <p>Storage: 512 GB SSD</p>
+            <p>OS Version: TalkoBrowser OS 1.0</p>
+        </div>
+    </div>
+
+    <div id="loading-screen" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center hidden z-30">
+        <div class="text-center">
+            <h2 class="text-2xl mb-4">Loading TalkoBrowser OS</h2>
+            <div class="w-64 h-4 bg-gray-700 rounded-full overflow-hidden">
+                <div id="loading-bar" class="loading-bar h-full w-0"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js"></script>
+    <script>
+        const coverScreen = document.querySelector('.cover-screen');
+        const adminBtn = document.getElementById('admin-btn');
+        const guestBtn = document.getElementById('guest-btn');
+        const adminLogin = document.getElementById('admin-login');
+        const guestLogin = document.getElementById('guest-login');
+        const loginMessage = document.getElementById('login-message');
+        const loadingScreen = document.getElementById('loading-screen');
+        const loadingBar = document.getElementById('loading-bar');
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('password');
+
+        function updateDateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const dateString = now.toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('clock').textContent = timeString;
+            document.getElementById('date').textContent = dateString;
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+        coverScreen.addEventListener('click', () => {
+            coverScreen.classList.add('hidden');
+        });
+
+        adminBtn.addEventListener('click', () => {
+            adminBtn.classList.add('active');
+            guestBtn.classList.remove('active');
+            adminLogin.classList.remove('hidden');
+            guestLogin.classList.add('hidden');
+        });
+
+        guestBtn.addEventListener('click', () => {
+            guestBtn.classList.add('active');
+            adminBtn.classList.remove('active');
+            guestLogin.classList.remove('hidden');
+            adminLogin.classList.add('hidden');
+        });
+
+        togglePassword.addEventListener('click', () => {
+            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+            togglePassword.textContent = passwordInput.type === 'password' ? '👁️' : '👁️‍🗨️';
+        });
+
+        document.querySelector('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = passwordInput.value;
+            
+            if (username === 'admin' && password === 'password') {
+                loginMessage.textContent = 'Login successful!';
+                loginMessage.style.color = 'var(--color-success)';
+                simulateLoading();
+            } else {
+                loginMessage.textContent = 'Invalid username or password.';
+                loginMessage.style.color = 'var(--color-error)';
+            }
+        });
+
+        document.querySelector('#guest-login button').addEventListener('click', () => {
+            simulateLoading();
+        });
+
+        function simulateLoading() {
+            loadingScreen.classList.remove('hidden');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 10;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        window.location.href = 'os.html';
+                    }, 500);
+                }
+                loadingBar.style.width = `${progress}%`;
+            }, 200);
+        }
+    </script>
+</body>
+</html>
