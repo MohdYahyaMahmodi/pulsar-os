@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalkoBrowser OS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-dark: #202020;
+            --color-medium: #333333;
+            --color-light: #FDF5E6;
+            --color-accent: #FF9800;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background-color: var(--color-dark);
+            color: var(--color-light);
+            overflow: hidden;
+        }
+
+        .window {
+            background-color: var(--color-medium);
+            border: 2px solid var(--color-accent);
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+        }
+
+        .title-bar {
+            background: var(--color-dark);
+            border-bottom: 2px solid var(--color-accent);
+        }
+
+        .window-btn {
+            background: var(--color-accent);
+            color: var(--color-dark);
+        }
+
+        .window-btn:hover {
+            background: #FFB74D;
+        }
+
+        .taskbar {
+            background: linear-gradient(to bottom, #3c3c3c, var(--color-medium));
+            border-top: 2px solid var(--color-accent);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .start-btn {
+            background: linear-gradient(to bottom, #FFB74D, var(--color-accent));
+            color: var(--color-dark);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .start-btn:hover {
+            background: linear-gradient(to bottom, #FFCC80, #FFB74D);
+        }
+
+        .taskbar-icon {
+            background-color: rgba(253, 245, 230, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .taskbar-icon:hover, .taskbar-icon.active {
+            background-color: rgba(253, 245, 230, 0.3);
+        }
+
+        .desktop-icon {
+            color: var(--color-light);
+        }
+
+        .icon {
+            background-color: var(--color-medium);
+            border: 2px solid var(--color-accent);
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-medium);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-accent);
+            border: 1px solid var(--color-medium);
+        }
+
+        .content {
+            background-color: var(--color-light);
+            color: var(--color-dark);
+        }
+    </style>
+</head>
+<body class="select-none text-lg">
+    <div id="desktop" class="relative w-full h-screen flex flex-wrap content-start p-4">
+        <div class="desktop-icon cursor-pointer m-4" id="browser-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">🌐</div>
+            <div class="mt-2 text-center">Browser</div>
+        </div>
+        <div class="desktop-icon cursor-pointer m-4" id="notepad-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">📝</div>
+            <div class="mt-2 text-center">Notepad</div>
+        </div>
+    </div>
+
+    <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="browser-window" style="width: 800px; height: 600px; left: 50px; top: 50px;">
+        <div class="title-bar flex justify-between items-center p-2 cursor-move">
+            <span class="title px-2">TalkoBrowser</span>
+            <div class="flex space-x-2">
+                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+            </div>
+        </div>
+        <div class="content flex-1 p-4 overflow-hidden">
+            <div class="w-full h-full border border-gray-400 rounded flex items-center justify-center bg-white">
+                <span>Welcome to TalkoBrowser!</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="notepad-window" style="width: 400px; height: 300px; left: 100px; top: 100px;">
+        <div class="title-bar flex justify-between items-center p-2 cursor-move">
+            <span class="title px-2">Notepad</span>
+            <div class="flex space-x-2">
+                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+            </div>
+        </div>
+        <div class="content flex-1 p-2">
+            <textarea class="w-full h-full resize-none border-none outline-none bg-white text-gray-800 p-2 rounded" spellcheck="false"></textarea>
+        </div>
+    </div>
+
+    <div class="taskbar fixed bottom-0 w-full h-14 flex items-center px-2 space-x-2">
+        <button class="start-btn px-6 py-2 rounded-lg flex items-center text-xl font-bold">
+            Start
+        </button>
+        <div class="flex-grow flex space-x-1" id="taskbar-apps"></div>
+        <div class="flex items-center space-x-4">
+            <div class="taskbar-icon p-2 rounded cursor-pointer" id="audio-icon">🔊</div>
+            <div class="taskbar-icon p-2 rounded cursor-pointer" id="battery-icon">🔋</div>
+            <div id="time-date" class="text-xl bg-opacity-20 bg-white px-3 py-1 rounded"></div>
+        </div>
+    </div>
+
+    <script>
+        const windows = {
+            'browser-window': { icon: '🌐', title: 'Browser' },
+            'notepad-window': { icon: '📝', title: 'Notepad' }
+        };
+
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const date = now.toLocaleDateString();
+            document.getElementById('time-date').textContent = `${time} ${date}`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function toggleWindow(windowId) {
+            const window = document.getElementById(windowId);
+            if (window.classList.contains('hidden')) {
+                window.classList.remove('hidden');
+                addTaskbarIcon(windowId);
+            }
+            bringToFront(window);
+        }
+
+        function bringToFront(element) {
+            const allWindows = document.querySelectorAll('.window');
+            let maxZIndex = 0;
+            allWindows.forEach(win => {
+                const zIndex = parseInt(window.getComputedStyle(win).zIndex, 10);
+                maxZIndex = Math.max(maxZIndex, zIndex);
+            });
+            element.style.zIndex = maxZIndex + 1;
+        }
+
+        function addTaskbarIcon(windowId) {
+            const taskbarApps = document.getElementById('taskbar-apps');
+            if (!document.getElementById(`taskbar-${windowId}`)) {
+                const icon = document.createElement('div');
+                icon.id = `taskbar-${windowId}`;
+                icon.className = 'taskbar-icon p-2 rounded cursor-pointer active';
+                icon.textContent = windows[windowId].icon;
+                icon.onclick = () => toggleWindowVisibility(windowId);
+                taskbarApps.appendChild(icon);
+            }
+        }
+
+        function toggleWindowVisibility(windowId) {
+            const window = document.getElementById(windowId);
+            const icon = document.getElementById(`taskbar-${windowId}`);
+            if (window.classList.contains('hidden')) {
+                window.classList.remove('hidden');
+                icon.classList.add('active');
+                bringToFront(window);
+            } else {
+                window.classList.add('hidden');
+                icon.classList.remove('active');
+            }
+        }
+
+        function closeWindow(windowId) {
+            const window = document.getElementById(windowId);
+            window.classList.add('hidden');
+            const icon = document.getElementById(`taskbar-${windowId}`);
+            if (icon) icon.remove();
+        }
+
+        function maximizeWindow(windowId) {
+            const window = document.getElementById(windowId);
+            if (window.style.width === '100vw') {
+                window.style.width = '800px';
+                window.style.height = '600px';
+                window.style.top = '50px';
+                window.style.left = '50px';
+            } else {
+                window.style.width = '100vw';
+                window.style.height = 'calc(100vh - 56px)';
+                window.style.top = '0';
+                window.style.left = '0';
+            }
+        }
+
+        Object.keys(windows).forEach(windowId => {
+            document.getElementById(`${windowId.split('-')[0]}-icon`).addEventListener('click', () => toggleWindow(windowId));
+            
+            const windowElement = document.getElementById(windowId);
+            windowElement.querySelector('.close-btn').addEventListener('click', () => closeWindow(windowId));
+            windowElement.querySelector('.minimize-btn').addEventListener('click', () => toggleWindowVisibility(windowId));
+            windowElement.querySelector('.maximize-btn').addEventListener('click', () => maximizeWindow(windowId));
+            
+            windowElement.querySelector('.title-bar').addEventListener('mousedown', (e) => {
+                if (e.target.classList.contains('window-btn')) return;
+                bringToFront(windowElement);
+                
+                let isDragging = true;
+                const startX = e.clientX - windowElement.offsetLeft;
+                const startY = e.clientY - windowElement.offsetTop;
+
+                function moveWindow(e) {
+                    if (isDragging && windowElement.style.width !== '100vw') {
+                        windowElement.style.left = `${e.clientX - startX}px`;
+                        windowElement.style.top = `${e.clientY - startY}px`;
+                    }
+                }
+
+                function stopDragging() {
+                    isDragging = false;
+                    document.removeEventListener('mousemove', moveWindow);
+                    document.removeEventListener('mouseup', stopDragging);
+                }
+
+                document.addEventListener('mousemove', moveWindow);
+                document.addEventListener('mouseup', stopDragging);
+            });
+        });
+
+        let audioLevel = 5;
+        document.getElementById('audio-icon').addEventListener('click', () => {
+            audioLevel = (audioLevel % 3) + 1;
+            const icon = document.getElementById('audio-icon');
+            icon.textContent = audioLevel === 1 ? '🔇' : audioLevel === 2 ? '🔉' : '🔊';
+        });
+
+        let batteryLevel = 100;
+        setInterval(() => {
+            batteryLevel = Math.max(0, batteryLevel - 1);
+            const icon = document.getElementById('battery-icon');
+            icon.textContent = batteryLevel > 66 ? '🔋' : batteryLevel > 33 ? '🪫' : '🔌';
+        }, 10000);
+    </script>
+</body>
+</html>
