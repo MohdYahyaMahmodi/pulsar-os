@@ -164,6 +164,14 @@
             <div class="icon w-16 h-16 flex items-center justify-center text-3xl">🧮</div>
             <div class="mt-2 text-center">Calculator</div>
         </div>
+        <div class="desktop-icon cursor-pointer m-4" id="paint-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">🎨</div>
+            <div class="mt-2 text-center">Paint</div>
+        </div>
+        <div class="desktop-icon cursor-pointer m-4" id="music-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">🎵</div>
+            <div class="mt-2 text-center">Music</div>
+        </div>
     </div>
 
     <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="browser-window" style="width: 800px; height: 600px; left: 50px; top: 50px;">
@@ -268,6 +276,67 @@
         <div class="resize-handle"></div>
     </div>
 
+    <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="paint-window" style="width: 800px; height: 600px; left: 200px; top: 100px;">
+        <div class="title-bar flex justify-between items-center p-2 cursor-move">
+            <span class="title px-2">Paint</span>
+            <div class="flex space-x-2">
+                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+            </div>
+        </div>
+        <div class="toolbar flex items-center p-2 space-x-2 bg-gray-700">
+            <input type="color" id="color-picker-paint" class="bg-gray-600 rounded" value="#000000">
+            <input type="range" id="brush-size" min="1" max="50" value="5" class="w-32">
+            <span id="brush-size-label" class="text-white">5px</span>
+            <button id="eraser-btn" class="bg-gray-600 text-white px-3 py-1 rounded">Eraser</button>
+            <button id="clear-btn" class="bg-red-500 text-white px-3 py-1 rounded">Clear</button>
+        </div>
+        <div class="content flex-1 p-2 bg-white">
+            <canvas id="paint-canvas" class="w-full h-full border border-gray-300"></canvas>
+        </div>
+        <div class="resize-handle"></div>
+    </div>
+
+    <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="music-window" style="width: 400px; height: 600px; left: 250px; top: 100px;">
+        <div class="title-bar flex justify-between items-center p-2 cursor-move">
+            <span class="title px-2">Music Player</span>
+            <div class="flex space-x-2">
+                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+            </div>
+        </div>
+        <div class="content flex-1 p-4 bg-gray-800 text-white flex flex-col">
+            <div id="now-playing" class="text-center mb-4">
+                <img id="album-art" src="music.webp" alt="Album Art" class="w-48 h-48 mx-auto mb-4 rounded-lg shadow-lg">
+                <h2 id="track-title" class="text-xl font-bold">No Track Selected</h2>
+                <p id="track-artist" class="text-gray-400">Artist</p>
+            </div>
+            <div id="player-controls" class="flex justify-center items-center space-x-4 mb-4">
+                <button id="prev-btn" class="text-2xl">⏮️</button>
+                <button id="play-pause-btn" class="text-4xl">▶️</button>
+                <button id="next-btn" class="text-2xl">⏭️</button>
+            </div>
+            <div id="progress-bar" class="w-full bg-gray-700 rounded-full h-2 mb-4">
+                <div id="progress" class="bg-blue-500 h-2 rounded-full" style="width: 0%"></div>
+            </div>
+            <div class="flex justify-between items-center mb-4">
+                <span id="current-time">0:00</span>
+                <span id="total-time">0:00</span>
+            </div>
+            <div class="flex items-center space-x-2 mb-4">
+                <button id="shuffle-btn" class="bg-gray-700 px-3 py-1 rounded">🔀</button>
+                <button id="repeat-btn" class="bg-gray-700 px-3 py-1 rounded">🔁</button>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1" class="w-32">
+                <span id="volume-icon">🔊</span>
+            </div>
+            <select id="playlist" class="bg-gray-700 text-white p-2 rounded mb-4"></select>
+            <button id="load-music-btn" class="bg-blue-500 text-white px-4 py-2 rounded">Load Music</button>
+        </div>
+        <div class="resize-handle"></div>
+    </div>
+
     <div class="taskbar fixed bottom-0 w-full h-14 flex items-center px-2 space-x-2">
         <button class="start-btn px-6 py-2 rounded-lg flex items-center text-xl font-bold">
             Start
@@ -284,7 +353,9 @@
         const windows = {
             'browser-window': { icon: '🌐', title: 'Browser' },
             'notepad-window': { icon: '📝', title: 'Notepad' },
-            'calculator-window': { icon: '🧮', title: 'Calculator' }
+            'calculator-window': { icon: '🧮', title: 'Calculator' },
+            'paint-window': { icon: '🎨', title: 'Paint' },
+            'music-window': { icon: '🎨', title: 'Music Player' }
         };
         
         function updateClock() {
@@ -667,6 +738,255 @@ loadBtn.addEventListener('click', () => {
 document.getElementById('notepad-icon').addEventListener('click', () => {
     setTimeout(() => editor.focus(), 0);
 });
+
+// Paint functionality
+const canvas = document.getElementById('paint-canvas');
+const ctx = canvas.getContext('2d');
+const colorPickertwo = document.getElementById('color-picker-paint');
+const brushSize = document.getElementById('brush-size');
+const brushSizeLabel = document.getElementById('brush-size-label');
+const eraserBtn = document.getElementById('eraser-btn');
+const clearBtn = document.getElementById('clear-btn');
+
+let isDrawing = false;
+let isErasing = false;
+
+function resizeCanvas() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+}
+
+function startDrawing(e) {
+    isDrawing = true;
+    draw(e);
+}
+
+function stopDrawing() {
+    isDrawing = false;
+    ctx.beginPath();
+}
+
+function draw(e) {
+    if (!isDrawing) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    ctx.lineWidth = brushSize.value;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = isErasing ? '#FFFFFF' : colorPickertwo.value;
+
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+}
+
+colorPickertwo.addEventListener('change', () => {
+    isErasing = false;
+    eraserBtn.classList.remove('bg-blue-500');
+    eraserBtn.classList.add('bg-gray-600');
+});
+
+brushSize.addEventListener('input', () => {
+    brushSizeLabel.textContent = `${brushSize.value}px`;
+});
+
+eraserBtn.addEventListener('click', () => {
+    isErasing = !isErasing;
+    if (isErasing) {
+        eraserBtn.classList.remove('bg-gray-600');
+        eraserBtn.classList.add('bg-blue-500');
+    } else {
+        eraserBtn.classList.remove('bg-blue-500');
+        eraserBtn.classList.add('bg-gray-600');
+    }
+});
+
+clearBtn.addEventListener('click', () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+});
+
+canvas.addEventListener('mousedown', startDrawing);
+canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mouseup', stopDrawing);
+canvas.addEventListener('mouseout', stopDrawing);
+
+// Initialize paint
+document.getElementById('paint-icon').addEventListener('click', () => {
+    toggleWindow('paint-window');
+    setTimeout(() => {
+        resizeCanvas();
+    }, 0);
+});
+
+// Resize canvas when window is resized
+const paintWindow = document.getElementById('paint-window');
+const resizeObserver = new ResizeObserver(() => {
+    resizeCanvas();
+});
+resizeObserver.observe(paintWindow);
+
+// Music Player functionality
+const audioPlayer = new Audio();
+let playlist = [
+    { title: "Sample Track 1", artist: "Artist 1", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+    { title: "Sample Track 2", artist: "Artist 2", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+    { title: "Sample Track 3", artist: "Artist 3", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
+];
+let currentTrackIndex = 0;
+let isPlaying = false;
+let isShuffle = false;
+let isRepeat = false;
+
+const playPauseBtn = document.getElementById('play-pause-btn');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const shuffleBtn = document.getElementById('shuffle-btn');
+const repeatBtn = document.getElementById('repeat-btn');
+const volumeSlider = document.getElementById('volume-slider');
+const volumeIcon = document.getElementById('volume-icon');
+const progressBar = document.getElementById('progress');
+const currentTimeSpan = document.getElementById('current-time');
+const totalTimeSpan = document.getElementById('total-time');
+const playlistSelect = document.getElementById('playlist');
+const loadMusicBtn = document.getElementById('load-music-btn');
+const trackTitle = document.getElementById('track-title');
+const trackArtist = document.getElementById('track-artist');
+const albumArt = document.getElementById('album-art');
+
+function updatePlaylist() {
+    playlistSelect.innerHTML = '';
+    playlist.forEach((track, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = `${track.title} - ${track.artist}`;
+        playlistSelect.appendChild(option);
+    });
+}
+
+function loadTrack(index) {
+    if (index >= 0 && index < playlist.length) {
+        currentTrackIndex = index;
+        const track = playlist[currentTrackIndex];
+        audioPlayer.src = track.src;
+        trackTitle.textContent = track.title;
+        trackArtist.textContent = track.artist;
+        albumArt.src = track.albumArt || "https://via.placeholder.com/200";
+        playlistSelect.value = currentTrackIndex;
+        playPauseBtn.textContent = "⏸️";
+        isPlaying = true;
+        audioPlayer.play();
+    }
+}
+
+function togglePlayPause() {
+    if (isPlaying) {
+        audioPlayer.pause();
+        playPauseBtn.textContent = "▶️";
+    } else {
+        audioPlayer.play();
+        playPauseBtn.textContent = "⏸️";
+    }
+    isPlaying = !isPlaying;
+}
+
+function prevTrack() {
+    currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+    loadTrack(currentTrackIndex);
+}
+
+function nextTrack() {
+    if (isShuffle) {
+        currentTrackIndex = Math.floor(Math.random() * playlist.length);
+    } else {
+        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+    }
+    loadTrack(currentTrackIndex);
+}
+
+function toggleShuffle() {
+    isShuffle = !isShuffle;
+    shuffleBtn.style.backgroundColor = isShuffle ? '#3b82f6' : '#374151';
+}
+
+function toggleRepeat() {
+    isRepeat = !isRepeat;
+    repeatBtn.style.backgroundColor = isRepeat ? '#3b82f6' : '#374151';
+}
+
+function updateVolume() {
+    audioPlayer.volume = volumeSlider.value;
+    volumeIcon.textContent = audioPlayer.volume > 0.5 ? "🔊" : audioPlayer.volume > 0 ? "🔉" : "🔇";
+}
+
+function updateProgress() {
+    const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+    progressBar.style.width = `${progress}%`;
+    currentTimeSpan.textContent = formatTime(audioPlayer.currentTime);
+    totalTimeSpan.textContent = formatTime(audioPlayer.duration);
+}
+
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+function seekTrack(e) {
+    const progressBarRect = e.target.getBoundingClientRect();
+    const seekPercentage = (e.clientX - progressBarRect.left) / progressBarRect.width;
+    audioPlayer.currentTime = seekPercentage * audioPlayer.duration;
+}
+
+playPauseBtn.addEventListener('click', togglePlayPause);
+prevBtn.addEventListener('click', prevTrack);
+nextBtn.addEventListener('click', nextTrack);
+shuffleBtn.addEventListener('click', toggleShuffle);
+repeatBtn.addEventListener('click', toggleRepeat);
+volumeSlider.addEventListener('input', updateVolume);
+audioPlayer.addEventListener('timeupdate', updateProgress);
+audioPlayer.addEventListener('ended', () => {
+    if (isRepeat) {
+        audioPlayer.play();
+    } else {
+        nextTrack();
+    }
+});
+document.getElementById('progress-bar').addEventListener('click', seekTrack);
+playlistSelect.addEventListener('change', (e) => loadTrack(parseInt(e.target.value)));
+
+loadMusicBtn.addEventListener('click', () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'audio/*';
+    input.multiple = true;
+    input.onchange = e => {
+        const files = e.target.files;
+        for (let file of files) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                playlist.push({
+                    title: file.name.replace(/\.[^/.]+$/, ""),
+                    artist: "Unknown Artist",
+                    src: e.target.result
+                });
+                updatePlaylist();
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    input.click();
+});
+
+// Initialize music player
+document.getElementById('music-icon').addEventListener('click', () => {
+    toggleWindow('music-window');
+    updatePlaylist();
+});
+
+updatePlaylist();
         
         // Initialize browser content
         loadUrl(homeUrl);
