@@ -118,6 +118,25 @@
             height: 100%;
             border: none;
         }
+        #custom-homepage {
+            background: linear-gradient(135deg, var(--color-dark), var(--color-medium));
+            color: var(--color-light);
+        }
+
+        #custom-homepage input {
+            background-color: var(--color-light);
+            color: var(--color-dark);
+            border: 2px solid var(--color-accent);
+        }
+
+        #custom-homepage button {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+        }
+
+        #custom-homepage button:hover {
+            background-color: #FFB74D;
+        }
     </style>
 </head>
 <body class="select-none text-lg">
@@ -151,6 +170,14 @@
         </div>
         <div class="content flex-1 overflow-hidden bg-white">
             <iframe id="browser-frame" src="about:blank"></iframe>
+            <div id="custom-homepage" class="w-full h-full flex flex-col items-center justify-center p-8">
+                <h1 class="text-4xl font-bold mb-8">Welcome to TalkoBrowser</h1>
+                <div class="w-full max-w-md">
+                    <input type="text" id="home-search" class="w-full px-4 py-2 rounded-full text-lg" placeholder="Search or enter URL">
+                </div>
+                <button id="home-search-btn" class="mt-4 px-6 py-2 rounded-full text-lg font-bold">Search</button>
+                <p class="mt-8 text-center">Type a search query or URL and press Enter or click Search</p>
+            </div>
         </div>
     </div>
 
@@ -310,19 +337,28 @@
             icon.textContent = batteryLevel > 66 ? '🔋' : batteryLevel > 33 ? '🪫' : '🔌';
         }, 10000);
 
-         // Browser functionality
+        // Browser functionality
         const iframe = document.getElementById('browser-frame');
         const urlBar = document.getElementById('url-bar');
-        const homeUrl = 'https://www.google.com/?igu=1';
+        const customHomepage = document.getElementById('custom-homepage');
+        const homeSearch = document.getElementById('home-search');
+        const homeSearchBtn = document.getElementById('home-search-btn');
+        const homeUrl = 'home';
         let currentUrl = '';
         let history = [];
         let historyIndex = -1;
 
         function loadUrl(url, addToHistory = true) {
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                url = 'https://' + url;
+            if (url === 'home') {
+                showHomepage();
+            } else {
+                if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    url = 'https://' + url;
+                }
+                iframe.src = url;
+                customHomepage.style.display = 'none';
+                iframe.style.display = 'block';
             }
-            iframe.src = url;
             currentUrl = url;
             urlBar.value = url;
             if (addToHistory) {
@@ -333,6 +369,12 @@
                 historyIndex = history.length - 1;
             }
             updateNavigationButtons();
+        }
+
+        function showHomepage() {
+            iframe.style.display = 'none';
+            customHomepage.style.display = 'flex';
+            urlBar.value = 'home';
         }
 
         function search(query) {
@@ -360,7 +402,11 @@
         });
 
         document.getElementById('reload-btn').addEventListener('click', () => {
-            iframe.src = iframe.src;
+            if (currentUrl === 'home') {
+                showHomepage();
+            } else {
+                iframe.src = iframe.src;
+            }
         });
 
         document.getElementById('home-btn').addEventListener('click', () => {
@@ -369,45 +415,49 @@
 
         document.getElementById('go-btn').addEventListener('click', () => {
             const input = urlBar.value.trim();
-            if (input.includes('.') && !input.includes(' ')) {
-                loadUrl(input);
-            } else {
-                search(input);
-            }
+            handleInput(input);
         });
 
         urlBar.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 const input = urlBar.value.trim();
-                if (input.includes('.') && !input.includes(' ')) {
-                    loadUrl(input);
-                } else {
-                    search(input);
-                }
+                handleInput(input);
             }
         });
 
-        function updateUrl() {
-            try {
-                const newUrl = iframe.contentWindow.location.href;
-                if (newUrl !== currentUrl) {
-                    currentUrl = newUrl;
-                    urlBar.value = newUrl;
-                    if (newUrl !== history[historyIndex]) {
-                        history.push(newUrl);
-                        historyIndex = history.length - 1;
-                        updateNavigationButtons();
-                    }
-                }
-            } catch (e) {
-                // Catch and ignore cross-origin errors
+        homeSearch.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const input = homeSearch.value.trim();
+                handleInput(input);
+            }
+        });
+
+        homeSearchBtn.addEventListener('click', () => {
+            const input = homeSearch.value.trim();
+            handleInput(input);
+        });
+
+        function handleInput(input) {
+            if (input === 'home') {
+                showHomepage();
+            } else if (input.startsWith('https://www.google.com/search?')) {
+                loadUrl(input);
+            } else if (input.includes('.') && !input.includes(' ')) {
+                loadUrl(input);
+            } else {
+                search(input);
             }
         }
 
-        iframe.addEventListener('load', updateUrl);
-
-        // Periodically check for URL changes
-        setInterval(updateUrl, 500);
+        iframe.addEventListener('load', () => {
+            currentUrl = iframe.src;
+            urlBar.value = currentUrl;
+            if (currentUrl !== history[historyIndex]) {
+                history.push(currentUrl);
+                historyIndex = history.length - 1;
+                updateNavigationButtons();
+            }
+        });
 
         // Initialize browser content
         loadUrl(homeUrl);
