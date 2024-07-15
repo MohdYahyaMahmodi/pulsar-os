@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boot Menu</title>
+  <style>
+    body {
+      background-color: #1d1f21;
+      color: #c5c8c6;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      width: 400px;
+      background-color: #282a2e;
+      border: 1px solid #373b41;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+      text-align: center;
+    }
+    .boot-devices {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .boot-device {
+      padding: 10px;
+      background-color: #373b41;
+      border: 1px solid #282a2e;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .boot-device.selected {
+      background-color: #4f5b66;
+      transform: scale(1.05);
+    }
+    .save-button {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .save-button button {
+      padding: 10px 20px;
+      background-color: #4f5b66;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .save-button button:hover {
+      background-color: #65737e;
+      transform: scale(1.05);
+    }
+    .exit-button {
+      margin-top: 10px;
+      text-align: center;
+    }
+    .exit-button button {
+      padding: 10px 20px;
+      background-color: #ff4d4d;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .exit-button button:hover {
+      background-color: #ff6666;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Boot Menu</h1>
+    <div class="boot-devices">
+      <div class="boot-device" draggable="true" ondragstart="dragStart(event)" onclick="selectBootDevice('Disk 1')">Disk 1</div>
+      <div class="boot-device" draggable="true" ondragstart="dragStart(event)" onclick="selectBootDevice('Disk 2')">Disk 2</div>
+      <div class="boot-device" draggable="true" ondragstart="dragStart(event)" onclick="selectBootDevice('Disk 3')">Disk 3</div>
+    </div>
+    <div class="save-button">
+      <button onclick="saveBootSettings()">Save</button>
+    </div>
+    <div class="exit-button">
+      <button onclick="exitToIndex()">Exit</button>
+    </div>
+  </div>
+
+  <script>
+    let draggedDevice = null;
+
+    function dragStart(event) {
+      draggedDevice = event.target;
+      event.dataTransfer.effectAllowed = 'move';
+    }
+
+    function allowDrop(event) {
+      event.preventDefault();
+    }
+
+    function drop(event) {
+      event.preventDefault();
+      const targetDevice = event.target;
+      const targetIndex = Array.from(targetDevice.parentNode.children).indexOf(targetDevice);
+      const draggedIndex = Array.from(draggedDevice.parentNode.children).indexOf(draggedDevice);
+      if (targetIndex > draggedIndex) {
+        targetDevice.parentNode.insertBefore(draggedDevice, targetDevice.nextSibling);
+      } else {
+        targetDevice.parentNode.insertBefore(draggedDevice, targetDevice);
+      }
+    }
+
+    function selectBootDevice(device) {
+      const bootDevices = document.querySelectorAll('.boot-device');
+      bootDevices.forEach(dev => dev.classList.remove('selected'));
+      const selectedDevice = Array.from(bootDevices).find(dev => dev.textContent === device);
+      selectedDevice.classList.add('selected');
+    }
+
+    function saveBootSettings() {
+      const bootDevices = document.querySelectorAll('.boot-device');
+      const bootOrder = Array.from(bootDevices).map(dev => dev.textContent);
+      alert(`Boot order saved:\n${bootOrder.join('\n')}`);
+      // Additional logic to save boot order
+    }
+
+    function exitToIndex() {
+      // Redirect to index page
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Talkobrowser BIOS</title>
+  <style>
+    body {
+      background-color: #1d1f21;
+      color: #c5c8c6;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .container {
+      width: 100vw;
+      height: 100vh;
+      background-color: #282a2e;
+      border: 1px solid #373b41;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #373b41;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .header .time {
+      font-size: 3em;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    .header .details {
+      font-size: 0.9em;
+      text-align: right;
+    }
+    .main-content {
+      display: flex;
+      flex: 1;
+      gap: 20px;
+    }
+    .section {
+      flex: 1;
+      padding: 10px;
+      background-color: #373b41;
+      border: 1px solid #282a2e;
+      border-radius: 5px;
+      animation: fadeIn 1s ease-in-out;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .section h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.2em;
+      border-bottom: 1px solid #c5c8c6;
+      padding-bottom: 5px;
+    }
+    .data-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 5px 0;
+    }
+    .data-row p {
+      margin: 0;
+    }
+    .system-performance {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 10px 0;
+    }
+    .performance-mode {
+      flex: 1;
+      margin: 0 10px;
+      background-color: #4f5b66;
+      padding: 20px;
+      text-align: center;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .performance-mode:hover {
+      background-color: #65737e;
+      transform: scale(1.05);
+    }
+    .performance-mode p {
+      margin: 10px 0 0;
+    }
+    .boot-priority {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+    }
+    .priority-item {
+      flex: 1;
+      margin: 0 10px;
+      background-color: #4f5b66;
+      padding: 20px;
+      text-align: center;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .priority-item:hover {
+      background-color: #65737e;
+      transform: scale(1.05);
+    }
+    .priority-item img {
+      max-width: 50px;
+      margin-bottom: 10px;
+    }
+    .instructions {
+      flex-basis: 100%;
+      font-size: 0.8em;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .buttons {
+      text-align: right;
+      margin-top: 20px;
+    }
+    .buttons button {
+      margin: 5px;
+      padding: 10px 20px;
+      background-color: #4f5b66;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .buttons button:hover {
+      background-color: #65737e;
+      transform: scale(1.05);
+    }
+    .exit-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #4f5b66;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .exit-button:hover {
+      background-color: #65737e;
+      transform: scale(1.05);
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button class="exit-button" onclick="exitToIndex()">Exit/Advanced Mode</button>
+    <div class="header">
+      <div class="time" id="time">19:12</div>
+      <div class="details">
+        <p>TalkoBrowser BIOS</p>
+        <p>BIOS Version: v2.1.5T</p>
+        <p>Build Date: 15/07/2024</p>
+        <p>CPU Type: TalkIntel(R) Core(TM) i9-13900K</p>
+        <p>Total Memory: 16 GB (DDR4 1600MHz)</p>
+        <p>Speed: 3200 MHz</p>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="section">
+        <h3>Temperature</h3>
+        <div class="data-row">
+          <p>CPU:</p>
+          <p id="cpu-temp">+105.8°F / +41.0°C</p>
+        </div>
+        <div class="data-row">
+          <p>MB:</p>
+          <p id="mb-temp">+78.8°F / +26.0°C</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Voltage</h3>
+        <div class="data-row">
+          <p>CPU:</p>
+          <p id="cpu-voltage">1.404V</p>
+        </div>
+        <div class="data-row">
+          <p>5V:</p>
+          <p id="voltage-5v">5.010V</p>
+        </div>
+        <div class="data-row">
+          <p>3.3V:</p>
+          <p id="voltage-3v">3.267V</p>
+        </div>
+        <div class="data-row">
+          <p>12V:</p>
+          <p id="voltage-12v">11.797V</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Fan Speed</h3>
+        <div class="data-row">
+          <p>CPU_FAN:</p>
+          <p id="cpu-fan">1461 RPM</p>
+        </div>
+        <div class="data-row">
+          <p>PWR_FAN:</p>
+          <p id="pwr-fan">1391 RPM</p>
+        </div>
+        <div class="data-row">
+          <p>CHA_FAN:</p>
+          <p id="cha-fan">N/A</p>
+        </div>
+        <div class="data-row">
+          <p>CHA_FAN2:</p>
+          <p id="cha-fan2">N/A</p>
+        </div>
+      </div>
+
+      <div class="section system-performance">
+        <div class="performance-mode">
+          <p>Quiet</p>
+        </div>
+        <div class="performance-mode">
+          <p>Normal</p>
+        </div>
+        <div class="performance-mode">
+          <p>Performance</p>
+        </div>
+      </div>
+
+      <div class="section boot-priority" id="boot-priority">
+        <div class="priority-item" draggable="true">
+          <p>Disk 1</p>
+        </div>
+        <div class="priority-item" draggable="true">
+          <p>Disk 2</p>
+        </div>
+        <div class="priority-item" draggable="true">
+          <p>Disk 3</p>
+        </div>
+        <div class="instructions">Use the mouse to drag or keyboard to navigate to decide the boot priority.</div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button onclick="alert('Boot Menu (F8)')">Boot Menu (F8)</button>
+      <button onclick="alert('Default (F5)')">Default (F5)</button>
+    </div>
+  </div>
+
+  <script>
+    // Function to update the time
+    function updateTime() {
+      const timeElement = document.getElementById('time');
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      timeElement.textContent = `${hours}:${minutes}`;
+    }
+
+    // Function to simulate changing temperatures and voltages
+    function updateDynamicData() {
+      const cpuTempElement = document.getElementById('cpu-temp');
+      const mbTempElement = document.getElementById('mb-temp');
+      const cpuVoltageElement = document.getElementById('cpu-voltage');
+      const voltage5vElement = document.getElementById('voltage-5v');
+      const voltage3vElement = document.getElementById('voltage-3v');
+      const voltage12vElement = document.getElementById('voltage-12v');
+      const cpuFanElement = document.getElementById('cpu-fan');
+      const pwrFanElement = document.getElementById('pwr-fan');
+
+      const cpuTemp = (41 + Math.random()).toFixed(1);
+      const mbTemp = (26 + Math.random()).toFixed(1);
+      const cpuVoltage = (1.4 + Math.random() * 0.1).toFixed(3);
+      const voltage5v = (5 + Math.random() * 0.1).toFixed(3);
+      const voltage3v = (3.3 + Math.random() * 0.1).toFixed(3);
+      const voltage12v = (11.8 + Math.random() * 0.2).toFixed(3);
+      const cpuFan = Math.floor(1400 + Math.random() * 100);
+      const pwrFan = Math.floor(1300 + Math.random() * 100);
+
+      cpuTempElement.textContent = `+${(cpuTemp * 1.8 + 32).toFixed(1)}°F / +${cpuTemp}°C`;
+      mbTempElement.textContent = `+${(mbTemp * 1.8 + 32).toFixed(1)}°F / +${mbTemp}°C`;
+      cpuVoltageElement.textContent = `${cpuVoltage}V`;
+      voltage5vElement.textContent = `${voltage5v}V`;
+      voltage3vElement.textContent = `${voltage3v}V`;
+      voltage12vElement.textContent = `${voltage12v}V`;
+      cpuFanElement.textContent = `${cpuFan} RPM`;
+      pwrFanElement.textContent = `${pwrFan} RPM`;
+    }
+
+    // Update time every minute
+    setInterval(updateTime, 60000);
+    updateTime(); // Initial call to set the time immediately
+
+    // Update dynamic data every 2 seconds
+    setInterval(updateDynamicData, 2000);
+    updateDynamicData(); // Initial call to set dynamic data immediately
+
+    // Drag and drop functionality
+    const draggableItems = document.querySelectorAll('.priority-item');
+    const container = document.querySelector('.boot-priority');
+
+    draggableItems.forEach(item => {
+      item.addEventListener('dragstart', () => {
+        item.classList.add('dragging');
+      });
+
+      item.addEventListener('dragend', () => {
+        item.classList.remove('dragging');
+      });
+    });
+
+    container.addEventListener('dragover', e => {
+      e.preventDefault();
+      const afterElement = getDragAfterElement(container, e.clientX);
+      const dragging = document.querySelector('.dragging');
+      if (afterElement == null) {
+        container.appendChild(dragging);
+      } else {
+        container.insertBefore(dragging, afterElement);
+      }
+    });
+
+    function getDragAfterElement(container, x) {
+      const draggableElements = [...container.querySelectorAll('.priority-item:not(.dragging)')];
+
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = x - box.left - box.width / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    // Function to handle exit button redirection
+    function exitToIndex() {
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>
