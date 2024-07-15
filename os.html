@@ -172,6 +172,14 @@
             <div class="icon w-16 h-16 flex items-center justify-center text-3xl">🎵</div>
             <div class="mt-2 text-center">Music</div>
         </div>
+        <div class="desktop-icon cursor-pointer m-4" id="explorer-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">📁</div>
+            <div class="mt-2 text-center">File Explorer</div>
+        </div>
+        <div class="desktop-icon cursor-pointer m-4" id="clock-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">⏰</div>
+            <div class="mt-2 text-center">Clock & Alarm</div>
+        </div>
     </div>
 
     <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="browser-window" style="width: 800px; height: 600px; left: 50px; top: 50px;">
@@ -337,6 +345,70 @@
         <div class="resize-handle"></div>
     </div>
 
+    <!-- Add this to your HTML, inside the <body> tag, alongside other window definitions -->
+<div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="explorer-window" style="width: 800px; height: 600px; left: 100px; top: 50px;">
+    <div class="title-bar flex justify-between items-center p-2 cursor-move">
+        <span class="title px-2">File Explorer</span>
+        <div class="flex space-x-2">
+            <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+            <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+            <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+        </div>
+    </div>
+    <div class="toolbar flex items-center p-2 space-x-2 bg-gray-700">
+        <button id="back-btn" class="bg-gray-600 text-white px-3 py-1 rounded">Back</button>
+        <button id="forward-btn" class="bg-gray-600 text-white px-3 py-1 rounded">Forward</button>
+        <button id="up-btn" class="bg-gray-600 text-white px-3 py-1 rounded">Up</button>
+        <input id="path-input" type="text" class="flex-grow bg-gray-800 text-white px-2 py-1 rounded" readonly>
+    </div>
+    <div class="content flex-1 flex bg-white">
+        <div id="folder-tree" class="w-1/4 bg-gray-100 p-2 overflow-auto"></div>
+        <div id="file-list" class="w-3/4 p-2 overflow-auto"></div>
+    </div>
+    <div class="resize-handle"></div>
+</div>
+
+<!-- File viewer/editor modal -->
+<div id="file-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center">
+    <div class="bg-white rounded-lg p-4 w-2/3 h-2/3 flex flex-col">
+        <div class="flex justify-between items-center mb-4">
+            <h2 id="file-modal-title" class="text-xl font-bold">File Viewer</h2>
+            <button id="close-modal-btn" class="text-gray-500 hover:text-gray-700">&times;</button>
+        </div>
+        <textarea id="file-content" class="flex-grow p-2 border rounded resize-none"></textarea>
+        <div class="mt-4 flex justify-end">
+            <button id="save-file-btn" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
+        </div>
+    </div>
+</div>
+
+<div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="clock-window" style="width: 350px; height: 500px; left: 300px; top: 100px;">
+    <div class="title-bar flex justify-between items-center p-2 cursor-move">
+        <span class="title px-2">Clock & Alarm</span>
+        <div class="flex space-x-2">
+            <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+            <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+            <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+        </div>
+    </div>
+    <div class="content flex-1 p-4 bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex flex-col items-center justify-between">
+        <div class="clock-face w-64 h-64 rounded-full bg-white bg-opacity-20 flex items-center justify-center shadow-lg">
+            <div class="clock-inner w-56 h-56 rounded-full bg-gradient-to-r from-blue-400 to-teal-300 flex flex-col items-center justify-center">
+                <div id="time" class="text-5xl font-bold text-indigo-900"></div>
+                <div id="date" class="text-lg text-indigo-800"></div>
+            </div>
+        </div>
+        <div class="alarm-section w-full">
+            <div class="flex justify-between items-center mb-4">
+                <input type="time" id="alarm-time" class="bg-white bg-opacity-20 text-white px-3 py-2 rounded">
+                <button id="set-alarm-btn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Set Alarm</button>
+            </div>
+            <div id="alarm-display" class="text-center text-lg font-semibold"></div>
+        </div>
+    </div>
+    <div class="resize-handle"></div>
+</div>
+
     <div class="taskbar fixed bottom-0 w-full h-14 flex items-center px-2 space-x-2">
         <button class="start-btn px-6 py-2 rounded-lg flex items-center text-xl font-bold">
             Start
@@ -349,647 +421,6 @@
         </div>
     </div>
 
-    <script>
-        const windows = {
-            'browser-window': { icon: '🌐', title: 'Browser' },
-            'notepad-window': { icon: '📝', title: 'Notepad' },
-            'calculator-window': { icon: '🧮', title: 'Calculator' },
-            'paint-window': { icon: '🎨', title: 'Paint' },
-            'music-window': { icon: '🎨', title: 'Music Player' }
-        };
-        
-        function updateClock() {
-            const now = new Date();
-            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const date = now.toLocaleDateString();
-            document.getElementById('time-date').textContent = `${time} ${date}`;
-        }
-        
-        setInterval(updateClock, 1000);
-        updateClock();
-        
-        function toggleWindow(windowId) {
-            const window = document.getElementById(windowId);
-            if (window.classList.contains('hidden')) {
-                window.classList.remove('hidden');
-                addTaskbarIcon(windowId);
-            }
-            bringToFront(window);
-        }
-        
-        function bringToFront(element) {
-            const allWindows = document.querySelectorAll('.window');
-            let maxZIndex = 0;
-            allWindows.forEach(win => {
-                const zIndex = parseInt(window.getComputedStyle(win).zIndex, 10);
-                maxZIndex = Math.max(maxZIndex, zIndex);
-            });
-            element.style.zIndex = maxZIndex + 1;
-        }
-        
-        function addTaskbarIcon(windowId) {
-            const taskbarApps = document.getElementById('taskbar-apps');
-            if (!document.getElementById(`taskbar-${windowId}`)) {
-                const icon = document.createElement('div');
-                icon.id = `taskbar-${windowId}`;
-                icon.className = 'taskbar-icon p-2 rounded cursor-pointer active';
-                icon.textContent = windows[windowId].icon;
-                icon.onclick = () => toggleWindowVisibility(windowId);
-                taskbarApps.appendChild(icon);
-            }
-        }
-        
-        function toggleWindowVisibility(windowId) {
-            const window = document.getElementById(windowId);
-            const icon = document.getElementById(`taskbar-${windowId}`);
-            if (window.classList.contains('hidden')) {
-                window.classList.remove('hidden');
-                icon.classList.add('active');
-                bringToFront(window);
-            } else {
-                window.classList.add('hidden');
-                icon.classList.remove('active');
-            }
-        }
-        
-        function closeWindow(windowId) {
-            const window = document.getElementById(windowId);
-            window.classList.add('hidden');
-            const icon = document.getElementById(`taskbar-${windowId}`);
-            if (icon) icon.remove();
-        }
-        
-        function maximizeWindow(windowId) {
-            const window = document.getElementById(windowId);
-            if (window.style.width === '100vw') {
-                window.style.width = '800px';
-                window.style.height = '600px';
-                window.style.top = '50px';
-                window.style.left = '50px';
-            } else {
-                window.style.width = '100vw';
-                window.style.height = 'calc(100vh - 56px)';
-                window.style.top = '0';
-                window.style.left = '0';
-            }
-        }
-        
-        function makeResizable(windowId) {
-            const windowElement = document.getElementById(windowId);
-            const resizeHandle = windowElement.querySelector('.resize-handle');
-        
-            resizeHandle.addEventListener('mousedown', initResize, false);
-        
-            function initResize(e) {
-                window.addEventListener('mousemove', resize, false);
-                window.addEventListener('mouseup', stopResize, false);
-            }
-        
-            function resize(e) {
-                const newWidth = e.clientX - windowElement.offsetLeft;
-                const newHeight = e.clientY - windowElement.offsetTop;
-                windowElement.style.width = newWidth + 'px';
-                windowElement.style.height = newHeight + 'px';
-            }
-        
-            function stopResize(e) {
-                window.removeEventListener('mousemove', resize, false);
-                window.removeEventListener('mouseup', stopResize, false);
-            }
-        }
-        
-        Object.keys(windows).forEach(windowId => {
-            document.getElementById(`${windowId.split('-')[0]}-icon`).addEventListener('click', () => toggleWindow(windowId));
-            
-            const windowElement = document.getElementById(windowId);
-            windowElement.querySelector('.close-btn').addEventListener('click', () => closeWindow(windowId));
-            windowElement.querySelector('.minimize-btn').addEventListener('click', () => toggleWindowVisibility(windowId));
-            windowElement.querySelector('.maximize-btn').addEventListener('click', () => maximizeWindow(windowId));
-            
-            windowElement.querySelector('.title-bar').addEventListener('mousedown', (e) => {
-                if (e.target.classList.contains('window-btn')) return;
-                bringToFront(windowElement);
-                
-                let isDragging = true;
-                const startX = e.clientX - windowElement.offsetLeft;
-                const startY = e.clientY - windowElement.offsetTop;
-        
-                function moveWindow(e) {
-                    if (isDragging && windowElement.style.width !== '100vw') {
-                        windowElement.style.left = `${e.clientX - startX}px`;
-                        windowElement.style.top = `${e.clientY - startY}px`;
-                    }
-                }
-        
-                function stopDragging() {
-                    isDragging = false;
-                    document.removeEventListener('mousemove', moveWindow);
-                    document.removeEventListener('mouseup', stopDragging);
-                }
-        
-                document.addEventListener('mousemove', moveWindow);
-                document.addEventListener('mouseup', stopDragging);
-            });
-        
-            makeResizable(windowId);
-        });
-        
-        // Audio and Battery Icons
-        let audioLevel = 5;
-        document.getElementById('audio-icon').addEventListener('click', () => {
-            audioLevel = (audioLevel % 3) + 1;
-            const icon = document.getElementById('audio-icon');
-            icon.textContent = audioLevel === 1 ? '🔇' : audioLevel === 2 ? '🔉' : '🔊';
-        });
-        
-        let batteryLevel = 100;
-        setInterval(() => {
-            batteryLevel = Math.max(0, batteryLevel - 1);
-            const icon = document.getElementById('battery-icon');
-            icon.textContent = batteryLevel > 66 ? '🔋' : batteryLevel > 33 ? '🪫' : '🔌';
-        }, 10000);
-        
-        // Browser functionality
-        const iframe = document.getElementById('browser-frame');
-        const urlBar = document.getElementById('url-bar');
-        const customHomepage = document.getElementById('custom-homepage');
-        const homeSearch = document.getElementById('home-search');
-        const homeSearchBtn = document.getElementById('home-search-btn');
-        const homeUrl = 'home';
-        let currentUrl = '';
-        let history = [];
-        let historyIndex = -1;
-        
-        function loadUrl(url, addToHistory = true) {
-            if (url === 'home') {
-                showHomepage();
-            } else {
-                if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                    url = 'https://' + url;
-                }
-                iframe.src = url;
-                customHomepage.style.display = 'none';
-                iframe.style.display = 'block';
-            }
-            currentUrl = url;
-            urlBar.value = url;
-            if (addToHistory) {
-                if (historyIndex < history.length - 1) {
-                    history = history.slice(0, historyIndex + 1);
-                }
-                history.push(url);
-                historyIndex = history.length - 1;
-            }
-            updateNavigationButtons();
-        }
-        
-        function showHomepage() {
-            iframe.style.display = 'none';
-            customHomepage.style.display = 'flex';
-            urlBar.value = 'home';
-        }
-        
-        function search(query) {
-            const searchUrl = `https://www.google.com/search?igu=1&q=${encodeURIComponent(query)}`;
-            loadUrl(searchUrl);
-        }
-        
-        function updateNavigationButtons() {
-            document.getElementById('back-btn').disabled = historyIndex <= 0;
-            document.getElementById('forward-btn').disabled = historyIndex >= history.length - 1;
-        }
-        
-        document.getElementById('back-btn').addEventListener('click', () => {
-            if (historyIndex > 0) {
-                historyIndex--;
-                loadUrl(history[historyIndex], false);
-            }
-        });
-        
-        document.getElementById('forward-btn').addEventListener('click', () => {
-            if (historyIndex < history.length - 1) {
-                historyIndex++;
-                loadUrl(history[historyIndex], false);
-            }
-        });
-        
-        document.getElementById('reload-btn').addEventListener('click', () => {
-            if (currentUrl === 'home') {
-                showHomepage();
-            } else {
-                iframe.src = iframe.src;
-            }
-        });
-        
-        document.getElementById('home-btn').addEventListener('click', () => {
-            loadUrl(homeUrl);
-        });
-        
-        document.getElementById('go-btn').addEventListener('click', () => {
-            const input = urlBar.value.trim();
-            handleInput(input);
-        });
-        
-        urlBar.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                const input = urlBar.value.trim();
-                handleInput(input);
-            }
-        });
-        
-        homeSearch.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                const input = homeSearch.value.trim();
-                handleInput(input);
-            }
-        });
-        
-        homeSearchBtn.addEventListener('click', () => {
-            const input = homeSearch.value.trim();
-            handleInput(input);
-        });
-        
-        function handleInput(input) {
-            if (input === 'home') {
-                showHomepage();
-            } else if (input.startsWith('https://www.google.com/search?')) {
-                loadUrl(input);
-            } else if (input.includes('.') && !input.includes(' ')) {
-                loadUrl(input);
-            } else {
-                search(input);
-            }
-        }
-        
-        iframe.addEventListener('load', () => {
-            currentUrl = iframe.src;
-            urlBar.value = currentUrl;
-            if (currentUrl !== history[historyIndex]) {
-                history.push(currentUrl);
-                historyIndex = history.length - 1;
-                updateNavigationButtons();
-            }
-        });
-        
-        // Calculator functionality
-        const calcScreen = document.getElementById('calc-screen');
-        let currentValue = '0';
-        let previousValue = null;
-        let operator = null;
-        
-        document.querySelectorAll('#calculator-window .calc-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                const value = button.textContent;
-                
-                if ('0123456789.'.includes(value)) {
-                    if (currentValue === '0' && value !== '.') {
-                        currentValue = value;
-                    } else {
-                        currentValue += value;
-                    }
-                } else if ('+-*/'.includes(value)) {
-                    previousValue = currentValue;
-                    currentValue = '0';
-                    operator = value;
-                } else if (value === '=') {
-                    if (previousValue !== null && operator !== null) {
-                        currentValue = String(eval(`${previousValue}${operator}${currentValue}`));
-                        previousValue = null;
-                        operator = null;
-                    }
-                } else if (value === 'C') {
-                    currentValue = '0';
-                    previousValue = null;
-                    operator = null;
-                } else if (value === '←') {
-                    currentValue = currentValue.slice(0, -1);
-                    if (currentValue === '') currentValue = '0';
-                }
-                
-                calcScreen.textContent = currentValue;
-            });
-        });
-        
-        // Notepad functionality
-const editor = document.getElementById('editor');
-const fontSelect = document.getElementById('font-select');
-const fontSize = document.getElementById('font-size');
-const boldBtn = document.getElementById('bold-btn');
-const italicBtn = document.getElementById('italic-btn');
-const underlineBtn = document.getElementById('underline-btn');
-const colorPicker = document.getElementById('color-picker');
-const saveBtn = document.getElementById('save-btn');
-const loadBtn = document.getElementById('load-btn');
-
-function applyCommand(command, value = null) {
-    editor.focus();
-    document.execCommand(command, false, value);
-}
-
-fontSelect.addEventListener('change', () => {
-    applyCommand('fontName', fontSelect.value);
-});
-
-fontSize.addEventListener('change', () => {
-    applyCommand('fontSize', fontSize.value);
-});
-
-boldBtn.addEventListener('click', () => {
-    applyCommand('bold');
-});
-
-italicBtn.addEventListener('click', () => {
-    applyCommand('italic');
-});
-
-underlineBtn.addEventListener('click', () => {
-    applyCommand('underline');
-});
-
-colorPicker.addEventListener('change', () => {
-    applyCommand('foreColor', colorPicker.value);
-});
-
-saveBtn.addEventListener('click', () => {
-    const content = editor.innerHTML;
-    const blob = new Blob([content], {type: 'text/html'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'notepad_content.html';
-    a.click();
-});
-
-loadBtn.addEventListener('click', () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.html,.txt';
-    input.onchange = e => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            editor.innerHTML = event.target.result;
-        };
-        reader.readAsText(file);
-    };
-    input.click();
-});
-
-// Ensure the editor is focusable when the notepad window is opened
-document.getElementById('notepad-icon').addEventListener('click', () => {
-    setTimeout(() => editor.focus(), 0);
-});
-
-// Paint functionality
-const canvas = document.getElementById('paint-canvas');
-const ctx = canvas.getContext('2d');
-const colorPickertwo = document.getElementById('color-picker-paint');
-const brushSize = document.getElementById('brush-size');
-const brushSizeLabel = document.getElementById('brush-size-label');
-const eraserBtn = document.getElementById('eraser-btn');
-const clearBtn = document.getElementById('clear-btn');
-
-let isDrawing = false;
-let isErasing = false;
-
-function resizeCanvas() {
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-}
-
-function startDrawing(e) {
-    isDrawing = true;
-    draw(e);
-}
-
-function stopDrawing() {
-    isDrawing = false;
-    ctx.beginPath();
-}
-
-function draw(e) {
-    if (!isDrawing) return;
-
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    ctx.lineWidth = brushSize.value;
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = isErasing ? '#FFFFFF' : colorPickertwo.value;
-
-    ctx.lineTo(x, y);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-}
-
-colorPickertwo.addEventListener('change', () => {
-    isErasing = false;
-    eraserBtn.classList.remove('bg-blue-500');
-    eraserBtn.classList.add('bg-gray-600');
-});
-
-brushSize.addEventListener('input', () => {
-    brushSizeLabel.textContent = `${brushSize.value}px`;
-});
-
-eraserBtn.addEventListener('click', () => {
-    isErasing = !isErasing;
-    if (isErasing) {
-        eraserBtn.classList.remove('bg-gray-600');
-        eraserBtn.classList.add('bg-blue-500');
-    } else {
-        eraserBtn.classList.remove('bg-blue-500');
-        eraserBtn.classList.add('bg-gray-600');
-    }
-});
-
-clearBtn.addEventListener('click', () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-});
-
-canvas.addEventListener('mousedown', startDrawing);
-canvas.addEventListener('mousemove', draw);
-canvas.addEventListener('mouseup', stopDrawing);
-canvas.addEventListener('mouseout', stopDrawing);
-
-// Initialize paint
-document.getElementById('paint-icon').addEventListener('click', () => {
-    toggleWindow('paint-window');
-    setTimeout(() => {
-        resizeCanvas();
-    }, 0);
-});
-
-// Resize canvas when window is resized
-const paintWindow = document.getElementById('paint-window');
-const resizeObserver = new ResizeObserver(() => {
-    resizeCanvas();
-});
-resizeObserver.observe(paintWindow);
-
-// Music Player functionality
-const audioPlayer = new Audio();
-let playlist = [
-    { title: "Sample Track 1", artist: "Artist 1", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-    { title: "Sample Track 2", artist: "Artist 2", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-    { title: "Sample Track 3", artist: "Artist 3", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" }
-];
-let currentTrackIndex = 0;
-let isPlaying = false;
-let isShuffle = false;
-let isRepeat = false;
-
-const playPauseBtn = document.getElementById('play-pause-btn');
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
-const shuffleBtn = document.getElementById('shuffle-btn');
-const repeatBtn = document.getElementById('repeat-btn');
-const volumeSlider = document.getElementById('volume-slider');
-const volumeIcon = document.getElementById('volume-icon');
-const progressBar = document.getElementById('progress');
-const currentTimeSpan = document.getElementById('current-time');
-const totalTimeSpan = document.getElementById('total-time');
-const playlistSelect = document.getElementById('playlist');
-const loadMusicBtn = document.getElementById('load-music-btn');
-const trackTitle = document.getElementById('track-title');
-const trackArtist = document.getElementById('track-artist');
-const albumArt = document.getElementById('album-art');
-
-function updatePlaylist() {
-    playlistSelect.innerHTML = '';
-    playlist.forEach((track, index) => {
-        const option = document.createElement('option');
-        option.value = index;
-        option.textContent = `${track.title} - ${track.artist}`;
-        playlistSelect.appendChild(option);
-    });
-}
-
-function loadTrack(index) {
-    if (index >= 0 && index < playlist.length) {
-        currentTrackIndex = index;
-        const track = playlist[currentTrackIndex];
-        audioPlayer.src = track.src;
-        trackTitle.textContent = track.title;
-        trackArtist.textContent = track.artist;
-        albumArt.src = track.albumArt || "https://via.placeholder.com/200";
-        playlistSelect.value = currentTrackIndex;
-        playPauseBtn.textContent = "⏸️";
-        isPlaying = true;
-        audioPlayer.play();
-    }
-}
-
-function togglePlayPause() {
-    if (isPlaying) {
-        audioPlayer.pause();
-        playPauseBtn.textContent = "▶️";
-    } else {
-        audioPlayer.play();
-        playPauseBtn.textContent = "⏸️";
-    }
-    isPlaying = !isPlaying;
-}
-
-function prevTrack() {
-    currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
-    loadTrack(currentTrackIndex);
-}
-
-function nextTrack() {
-    if (isShuffle) {
-        currentTrackIndex = Math.floor(Math.random() * playlist.length);
-    } else {
-        currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
-    }
-    loadTrack(currentTrackIndex);
-}
-
-function toggleShuffle() {
-    isShuffle = !isShuffle;
-    shuffleBtn.style.backgroundColor = isShuffle ? '#3b82f6' : '#374151';
-}
-
-function toggleRepeat() {
-    isRepeat = !isRepeat;
-    repeatBtn.style.backgroundColor = isRepeat ? '#3b82f6' : '#374151';
-}
-
-function updateVolume() {
-    audioPlayer.volume = volumeSlider.value;
-    volumeIcon.textContent = audioPlayer.volume > 0.5 ? "🔊" : audioPlayer.volume > 0 ? "🔉" : "🔇";
-}
-
-function updateProgress() {
-    const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-    progressBar.style.width = `${progress}%`;
-    currentTimeSpan.textContent = formatTime(audioPlayer.currentTime);
-    totalTimeSpan.textContent = formatTime(audioPlayer.duration);
-}
-
-function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-}
-
-function seekTrack(e) {
-    const progressBarRect = e.target.getBoundingClientRect();
-    const seekPercentage = (e.clientX - progressBarRect.left) / progressBarRect.width;
-    audioPlayer.currentTime = seekPercentage * audioPlayer.duration;
-}
-
-playPauseBtn.addEventListener('click', togglePlayPause);
-prevBtn.addEventListener('click', prevTrack);
-nextBtn.addEventListener('click', nextTrack);
-shuffleBtn.addEventListener('click', toggleShuffle);
-repeatBtn.addEventListener('click', toggleRepeat);
-volumeSlider.addEventListener('input', updateVolume);
-audioPlayer.addEventListener('timeupdate', updateProgress);
-audioPlayer.addEventListener('ended', () => {
-    if (isRepeat) {
-        audioPlayer.play();
-    } else {
-        nextTrack();
-    }
-});
-document.getElementById('progress-bar').addEventListener('click', seekTrack);
-playlistSelect.addEventListener('change', (e) => loadTrack(parseInt(e.target.value)));
-
-loadMusicBtn.addEventListener('click', () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'audio/*';
-    input.multiple = true;
-    input.onchange = e => {
-        const files = e.target.files;
-        for (let file of files) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                playlist.push({
-                    title: file.name.replace(/\.[^/.]+$/, ""),
-                    artist: "Unknown Artist",
-                    src: e.target.result
-                });
-                updatePlaylist();
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-    input.click();
-});
-
-// Initialize music player
-document.getElementById('music-icon').addEventListener('click', () => {
-    toggleWindow('music-window');
-    updatePlaylist();
-});
-
-updatePlaylist();
-        
-        // Initialize browser content
-        loadUrl(homeUrl);
-        </script>
+    <script src="main.js"></script>
 </body>
 </html>
