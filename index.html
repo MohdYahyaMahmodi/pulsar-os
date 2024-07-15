@@ -310,24 +310,29 @@
             icon.textContent = batteryLevel > 66 ? '🔋' : batteryLevel > 33 ? '🪫' : '🔌';
         }, 10000);
 
-        // Browser functionality
-        const iframe = document.getElementById('browser-frame');
+         // Browser functionality
+         const iframe = document.getElementById('browser-frame');
         const urlBar = document.getElementById('url-bar');
         const homeUrl = 'https://www.google.com/?igu=1';
         let currentUrl = '';
         let history = [];
         let historyIndex = -1;
 
-        function loadUrl(url) {
+        function loadUrl(url, addToHistory = true) {
             if (!url.startsWith('http://') && !url.startsWith('https://')) {
                 url = 'https://' + url;
             }
             iframe.src = url;
             currentUrl = url;
             urlBar.value = url;
-            history = history.slice(0, historyIndex + 1);
-            history.push(url);
-            historyIndex = history.length - 1;
+            if (addToHistory) {
+                if (historyIndex < history.length - 1) {
+                    history = history.slice(0, historyIndex + 1);
+                }
+                history.push(url);
+                historyIndex = history.length - 1;
+            }
+            updateNavigationButtons();
         }
 
         function search(query) {
@@ -335,22 +340,27 @@
             loadUrl(searchUrl);
         }
 
+        function updateNavigationButtons() {
+            document.getElementById('back-btn').disabled = historyIndex <= 0;
+            document.getElementById('forward-btn').disabled = historyIndex >= history.length - 1;
+        }
+
         document.getElementById('back-btn').addEventListener('click', () => {
             if (historyIndex > 0) {
                 historyIndex--;
-                loadUrl(history[historyIndex]);
+                loadUrl(history[historyIndex], false);
             }
         });
 
         document.getElementById('forward-btn').addEventListener('click', () => {
             if (historyIndex < history.length - 1) {
                 historyIndex++;
-                loadUrl(history[historyIndex]);
+                loadUrl(history[historyIndex], false);
             }
         });
 
         document.getElementById('reload-btn').addEventListener('click', () => {
-            loadUrl(currentUrl);
+            iframe.src = iframe.src;
         });
 
         document.getElementById('home-btn').addEventListener('click', () => {
@@ -378,9 +388,47 @@
         });
 
         iframe.addEventListener('load', () => {
-            urlBar.value = iframe.src;
-            currentUrl = iframe.src;
+            urlBar.value = iframe.contentWindow.location.href;
+            currentUrl = iframe.contentWindow.location.href;
+            if (currentUrl !== history[historyIndex]) {
+                loadUrl(currentUrl);
+            }
         });
+
+        // Listen for messages from the iframe
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.type === 'urlChange') {
+                urlBar.value = event.data.url;
+                currentUrl = event.data.url;
+                loadUrl(currentUrl);
+            }
+        });
+
+        // Inject script into iframe to track URL changes
+        function injectScript() {
+            const script = `
+                (function() {
+                    let lastUrl = location.href;
+                    new MutationObserver(() => {
+                        const url = location.href;
+                        if (url !== lastUrl) {
+                            lastUrl = url;
+                            window.parent.postMessage({ type: 'urlChange', url: lastUrl }, '*');
+                        }
+                    }).observe(document, { subtree: true, childList: true });
+                })();
+            `;
+            
+            iframe.addEventListener('load', function() {
+                try {
+                    iframe.contentWindow.eval(script);
+                } catch (e) {
+                    console.error('Failed to inject script:', e);
+                }
+            });
+        }
+
+        injectScript();
 
         // Initialize browser content
         loadUrl(homeUrl);
