@@ -93,6 +93,31 @@
             background-color: var(--color-light);
             color: var(--color-dark);
         }
+
+        .browser-toolbar {
+            background-color: var(--color-medium);
+            border-bottom: 1px solid var(--color-accent);
+        }
+
+        .browser-btn {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+        }
+
+        .browser-btn:hover {
+            background-color: #FFB74D;
+        }
+
+        .search-bar {
+            background-color: var(--color-light);
+            color: var(--color-dark);
+        }
+
+        #browser-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
     </style>
 </head>
 <body class="select-none text-lg">
@@ -116,10 +141,15 @@
                 <button class="window-btn px-3 py-1 rounded close-btn">X</button>
             </div>
         </div>
-        <div class="content flex-1 p-4 overflow-hidden">
-            <div class="w-full h-full border border-gray-400 rounded flex items-center justify-center bg-white">
-                <span>Welcome to TalkoBrowser!</span>
-            </div>
+        <div class="browser-toolbar flex items-center p-2 space-x-2">
+            <button class="browser-btn px-3 py-1 rounded" id="back-btn">←</button>
+            <button class="browser-btn px-3 py-1 rounded" id="forward-btn">→</button>
+            <button class="browser-btn px-3 py-1 rounded" id="reload-btn">↻</button>
+            <input type="text" class="search-bar flex-grow px-2 py-1 rounded" id="url-bar" placeholder="Enter search or URL">
+            <button class="browser-btn px-3 py-1 rounded" id="go-btn">Go</button>
+        </div>
+        <div class="content flex-1 overflow-hidden bg-white">
+            <iframe id="browser-frame" src="https://www.google.com/?igu=1"></iframe>
         </div>
     </div>
 
@@ -278,6 +308,63 @@
             const icon = document.getElementById('battery-icon');
             icon.textContent = batteryLevel > 66 ? '🔋' : batteryLevel > 33 ? '🪫' : '🔌';
         }, 10000);
+
+        // Browser functionality
+        const iframe = document.getElementById('browser-frame');
+        const urlBar = document.getElementById('url-bar');
+
+        function loadUrl(url) {
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+            iframe.src = url;
+            urlBar.value = url;
+        }
+
+        function search(query) {
+            const searchUrl = `https://www.google.com/search?igu=1&q=${encodeURIComponent(query)}`;
+            loadUrl(searchUrl);
+        }
+
+        document.getElementById('back-btn').addEventListener('click', () => {
+            iframe.contentWindow.history.back();
+        });
+
+        document.getElementById('forward-btn').addEventListener('click', () => {
+            iframe.contentWindow.history.forward();
+        });
+
+        document.getElementById('reload-btn').addEventListener('click', () => {
+            iframe.contentWindow.location.reload();
+        });
+
+        document.getElementById('go-btn').addEventListener('click', () => {
+            const input = urlBar.value.trim();
+            if (input.includes('.') && !input.includes(' ')) {
+                loadUrl(input);
+            } else {
+                search(input);
+            }
+        });
+
+        urlBar.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const input = urlBar.value.trim();
+                if (input.includes('.') && !input.includes(' ')) {
+                    loadUrl(input);
+                } else {
+                    search(input);
+                }
+            }
+        });
+
+        iframe.addEventListener('load', () => {
+            urlBar.value = iframe.contentWindow.location.href;
+        });
+
+        // Initialize browser content
+        loadUrl('https://www.google.com/?igu=1');
+
     </script>
 </body>
 </html>
