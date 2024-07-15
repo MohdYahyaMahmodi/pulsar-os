@@ -145,11 +145,12 @@
             <button class="browser-btn px-3 py-1 rounded" id="back-btn">←</button>
             <button class="browser-btn px-3 py-1 rounded" id="forward-btn">→</button>
             <button class="browser-btn px-3 py-1 rounded" id="reload-btn">↻</button>
+            <button class="browser-btn px-3 py-1 rounded" id="home-btn">🏠</button>
             <input type="text" class="search-bar flex-grow px-2 py-1 rounded" id="url-bar" placeholder="Enter search or URL">
             <button class="browser-btn px-3 py-1 rounded" id="go-btn">Go</button>
         </div>
         <div class="content flex-1 overflow-hidden bg-white">
-            <iframe id="browser-frame" src="https://www.google.com/?igu=1"></iframe>
+            <iframe id="browser-frame" src="about:blank"></iframe>
         </div>
     </div>
 
@@ -312,13 +313,21 @@
         // Browser functionality
         const iframe = document.getElementById('browser-frame');
         const urlBar = document.getElementById('url-bar');
+        const homeUrl = 'https://www.google.com/?igu=1';
+        let currentUrl = '';
+        let history = [];
+        let historyIndex = -1;
 
         function loadUrl(url) {
             if (!url.startsWith('http://') && !url.startsWith('https://')) {
                 url = 'https://' + url;
             }
             iframe.src = url;
+            currentUrl = url;
             urlBar.value = url;
+            history = history.slice(0, historyIndex + 1);
+            history.push(url);
+            historyIndex = history.length - 1;
         }
 
         function search(query) {
@@ -327,15 +336,25 @@
         }
 
         document.getElementById('back-btn').addEventListener('click', () => {
-            iframe.contentWindow.history.back();
+            if (historyIndex > 0) {
+                historyIndex--;
+                loadUrl(history[historyIndex]);
+            }
         });
 
         document.getElementById('forward-btn').addEventListener('click', () => {
-            iframe.contentWindow.history.forward();
+            if (historyIndex < history.length - 1) {
+                historyIndex++;
+                loadUrl(history[historyIndex]);
+            }
         });
 
         document.getElementById('reload-btn').addEventListener('click', () => {
-            iframe.contentWindow.location.reload();
+            loadUrl(currentUrl);
+        });
+
+        document.getElementById('home-btn').addEventListener('click', () => {
+            loadUrl(homeUrl);
         });
 
         document.getElementById('go-btn').addEventListener('click', () => {
@@ -359,12 +378,12 @@
         });
 
         iframe.addEventListener('load', () => {
-            urlBar.value = iframe.contentWindow.location.href;
+            urlBar.value = iframe.src;
+            currentUrl = iframe.src;
         });
 
         // Initialize browser content
-        loadUrl('https://www.google.com/?igu=1');
-
+        loadUrl(homeUrl);
     </script>
 </body>
 </html>
