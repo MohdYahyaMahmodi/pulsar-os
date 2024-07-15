@@ -461,6 +461,11 @@
 
         // Initialize browser content
         loadUrl(homeUrl);
+
+        if (!sessionStorage.getItem('biosLoaded')) {
+    sessionStorage.setItem('biosLoaded', 'true');
+    window.location.href = 'bios.html';
+}
     </script>
 </body>
 </html>
