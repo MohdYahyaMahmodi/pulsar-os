@@ -6,179 +6,382 @@
     <title>TalkoBrowser OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         :root {
-            --color-dark: #202020;
-            --color-medium: #333333;
-            --color-light: #FDF5E6;
-            --color-accent: #FF9800;
-        }
+    --color-dark: #202020;
+    --color-medium: #333333;
+    --color-light: #FDF5E6;
+    --color-accent: #FF9800;
+}
 
-        body {
-            font-family: 'VT323', monospace;
-            background-color: var(--color-dark);
-            color: var(--color-light);
-            overflow: hidden;
-        }
+body {
+    font-family: 'VT323', monospace;
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    overflow: hidden;
+}
 
-        .window {
-            background-color: var(--color-medium);
-            border: 2px solid var(--color-accent);
-            box-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
-        }
+.window {
+    background-color: var(--color-medium);
+    border: 2px solid var(--color-accent);
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+}
 
-        .title-bar {
-            background: var(--color-dark);
-            border-bottom: 2px solid var(--color-accent);
-        }
+.title-bar {
+    background: var(--color-dark);
+    border-bottom: 2px solid var(--color-accent);
+}
 
-        .window-btn {
-            background: var(--color-accent);
-            color: var(--color-dark);
-        }
+.window-btn {
+    background: var(--color-accent);
+    color: var(--color-dark);
+}
 
-        .window-btn:hover {
-            background: #FFB74D;
-        }
+.window-btn:hover {
+    background: #FFB74D;
+}
 
-        .taskbar {
-            background: linear-gradient(to bottom, #3c3c3c, var(--color-medium));
-            border-top: 2px solid var(--color-accent);
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
-        }
+.taskbar {
+    background: linear-gradient(to bottom, #3c3c3c, var(--color-medium));
+    border-top: 2px solid var(--color-accent);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+}
 
-        .start-btn {
-            background: linear-gradient(to bottom, #FFB74D, var(--color-accent));
-            color: var(--color-dark);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-        }
+.start-btn {
+    background: linear-gradient(to bottom, #FFB74D, var(--color-accent));
+    color: var(--color-dark);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+}
 
-        .start-btn:hover {
-            background: linear-gradient(to bottom, #FFCC80, #FFB74D);
-        }
+.start-btn:hover {
+    background: linear-gradient(to bottom, #FFCC80, #FFB74D);
+}
 
-        .taskbar-icon {
-            background-color: rgba(253, 245, 230, 0.1);
-            transition: background-color 0.3s ease;
-        }
+.taskbar-icon {
+    background-color: rgba(253, 245, 230, 0.1);
+    transition: background-color 0.3s ease;
+}
 
-        .taskbar-icon:hover, .taskbar-icon.active {
-            background-color: rgba(253, 245, 230, 0.3);
-        }
+.taskbar-icon:hover, .taskbar-icon.active {
+    background-color: rgba(253, 245, 230, 0.3);
+}
 
-        .desktop-icon {
-            color: var(--color-light);
-        }
+.icon {
+    background-color: var(--color-medium);
+    border: 2px solid var(--color-accent);
+}
 
-        .icon {
-            background-color: var(--color-medium);
-            border: 2px solid var(--color-accent);
-        }
+::-webkit-scrollbar {
+    width: 10px;
+}
 
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
+::-webkit-scrollbar-track {
+    background: var(--color-medium);
+}
 
-        ::-webkit-scrollbar-track {
-            background: var(--color-medium);
-        }
+::-webkit-scrollbar-thumb {
+    background: var(--color-accent);
+    border: 1px solid var(--color-medium);
+}
 
-        ::-webkit-scrollbar-thumb {
-            background: var(--color-accent);
-            border: 1px solid var(--color-medium);
-        }
+.content {
+    background-color: var(--color-light);
+    color: var(--color-dark);
+}
 
-        .content {
-            background-color: var(--color-light);
-            color: var(--color-dark);
-        }
+.browser-toolbar {
+    background-color: var(--color-medium);
+    border-bottom: 1px solid var(--color-accent);
+}
 
-        .browser-toolbar {
-            background-color: var(--color-medium);
-            border-bottom: 1px solid var(--color-accent);
-        }
+.browser-btn {
+    background-color: var(--color-accent);
+    color: var(--color-dark);
+}
 
-        .browser-btn {
-            background-color: var(--color-accent);
-            color: var(--color-dark);
-        }
+.browser-btn:hover {
+    background-color: #FFB74D;
+}
 
-        .browser-btn:hover {
-            background-color: #FFB74D;
-        }
+.search-bar {
+    background-color: var(--color-light);
+    color: var(--color-dark);
+}
 
-        .search-bar {
-            background-color: var(--color-light);
-            color: var(--color-dark);
-        }
+#browser-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
 
-        #browser-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+#custom-homepage {
+    background: linear-gradient(135deg, var(--color-dark), var(--color-medium));
+    color: var(--color-light);
+}
 
-        #custom-homepage {
-            background: linear-gradient(135deg, var(--color-dark), var(--color-medium));
-            color: var(--color-light);
-        }
+#custom-homepage input {
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    border: 2px solid var(--color-accent);
+}
 
-        #custom-homepage input {
-            background-color: var(--color-light);
-            color: var(--color-dark);
-            border: 2px solid var(--color-accent);
-        }
+#custom-homepage button {
+    background-color: var(--color-accent);
+    color: var(--color-dark);
+}
 
-        #custom-homepage button {
-            background-color: var(--color-accent);
-            color: var(--color-dark);
-        }
+#custom-homepage button:hover {
+    background-color: #FFB74D;
+}
 
-        #custom-homepage button:hover {
-            background-color: #FFB74D;
-        }
+.resize-handle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-accent);
+    right: 0;
+    bottom: 0;
+    cursor: se-resize;
+}
 
-        .resize-handle {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: var(--color-accent);
-            right: 0;
-            bottom: 0;
-            cursor: se-resize;
-        }
+/* Desktop Styles */
+#desktop {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 56px); /* Adjust based on your taskbar height */
+    overflow: hidden;
+    background-color: var(--color-dark);
+}
+
+.desktop-icon {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: move;
+    user-select: none;
+    transition: transform 0.1s ease, opacity 0.1s ease;
+    color: var(--color-light);
+}
+
+.desktop-icon:hover {
+    opacity: 0.8;
+}
+
+.desktop-icon:active {
+    transform: scale(1.05);
+    opacity: 0.7;
+}
+
+.desktop-icon .icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    background-color: rgba(45, 55, 72, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.desktop-icon:hover .icon {
+    background-color: rgba(45, 55, 72, 0.9);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.desktop-icon .icon-title {
+    margin-top: 4px;
+    font-size: 12px;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Context Menu Styles */
+#context-menu {
+    min-width: 200px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+#context-menu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(26, 32, 44, 0.8);
+    border-radius: inherit;
+    z-index: -1;
+}
+
+#context-menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#context-menu li {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+#context-menu li:hover {
+    background-color: rgba(66, 153, 225, 0.2);
+}
+
+#context-menu li i {
+    margin-right: 10px;
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+#context-menu li:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Video Player Styles */
+#video-window .content {
+    min-height: 300px;
+}
+
+#video-window .video-container {
+    background-color: black;
+    min-height: 200px;
+}
+
+#video-window .video-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.3s ease;
+}
+
+#video-window .video-controls input[type="range"] {
+    -webkit-appearance: none;
+    height: 5px;
+    background: #ddd;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+#video-window .video-controls input[type="range"]:hover {
+    opacity: 1;
+}
+
+#video-window .video-controls input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #4299e1;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+#video-window .video-controls input[type="range"]::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: #4299e1;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+#video-window .video-controls,
+#video-window .file-input-container {
+    flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+    #video-window .video-controls .flex {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #video-window .video-controls .space-x-2 > :not([hidden]) ~ :not([hidden]) {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    #video-window .file-input-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #video-window .file-input-container label {
+        margin-bottom: 0.5rem;
+    }
+
+    #video-window #file-name {
+        margin-left: 0;
+    }
+}
+
+.terminal-output-line, .terminal-response {
+    padding: 2px 0;
+}
+
+.terminal-output-line {
+    color: #00FF00;
+}
+
+.terminal-response {
+    color: #FFFFFF;
+}
     </style>
 </head>
 <body class="select-none text-lg">
-    <div id="desktop" class="relative w-full h-screen flex flex-wrap content-start p-4">
-        <div class="desktop-icon cursor-pointer m-4" id="browser-icon">
-            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">🌐</div>
-            <div class="mt-2 text-center">Browser</div>
+    <div id="desktop" class="relative w-full h-screen p-4">
+        <div class="desktop-icon cursor-move m-4" id="browser-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl bg-gray-800 rounded-lg">🌐</div>
+            <div class="mt-2 text-center text-white">Browser</div>
         </div>
-        <div class="desktop-icon cursor-pointer m-4" id="notepad-icon">
-            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">📝</div>
-            <div class="mt-2 text-center">Notepad</div>
+        <div class="desktop-icon cursor-move m-4" id="notepad-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl bg-gray-800 rounded-lg">📝</div>
+            <div class="mt-2 text-center text-white">Notepad</div>
         </div>
-        <div class="desktop-icon cursor-pointer m-4" id="calculator-icon">
-            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">🧮</div>
-            <div class="mt-2 text-center">Calculator</div>
+        <div class="desktop-icon cursor-move m-4" id="calculator-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl bg-gray-800 rounded-lg">🧮</div>
+            <div class="mt-2 text-center text-white">Calculator</div>
         </div>
-        <div class="desktop-icon cursor-pointer m-4" id="paint-icon">
-            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">🎨</div>
-            <div class="mt-2 text-center">Paint</div>
+        <div class="desktop-icon cursor-move m-4" id="paint-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl bg-gray-800 rounded-lg">🎨</div>
+            <div class="mt-2 text-center text-white">Paint</div>
         </div>
-        <div class="desktop-icon cursor-pointer m-4" id="music-icon">
-            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">🎵</div>
-            <div class="mt-2 text-center">Music</div>
+        <div class="desktop-icon cursor-move m-4" id="music-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl bg-gray-800 rounded-lg">🎵</div>
+            <div class="mt-2 text-center text-white">Music</div>
         </div>
-        <div class="desktop-icon cursor-pointer m-4" id="explorer-icon">
-            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">📁</div>
-            <div class="mt-2 text-center">File Explorer</div>
+        <div class="desktop-icon cursor-move m-4" id="explorer-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl bg-gray-800 rounded-lg">📁</div>
+            <div class="mt-2 text-center text-white">Files</div>
         </div>
-        <div class="desktop-icon cursor-pointer m-4" id="clock-icon">
-            <div class="icon w-16 h-16 flex items-center justify-center text-3xl">⏰</div>
-            <div class="mt-2 text-center">Clock & Alarm</div>
+        <div class="desktop-icon cursor-move m-4" id="clock-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl bg-gray-800 rounded-lg">⏰</div>
+            <div class="mt-2 text-center text-white">Clock</div>
+        </div>
+        <div class="desktop-icon cursor-move m-4" id="video-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl bg-gray-800 rounded-lg">🎥</div>
+            <div class="mt-2 text-center text-white">Video</div>
+        </div>
+        <div class="desktop-icon cursor-move m-4" id="terminal-icon">
+            <div class="icon w-16 h-16 flex items-center justify-center text-3xl bg-gray-800 rounded-lg">💻</div>
+            <div class="mt-2 text-center text-white">Terminal</div>
         </div>
     </div>
 
@@ -408,6 +611,72 @@
     </div>
     <div class="resize-handle"></div>
 </div>
+
+<div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="video-window" style="width: 800px; height: 600px; left: 50px; top: 50px;">
+    <div class="title-bar flex justify-between items-center p-2 cursor-move">
+        <span class="title px-2">Video Player</span>
+        <div class="flex space-x-2">
+            <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+            <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+            <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+        </div>
+    </div>
+    <div class="content flex-1 bg-gray-900 flex flex-col">
+        <div class="video-container flex-1 relative">
+            <video id="video-player" class="w-full h-full object-contain">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-overlay absolute inset-0 flex items-center justify-center">
+                <button id="video-play-pause-btn" class="text-white text-6xl opacity-0 transition-opacity duration-300 hover:opacity-100">▶️</button>
+            </div>
+        </div>
+        <div class="video-controls bg-gray-800 text-white p-4 space-y-2">
+            <div class="flex items-center space-x-4">
+                <button id="video-play-pause-btn-small" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">Play</button>
+                <input type="range" id="video-seek-bar" value="0" class="w-full accent-blue-500">
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <span id="video-current-time" class="text-sm">0:00</span>
+                    <span class="text-sm">/</span>
+                    <span id="video-duration" class="text-sm">0:00</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="video-mute-btn" class="text-white hover:text-blue-500">🔊</button>
+                    <input type="range" id="video-volume-bar" min="0" max="1" step="0.1" value="1" class="w-24 accent-blue-500">
+                    <button id="video-fullscreen-btn" class="text-white hover:text-blue-500">⛶</button>
+                </div>
+            </div>
+        </div>
+        <div class="file-input-container bg-gray-800 text-white p-4 border-t border-gray-700">
+            <label for="video-file-input" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded cursor-pointer">
+                Choose Video File
+            </label>
+            <input type="file" id="video-file-input" accept="video/*" class="hidden">
+            <span id="file-name" class="ml-4 text-sm"></span>
+        </div>
+    </div>
+    <div class="resize-handle"></div>
+</div>
+
+    <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="terminal-window" style="width: 800px; height: 600px; left: 200px; top: 100px;">
+        <div class="title-bar flex justify-between items-center p-2 cursor-move">
+            <span class="title px-2">Terminal</span>
+            <div class="flex space-x-2">
+                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+            </div>
+        </div>
+        <div class="content flex-1 p-2 bg-black text-white flex flex-col">
+            <div id="terminal-output" class="flex-1 overflow-y-auto p-2 font-mono text-sm"></div>
+            <div class="flex">
+                <span class="p-2">user@talkobrowser-os:~$</span>
+                <input id="terminal-input" type="text" class="w-full bg-black text-white p-2 outline-none" placeholder="Enter command...">
+            </div>
+        </div>
+        <div class="resize-handle"></div>
+    </div>
 
     <div class="taskbar fixed bottom-0 w-full h-14 flex items-center px-2 space-x-2">
         <button class="start-btn px-6 py-2 rounded-lg flex items-center text-xl font-bold">
