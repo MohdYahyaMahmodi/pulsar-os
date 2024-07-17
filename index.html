@@ -59,7 +59,7 @@
         <div id="loading-bar">
             <div id="loading-progress"></div>
         </div>
-        <div id="bios-prompt" class="blink">Press F12 to enter BIOS</div>
+        <div id="bios-prompt" class="blink">Press b to enter BIOS</div>
     </div>
 
     <script>
@@ -87,7 +87,7 @@
         }
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'F12' && canEnterBIOS) {
+            if (e.key === 'b' && canEnterBIOS) {
                 canEnterBIOS = false;
                 biosPrompt.classList.remove('blink');
                 biosPrompt.textContent = 'Entering BIOS...';

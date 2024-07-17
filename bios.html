@@ -311,7 +311,7 @@
 </table>
 
 <div class="highlight">
-Press F10 to save and exit.
+Press S to save and exit.
 Press ESC to discard changes and exit.
 </div>
 `
@@ -426,7 +426,7 @@ Press ESC to discard changes and exit.
                         }
                     }
                     break;
-                case 'F10':
+                case 's':
                     showPopup('Save changes and exit?', (response) => {
                         if (response.toLowerCase() === 'yes') {
                             console.log('Saving changes and exiting...');

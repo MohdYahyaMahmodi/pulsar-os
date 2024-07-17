@@ -234,11 +234,11 @@
     <div class="login-container">
         <div class="accounts">
             <div class="account" data-user="guest">
-                <img src="https://via.placeholder.com/40x40.png?text=G" alt="Guest" class="avatar">
+                <img src="gust.jpg?text=G" alt="Guest" class="avatar">
                 <div class="account-name">Guest</div>
             </div>
             <div class="account" data-user="admin">
-                <img src="https://via.placeholder.com/40x40.png?text=A" alt="Admin" class="avatar">
+                <img src="admin.webp?text=A" alt="Admin" class="avatar">
                 <div class="account-name">Admin</div>
             </div>
         </div>
@@ -287,13 +287,13 @@
         function updateLoginBox(user) {
             if (user === 'guest') {
                 loginBox.innerHTML = `
-                    <img src="https://preview.redd.it/gwqupsh46yn51.png?width=301&format=png&auto=webp&s=60efa3b8c4375c7589c929945a840c60c713c949" alt="Guest" class="avatar">
+                    <img src="gust.jpg" alt="Guest" class="avatar">
                     <h2>Guest</h2>
                     <button onclick="window.location.href='os.html'">Sign in</button>
                 `;
             } else if (user === 'admin') {
                 loginBox.innerHTML = `
-                    <img src="https://via.placeholder.com/100x100.png?text=Admin" alt="Admin" class="avatar">
+                    <img src="admin.webp?text=Admin" alt="Admin" class="avatar">
                     <h2>Admin</h2>
                     <form id="loginForm" class="login-form">
                         <div class="input-group">
@@ -302,9 +302,9 @@
                         <div class="input-group">
                             <input type="password" placeholder="Password" required>
                         </div>
-                        <button type="submit">Sign in</button>
+                        <button onclick="window.location.href='os.html' type="submit">Sign in</button>
                     </form>
-                `;
+            `;
                 document.getElementById('loginForm').addEventListener('submit', (e) => {
                     e.preventDefault();
                     // Here you would normally check the credentials
