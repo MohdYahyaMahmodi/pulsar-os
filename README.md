@@ -53,7 +53,7 @@ We appreciate your understanding and encourage you to report any issues or share
 
 ## Getting Started
 
-To run TalkoBrowser OS, simply navigate to our [official website](https://https://talkobrowser.netlify.app/) and launch the OS in your web browser. No installation or additional software is required.
+To run TalkoBrowser OS, simply navigate to our [official website](https://talkobrowser.netlify.app/) and launch the OS in your web browser. No installation or additional software is required.
 
 ## Usage
 
