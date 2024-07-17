@@ -42,18 +42,18 @@ We appreciate your understanding and encourage you to report any issues or share
 
 <table>
   <tr>
-    <td><img src="https://github.com/MohdYahyaMahmodi/talkobrowser/raw/main/bios" alt="BIOS Screen" width="400"/></td>
-    <td><img src="https://github.com/MohdYahyaMahmodi/talkobrowser/raw/main/account-login" alt="Login Screen" width="400"/></td>
+    <td><img src="https://raw.githubusercontent.com/NINJACLUBREAL/talkobrowser/main/bios.png" alt="BIOS Screen" width="400"/></td>
+    <td><img src="https://raw.githubusercontent.com/NINJACLUBREAL/talkobrowser/main/login.png" alt="Login Screen" width="400"/></td>
   </tr>
   <tr>
-    <td><img src="https://github.com/MohdYahyaMahmodi/talkobrowser/raw/main/os" alt="OS Desktop" width="400"/></td>
-    <td><img src="https://github.com/MohdYahyaMahmodi/talkobrowser/raw/main/cover" alt="Cover Image" width="400"/></td>
+    <td><img src="https://raw.githubusercontent.com/NINJACLUBREAL/talkobrowser/main/desktop.png" alt="OS Desktop" width="400"/></td>
+    <td><img src="https://raw.githubusercontent.com/NINJACLUBREAL/talkobrowser/main/time.png" alt="Cover Image" width="400"/></td>
   </tr>
 </table>
 
 ## Getting Started
 
-To run TalkoBrowser OS, simply navigate to our [official website](https://mohdyahyamahmodi.github.io/talkobrowser/) and launch the OS in your web browser. No installation or additional software is required.
+To run TalkoBrowser OS, simply navigate to our [official website](https://https://talkobrowser.netlify.app/) and launch the OS in your web browser. No installation or additional software is required.
 
 ## Usage
 
