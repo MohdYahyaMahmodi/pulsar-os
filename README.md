@@ -1,7 +1,8 @@
 # TalkoBrowser OS (Beta V1.03)
 how to make the Browser work on all sites:
 go to [!Get This Chrome Extension](https://chromewebstore.google.com/detail/requestly-intercept-modif/mdnleldcmiljblolnjhpnblkcekpdkpa)
-[!download this JSON file](https://drive.google.com/uc?export=download&id=1CsRfRQsdb53TjKjxLi5Yh0W7EsRabOfT)
+
+##[!download this JSON file](https://drive.google.com/uc?export=download&id=1CsRfRQsdb53TjKjxLi5Yh0W7EsRabOfT)
 
 [![Boot Screen](https://raw.githubusercontent.com/NINJACLUBREAL/talkobrowser/main/Screenshot%202024-07-17%202.23.02%20PM.png)
 TalkoBrowser OS is a revolutionary, fully functional browser-based operating system that brings the desktop experience to your web browser. Developed by Talkomatic, this innovative project offers a complete OS environment, including a boot-up sequence, BIOS, login screen, and a feature-rich OS interface.
