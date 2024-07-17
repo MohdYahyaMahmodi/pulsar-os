@@ -1,6 +1,6 @@
 # TalkoBrowser OS (Beta)
 
-[![Boot Screen](https://raw.githubusercontent.com/NINJACLUBREAL/talkobrowser/main/Screenshot%202024-07-17%202.23.02%20PM.png
+[![Boot Screen](https://raw.githubusercontent.com/NINJACLUBREAL/talkobrowser/main/Screenshot%202024-07-17%202.23.02%20PM.png)
 TalkoBrowser OS is a revolutionary, fully functional browser-based operating system that brings the desktop experience to your web browser. Developed by Talkomatic, this innovative project offers a complete OS environment, including a boot-up sequence, BIOS, login screen, and a feature-rich OS interface.
 
 [![Join our Discord](https://img.shields.io/discord/YOUR_DISCORD_SERVER_ID?color=7289DA&logo=discord&logoColor=white)](https://discord.gg/AY7Bk6zgze)
