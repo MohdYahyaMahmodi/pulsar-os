@@ -1,20 +1,22 @@
 # TalkoBrowser OS (Beta)
 
-![TalkoBrowser OS Logo](https://placeholder.com/wp-content/uploads/2018/10/placeholder.com-logo1.png)
+[![Boot Screen](https://github.com/MohdYahyaMahmodi/talkobrowser/raw/main/boot)](https://github.com/MohdYahyaMahmodi/talkobrowser/blob/main/boot)
+
+TalkoBrowser OS is a revolutionary, fully functional browser-based operating system that brings the desktop experience to your web browser. Developed by Talkomatic, this innovative project offers a complete OS environment, including a boot-up sequence, BIOS, login screen, and a feature-rich OS interface.
+
+[![Join our Discord](https://img.shields.io/discord/YOUR_DISCORD_SERVER_ID?color=7289DA&logo=discord&logoColor=white)](https://discord.gg/AY7Bk6zgze)
+[![Reddit Community](https://img.shields.io/reddit/subreddit-subscribers/talkomatic?style=social)](https://www.reddit.com/r/talkomatic/)
 
 ## Table of Contents
-- [Introduction](#introduction)
 - [Beta Release Notice](#beta-release-notice)
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
 - [Applications](#applications)
+- [Community](#community)
 - [Contributing](#contributing)
 - [License](#license)
-
-## Introduction
-
-TalkoBrowser OS is a fully functional, browser-based operating system that brings the desktop experience to your web browser. Developed by Talkomatic, this innovative project offers a complete OS environment, including a boot-up sequence, BIOS, login screen, and a feature-rich OS interface. We're excited to present this beta version to the community for testing and feedback.
 
 ## Beta Release Notice
 
@@ -29,17 +31,30 @@ We appreciate your understanding and encourage you to report any issues or share
 
 ## Features
 
-- **Full OS Experience**: Experience a complete operating system lifecycle, from boot-up to shutdown.
-- **BIOS Interface**: Explore and modify system settings through a realistic BIOS interface.
-- **Secure Login**: Protect your virtual environment with a user authentication system.
-- **Intuitive Desktop**: Navigate through a user-friendly desktop environment.
-- **Multiple Applications**: Access a variety of built-in applications for productivity and entertainment.
-- **Web Browser**: Surf the internet within the OS environment.
-- **File Management**: Organize your files with the built-in file explorer.
+- **🖥️ Full OS Experience**: Experience a complete operating system lifecycle, from boot-up to shutdown.
+- **⚙️ BIOS Interface**: Explore and modify system settings through a realistic BIOS interface.
+- **🔒 Secure Login**: Protect your virtual environment with a user authentication system.
+- **🖱️ Intuitive Desktop**: Navigate through a user-friendly desktop environment.
+- **📊 Multiple Applications**: Access a variety of built-in applications for productivity and entertainment.
+- **🌐 Web Browser**: Surf the internet within the OS environment.
+- **📁 File Management**: Organize your files with the built-in file explorer.
+
+## Screenshots
+
+<table>
+  <tr>
+    <td><img src="https://github.com/MohdYahyaMahmodi/talkobrowser/raw/main/bios" alt="BIOS Screen" width="400"/></td>
+    <td><img src="https://github.com/MohdYahyaMahmodi/talkobrowser/raw/main/account-login" alt="Login Screen" width="400"/></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/MohdYahyaMahmodi/talkobrowser/raw/main/os" alt="OS Desktop" width="400"/></td>
+    <td><img src="https://github.com/MohdYahyaMahmodi/talkobrowser/raw/main/cover" alt="Cover Image" width="400"/></td>
+  </tr>
+</table>
 
 ## Getting Started
 
-To run TalkoBrowser OS, simply navigate to our [official website](#) and launch the OS in your web browser. No installation or additional software is required.
+To run TalkoBrowser OS, simply navigate to our [official website](https://mohdyahyamahmodi.github.io/talkobrowser/) and launch the OS in your web browser. No installation or additional software is required.
 
 ## Usage
 
@@ -52,15 +67,22 @@ To run TalkoBrowser OS, simply navigate to our [official website](#) and launch 
 
 TalkoBrowser OS comes with a suite of pre-installed applications:
 
-- **Web Browser**: Surf the internet within the OS environment.
-- **Notepad**: Create and edit text documents.
-- **Calculator**: Perform basic and advanced calculations.
-- **Paint**: Express your creativity with a simple drawing application.
-- **Music Player**: Enjoy your favorite tunes.
-- **File Explorer**: Manage your files and folders.
-- **Clock**: Keep track of time and set alarms.
-- **Video Player**: Watch videos within the OS.
-- **Terminal**: Access command-line interface for advanced users.
+- **🌐 Web Browser**: Surf the internet within the OS environment.
+- **📝 Notepad**: Create and edit text documents.
+- **🧮 Calculator**: Perform basic and advanced calculations.
+- **🎨 Paint**: Express your creativity with a simple drawing application.
+- **🎵 Music Player**: Enjoy your favorite tunes.
+- **📁 File Explorer**: Manage your files and folders.
+- **⏰ Clock**: Keep track of time and set alarms.
+- **🎬 Video Player**: Watch videos within the OS.
+- **💻 Terminal**: Access command-line interface for advanced users.
+
+## Community
+
+Join our growing community to stay updated, share your experiences, and connect with other TalkoBrowser OS enthusiasts:
+
+- [Join our Discord](https://discord.gg/AY7Bk6zgze)
+- [Reddit Community](https://www.reddit.com/r/talkomatic/)
 
 ## Contributing
 
@@ -80,5 +102,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ---
 
-For more information, visit our [official website](#) or contact us at [support@talkobrowseros.com](mailto:support@talkobrowseros.com).
+For more information, visit our [official website](https://mohdyahyamahmodi.github.io/talkobrowser/) or contact us at [support@talkomatic.co](mailto:support@talkomatic.co).
 
