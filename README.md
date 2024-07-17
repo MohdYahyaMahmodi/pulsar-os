@@ -103,5 +103,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ---
 
-For more information, visit our [official website](https://mohdyahyamahmodi.github.io/talkobrowser/) or contact us at [support@talkomatic.co](mailto:support@talkomatic.co).
+For more information, visit our [official website](https://talkobrowser.netlify.app/) or contact us at [support@talkomatic.co](mailto:bee411769@gmail.com).
 
