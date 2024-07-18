@@ -1,8 +1,8 @@
-# TalkoBrowser OS (Beta)
+# Pulsar OS (Beta)
 
-[![Boot Screen](https://github.com/MohdYahyaMahmodi/talkobrowser/raw/main/boot)](https://github.com/MohdYahyaMahmodi/talkobrowser/blob/main/boot)
+[![Boot Screen](https://github.com/MohdYahyaMahmodi/pulsar-os/raw/main/boot)](https://github.com/MohdYahyaMahmodi/pulsar-os/blob/main/boot)
 
-TalkoBrowser OS is a revolutionary, fully functional browser-based operating system that brings the desktop experience to your web browser. Developed by Talkomatic, this innovative project offers a complete OS environment, including a boot-up sequence, BIOS, login screen, and a feature-rich OS interface.
+Pulsar OS is a revolutionary, fully functional browser-based operating system that brings the desktop experience to your web browser. Developed by Talkomatic, this innovative project offers a complete OS environment, including a boot-up sequence, BIOS, login screen, and a feature-rich OS interface.
 
 [![Join our Discord](https://img.shields.io/discord/YOUR_DISCORD_SERVER_ID?color=7289DA&logo=discord&logoColor=white)](https://discord.gg/AY7Bk6zgze)
 [![Reddit Community](https://img.shields.io/reddit/subreddit-subscribers/talkomatic?style=social)](https://www.reddit.com/r/talkomatic/)
@@ -20,14 +20,14 @@ TalkoBrowser OS is a revolutionary, fully functional browser-based operating sys
 
 ## Beta Release Notice
 
-**Important:** TalkoBrowser OS is currently in beta. While we've worked hard to create a stable and feature-rich environment, please be aware that:
+**Important:** Pulsar OS is currently in beta. While we've worked hard to create a stable and feature-rich environment, please be aware that:
 
 - Some features may not work as expected.
 - You may encounter bugs or unexpected behavior.
 - Performance may vary across different browsers and devices.
 - Features and user interface elements may change in future releases.
 
-We appreciate your understanding and encourage you to report any issues or share your feedback to help us improve TalkoBrowser OS.
+We appreciate your understanding and encourage you to report any issues or share your feedback to help us improve Pulsar OS.
 
 ## Features
 
@@ -43,18 +43,18 @@ We appreciate your understanding and encourage you to report any issues or share
 
 <table>
   <tr>
-    <td><img src="https://github.com/MohdYahyaMahmodi/talkobrowser/raw/main/bios" alt="BIOS Screen" width="400"/></td>
-    <td><img src="https://github.com/MohdYahyaMahmodi/talkobrowser/raw/main/account-login" alt="Login Screen" width="400"/></td>
+    <td><img src="https://github.com/MohdYahyaMahmodi/pulsar-os/raw/main/bios" alt="BIOS Screen" width="400"/></td>
+    <td><img src="https://github.com/MohdYahyaMahmodi/pulsar-os/raw/main/account-login" alt="Login Screen" width="400"/></td>
   </tr>
   <tr>
-    <td><img src="https://github.com/MohdYahyaMahmodi/talkobrowser/raw/main/os" alt="OS Desktop" width="400"/></td>
-    <td><img src="https://github.com/MohdYahyaMahmodi/talkobrowser/raw/main/cover" alt="Cover Image" width="400"/></td>
+    <td><img src="https://github.com/MohdYahyaMahmodi/pulsar-os/raw/main/os" alt="OS Desktop" width="400"/></td>
+    <td><img src="https://github.com/MohdYahyaMahmodi/pulsar-os/raw/main/cover" alt="Cover Image" width="400"/></td>
   </tr>
 </table>
 
 ## Getting Started
 
-To run TalkoBrowser OS, simply navigate to our [official website](https://mohdyahyamahmodi.github.io/talkobrowser/) and launch the OS in your web browser. No installation or additional software is required.
+To run Pulsar OS, simply navigate to our [official website](https://mohdyahyamahmodi.github.io/pulsar-os/) and launch the OS in your web browser. No installation or additional software is required.
 
 ## Usage
 
@@ -65,7 +65,7 @@ To run TalkoBrowser OS, simply navigate to our [official website](https://mohdya
 
 ## Applications
 
-TalkoBrowser OS comes with a suite of pre-installed applications:
+Pulsar OS comes with a suite of pre-installed applications:
 
 - **🌐 Web Browser**: Surf the internet within the OS environment.
 - **📝 Notepad**: Create and edit text documents.
@@ -79,18 +79,18 @@ TalkoBrowser OS comes with a suite of pre-installed applications:
 
 ## Community
 
-Join our growing community to stay updated, share your experiences, and connect with other TalkoBrowser OS enthusiasts:
+Join our growing community to stay updated, share your experiences, and connect with other Pulsar OS enthusiasts:
 
 - [Join our Discord](https://discord.gg/AY7Bk6zgze)
 - [Reddit Community](https://www.reddit.com/r/talkomatic/)
 
 ## Contributing
 
-We welcome contributions to the TalkoBrowser OS project! Whether you're fixing bugs, adding new features, or improving documentation, your help is appreciated. Please read our [Contributing Guidelines](CONTRIBUTING.md) for more information on how to get started.
+We welcome contributions to the Pulsar OS project! Whether you're fixing bugs, adding new features, or improving documentation, your help is appreciated. Please read our [Contributing Guidelines](CONTRIBUTING.md) for more information on how to get started.
 
 ## License
 
-TalkoBrowser OS is open-source software licensed under the MIT License.
+Pulsar OS is open-source software licensed under the MIT License.
 
 Copyright (c) 2024 Mohd Mohd Mahmodi
 
@@ -102,5 +102,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ---
 
-For more information, visit our [official website](https://mohdyahyamahmodi.github.io/talkobrowser/) or contact us at [support@talkomatic.co](mailto:support@talkomatic.co).
+For more information, visit our [official website](https://mohdyahyamahmodi.github.io/pulsar-os/) or contact us at [support@talkomatic.co](mailto:support@talkomatic.co).
 
