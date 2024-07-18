@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TalkoBrowser OS</title>
+    <title>WebOS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -387,12 +387,12 @@ body {
 
     <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="browser-window" style="width: 800px; height: 600px; left: 50px; top: 50px;">
         <div class="title-bar flex justify-between items-center p-2 cursor-move">
-            <span class="title px-2">TalkoBrowser</span>
+            <span class="title px-2">WebOS Browser!</span>
             <div class="flex space-x-2">
                 <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
                 <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
                 <button class="window-btn px-3 py-1 rounded close-btn">X</button>
-            </div>
+            </div> 
         </div>
         <div class="browser-toolbar flex items-center p-2 space-x-2">
             <button class="browser-btn px-3 py-1 rounded" id="back-btn">←</button>
@@ -405,7 +405,7 @@ body {
         <div class="content flex-1 overflow-hidden bg-white">
             <iframe id="browser-frame" src="about:blank"></iframe>
             <div id="custom-homepage" class="w-full h-full flex flex-col items-center justify-center p-8">
-                <h1 class="text-4xl font-bold mb-8">Welcome to TalkoBrowser</h1>
+                <h1 class="text-4xl font-bold mb-8">Welcome to WebOS Browser</h1>
                 <div class="w-full max-w-md">
                     <input type="text" id="home-search" class="w-full px-4 py-2 rounded-full text-lg" placeholder="Search or enter URL">
                 </div>
@@ -671,7 +671,7 @@ body {
         <div class="content flex-1 p-2 bg-black text-white flex flex-col">
             <div id="terminal-output" class="flex-1 overflow-y-auto p-2 font-mono text-sm"></div>
             <div class="flex">
-                <span class="p-2">user@talkobrowser-os:~$</span>
+                <span class="p-2">user@WebOS:~$</span>
                 <input id="terminal-input" type="text" class="w-full bg-black text-white p-2 outline-none" placeholder="Enter command...">
             </div>
         </div>
