@@ -4,166 +4,254 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TalkoBrowser BIOS</title>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'VT323', monospace;
-            background-color: #000;
-            color: #fff;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-size: 24px;
+/* Import font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 
-            cursor: none;
-        }
+/* Custom Scrollbar for all elements */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #333 #0a0a0a;
+}
 
-        #bios-screen {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            overflow-y: auto;
-        }
+*::-webkit-scrollbar {
+    width: 8px;
+}
 
-        #header {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid #fff;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
+*::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
 
-        #tabs {
-            display: flex;
-        }
+*::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 4px;
+    border: 2px solid #0a0a0a;
+}
 
-        .tab {
-            margin-right: 20px;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
+*::-webkit-scrollbar-thumb:hover {
+    background-color: #444;
+}
 
-        .tab.active {
-            background-color: #fff;
-            color: #000;
-        }
+/* Base styles */
+html, body {
+    font-family: 'Roboto Mono', monospace;
+    background-color: #0a0a0a;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    overflow-x: hidden;
+}
 
-        #content {
-            white-space: pre-wrap;
-        }
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 20px;
-        }
+#bios-screen {
+    flex: 1;
+    padding: 20px;
+    padding-bottom: 140px; /* Increased to accommodate controls and footer */
+    box-sizing: border-box;
+    overflow-y: auto;
+}
 
-        th, td {
-            border: 1px solid #fff;
-            padding: 5px 10px;
-            text-align: left;
-        }
+#header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #3a3a3a;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
 
-        th {
-            background-color: #333;
-        }
+#tabs {
+    display: flex;
+    flex-wrap: wrap;
+}
 
-        .highlight {
-            color: #ff0;
-        }
+.tab {
+    margin-right: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
 
-        #footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #000;
-            border-top: 1px solid #fff;
-            padding: 10px;
-            text-align: center;
-        }
+.tab.active {
+    background-color: #4a4a4a;
+    color: #ffffff;
+}
 
-        .selectable {
-            cursor: pointer;
-        }
+#content {
+    white-space: pre-wrap;
+}
 
-        .selectable:hover {
-            background-color: #333;
-        }
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #3a3a3a;
+    border-radius: 5px;
+    overflow: hidden;
+}
 
-        #popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #111;
-            border: 2px solid #fff;
-            padding: 30px;
-            z-index: 1000;
-            width: 400px;
-            text-align: center;
-        }
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #3a3a3a;
+}
 
-        #popup input {
-            background-color: #000;
-            color: #fff;
-            border: 1px solid #fff;
-            padding: 10px;
-            font-family: 'VT323', monospace;
-            font-size: 20px;
-            width: calc(100% - 24px);
-        }
+th {
+    background-color: #2a2a2a;
+    font-weight: bold;
+}
 
-        #popup button {
-            background-color: #333;
-            color: #fff;
-            border: 1px solid #fff;
-            padding: 10px 20px;
-            margin: 10px 5px;
-            font-family: 'VT323', monospace;
-            font-size: 20px;
-            cursor: pointer;
-        }
+tr:last-child td {
+    border-bottom: none;
+}
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
+.highlight {
+    color: #4a9eff;
+}
 
-        .blink {
-            animation: blink 1s step-start infinite;
-        }
+#footer {
+    background-color: #1a1a1a;
+    border-top: 1px solid #3a3a3a;
+    padding: 5px;
+    text-align: center;
+    font-size: 12px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
 
-        @keyframes flicker {
-            0% { opacity: 0.8; }
-            5% { opacity: 0.9; }
-            10% { opacity: 0.8; }
-            15% { opacity: 1; }
-            20% { opacity: 0.9; }
-            25% { opacity: 1; }
-            30% { opacity: 0.9; }
-            35% { opacity: 1; }
-            40% { opacity: 0.9; }
-            45% { opacity: 1; }
-            50% { opacity: 0.8; }
-            55% { opacity: 1; }
-            60% { opacity: 0.9; }
-            65% { opacity: 1; }
-            70% { opacity: 0.9; }
-            75% { opacity: 1; }
-            80% { opacity: 0.8; }
-            85% { opacity: 0.9; }
-            90% { opacity: 1; }
-            95% { opacity: 0.9; }
-            100% { opacity: 1; }
-        }
+.selectable {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.selectable:hover {
+    background-color: #2a2a2a;
+}
+
+#popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1a1a1a;
+    border: 2px solid #3a3a3a;
+    border-radius: 5px;
+    padding: 20px;
+    z-index: 1000;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+#popup input {
+    background-color: #0a0a0a;
+    color: #e0e0e0;
+    border: 1px solid #3a3a3a;
+    padding: 10px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+    width: calc(100% - 22px);
+    margin-bottom: 10px;
+    border-radius: 3px;
+}
+
+#popup button {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #3a3a3a;
+    padding: 10px 20px;
+    margin: 5px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 3px;
+}
+
+#popup button:hover {
+    background-color: #3a3a3a;
+}
+
+#controls {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #1a1a1a;
+    position: fixed;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+}
+
+.control-button {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #3a3a3a;
+    padding: 8px 12px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 3px;
+    flex: 1;
+    margin: 0 2px;
+}
+
+.control-button:active {
+    background-color: #4a4a4a;
+}
+
+#control-left, #control-right {
+    flex: 0.5;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    #bios-screen {
+        padding: 10px;
+        padding-bottom: 120px;
+    }
+
+    #header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #tabs {
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .tab {
+        margin: 5px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 8px 5px;
+    }
+
+    #footer {
+        font-size: 10px;
+    }
+}
     </style>
 </head>
 <body>
@@ -180,15 +268,24 @@
             </div>
         </div>
         <div id="content"></div>
-        <div id="footer">
-            ←→: Select Tab | ↑↓: Navigate | Enter: Change Value | +/-: Adjust Value | F10: Save & Exit | ESC: Exit
-        </div>
     </div>
     <div id="popup">
         <input type="text" id="popup-input">
         <br>
         <button id="popup-save">Save</button>
         <button id="popup-cancel">Cancel</button>
+    </div>
+    <div id="controls">
+        <button class="control-button" id="control-left">←</button>
+        <button class="control-button" id="control-up">↑</button>
+        <button class="control-button" id="control-down">↓</button>
+        <button class="control-button" id="control-enter">Enter</button>
+        <button class="control-button" id="control-f10">F10</button>
+        <button class="control-button" id="control-esc">ESC</button>
+        <button class="control-button" id="control-right">→</button>
+    </div>
+    <div id="footer">
+        ←→: Select Tab | ↑↓: Navigate | Enter: Change Value | +/-: Adjust Value | F10: Save & Exit | ESC: Exit
     </div>
 
     <script>
@@ -203,111 +300,122 @@
         let isPopupOpen = false;
 
         const tabContents = {
-            main: `
+    main: `
 <table>
     <tr><th colspan="2">System Information</th></tr>
-    <tr><td>CPU</td><td>TalkoTech X86-64 Quad-Core {cpuSpeed} MHz</td></tr>
-    <tr><td>Memory</td><td>{memorySize} MB</td></tr>
-    <tr><td>BIOS Version</td><td>4.0.1</td></tr>
-    <tr><td>BIOS Date</td><td>05/15/2024</td></tr>
+    <tr><td>CPU</td><td>AMD Ryzen 9 7950X3D 16-Core {cpuSpeed} MHz</td></tr>
+    <tr><td>Memory</td><td>{memorySize} GB DDR5-6000</td></tr>
+    <tr><td>GPU</td><td>NVIDIA GeForce RTX 4090 24GB GDDR6X</td></tr>
+    <tr><td>BIOS Version</td><td>5.2.1</td></tr>
+    <tr><td>BIOS Date</td><td>07/15/2024</td></tr>
     <tr><td>System Time</td><td class="selectable">{systemTime}</td></tr>
     <tr><td>System Date</td><td class="selectable">{systemDate}</td></tr>
 </table>
 
 <table>
     <tr><th colspan="2">Storage Devices</th></tr>
-    <tr><td>SATA 0</td><td>TalkoTech SSD-512 (512 GB)</td></tr>
-    <tr><td>SATA 1</td><td>TalkoTech HDD-2TB (2 TB)</td></tr>
-    <tr><td>M.2 Slot</td><td>TalkoTech NVMe-1TB (1 TB)</td></tr>
-    <tr><td>Optical Drive</td><td>TalkoTech ODD-RW</td></tr>
+    <tr><td>NVMe 1</td><td>Samsung 990 PRO 2TB PCIe 4.0</td></tr>
+    <tr><td>NVMe 2</td><td>Western Digital Black SN850X 4TB PCIe 4.0</td></tr>
+    <tr><td>SATA 1</td><td>Seagate IronWolf Pro 20TB (20 TB)</td></tr>
+    <tr><td>Optical Drive</td><td>ASUS BW-16D1X-U Blu-ray Writer</td></tr>
 </table>
 `,
-            advanced: `
+    advanced: `
 <table>
     <tr><th colspan="2">CPU Configuration</th></tr>
-    <tr><td>Hyper-Threading</td><td class="selectable">Enabled</td></tr>
-    <tr><td>VT-x</td><td class="selectable">Enabled</td></tr>
+    <tr><td>Simultaneous Multithreading (SMT)</td><td class="selectable">Enabled</td></tr>
+    <tr><td>AMD-V</td><td class="selectable">Enabled</td></tr>
     <tr><td>CPU Fan Speed</td><td>{cpuFanSpeed} RPM</td></tr>
-    <tr><td>Turbo Boost</td><td class="selectable">Enabled</td></tr>
-    <tr><td>C-States</td><td class="selectable">Enabled</td></tr>
+    <tr><td>Precision Boost Overdrive</td><td class="selectable">Enabled</td></tr>
+    <tr><td>Core Performance Boost</td><td class="selectable">Enabled</td></tr>
 </table>
 
 <table>
     <tr><th colspan="2">Onboard Devices</th></tr>
-    <tr><td>LAN Controller</td><td class="selectable">Enabled</td></tr>
-    <tr><td>Wi-Fi Controller</td><td class="selectable">Enabled</td></tr>
-    <tr><td>Bluetooth</td><td class="selectable">Enabled</td></tr>
-    <tr><td>Audio Controller</td><td class="selectable">Enabled</td></tr>
-    <tr><td>SATA Mode</td><td class="selectable">AHCI</td></tr>
+    <tr><td>LAN Controller</td><td class="selectable">Enabled (2.5 Gbps)</td></tr>
+    <tr><td>Wi-Fi 6E Controller</td><td class="selectable">Enabled</td></tr>
+    <tr><td>Bluetooth 5.3</td><td class="selectable">Enabled</td></tr>
+    <tr><td>Audio Controller</td><td class="selectable">Enabled (Realtek ALC4080)</td></tr>
+    <tr><td>NVMe RAID Mode</td><td class="selectable">Disabled</td></tr>
 </table>
 
 <table>
     <tr><th colspan="2">USB Configuration</th></tr>
-    <tr><td>USB 3.0 Support</td><td class="selectable">Enabled</td></tr>
-    <tr><td>XHCI Hand-off</td><td class="selectable">Enabled</td></tr>
+    <tr><td>USB 3.2 Gen 2x2 Support</td><td class="selectable">Enabled</td></tr>
+    <tr><td>USB4 Support</td><td class="selectable">Enabled</td></tr>
     <tr><td>Legacy USB Support</td><td class="selectable">Enabled</td></tr>
 </table>
 `,
-            power: `
+    power: `
 <table>
     <tr><th colspan="2">Power Management</th></tr>
     <tr><td>ACPI Sleep State</td><td class="selectable">S3 (Suspend to RAM)</td></tr>
-    <tr><td>Power On by PCI-E</td><td class="selectable">Disabled</td></tr>
+    <tr><td>ErP Ready</td><td class="selectable">Disabled</td></tr>
+    <tr><td>Power On by PCIe</td><td class="selectable">Disabled</td></tr>
     <tr><td>Power On by RTC</td><td class="selectable">Disabled</td></tr>
     <tr><td>Restore on AC Power Loss</td><td class="selectable">Power Off</td></tr>
 </table>
 
 <table>
     <tr><th colspan="2">CPU Power Management</th></tr>
-    <tr><td>Intel SpeedStep</td><td class="selectable">Enabled</td></tr>
-    <tr><td>CPU C-states</td><td class="selectable">Enabled</td></tr>
-    <tr><td>Turbo Mode</td><td class="selectable">Enabled</td></tr>
+    <tr><td>AMD Cool'n'Quiet</td><td class="selectable">Enabled</td></tr>
+    <tr><td>C-States</td><td class="selectable">Enabled</td></tr>
+    <tr><td>Package Power Limit</td><td class="selectable">142W</td></tr>
 </table>
 `,
-            boot: `
+    boot: `
 <table>
     <tr><th colspan="2">Boot Device Priority</th></tr>
-    <tr><td>1st Boot Device</td><td class="selectable">TalkoTech SSD-512</td></tr>
-    <tr><td>2nd Boot Device</td><td class="selectable">TalkoTech HDD-2TB</td></tr>
-    <tr><td>3rd Boot Device</td><td class="selectable">TalkoTech ODD-RW</td></tr>
-    <tr><td>4th Boot Device</td><td class="selectable">USB Device</td></tr>
-    <tr><td>5th Boot Device</td><td class="selectable">Network Boot</td></tr>
+    <tr><td>1st Boot Device</td><td class="selectable">Samsung 990 PRO 2TB</td></tr>
+    <tr><td>2nd Boot Device</td><td class="selectable">Western Digital Black SN850X 4TB</td></tr>
+    <tr><td>3rd Boot Device</td><td class="selectable">Seagate IronWolf Pro 20TB</td></tr>
+    <tr><td>4th Boot Device</td><td class="selectable">ASUS BW-16D1X-U</td></tr>
+    <tr><td>5th Boot Device</td><td class="selectable">USB Device</td></tr>
+    <tr><td>6th Boot Device</td><td class="selectable">Network Boot</td></tr>
 </table>
 
 <table>
     <tr><th colspan="2">Boot Settings</th></tr>
-    <tr><td>Quick Boot</td><td class="selectable">Enabled</td></tr>
-    <tr><td>Boot Logo</td><td class="selectable">Enabled</td></tr>
-    <tr><td>Boot Up NumLock</td><td class="selectable">On</td></tr>
+    <tr><td>Fast Boot</td><td class="selectable">Enabled</td></tr>
+    <tr><td>Boot Logo Display</td><td class="selectable">Enabled</td></tr>
+    <tr><td>Boot up NumLock State</td><td class="selectable">On</td></tr>
     <tr><td>Boot Mode</td><td class="selectable">UEFI</td></tr>
-    <tr><td>CSM Support</td><td class="selectable">Disabled</td></tr>
+    <tr><td>CSM (Compatibility Support Module)</td><td class="selectable">Disabled</td></tr>
+    <tr><td>Secure Boot</td><td class="selectable">Enabled</td></tr>
 </table>
 `,
-            security: `
+    security: `
 <table>
     <tr><th colspan="2">Security Settings</th></tr>
-    <tr><td>Supervisor Password</td><td class="selectable">Not Set</td></tr>
+    <tr><td>Administrator Password</td><td class="selectable">Not Set</td></tr>
     <tr><td>User Password</td><td class="selectable">Not Set</td></tr>
-    <tr><td>HDD Password</td><td class="selectable">Not Set</td></tr>
-    <tr><td>TPM Device</td><td>Present</td></tr>
+    <tr><td>NVMe Password</td><td class="selectable">Not Set</td></tr>
+    <tr><td>TPM Device</td><td>Present (TPM 2.0)</td></tr>
     <tr><td>TPM State</td><td class="selectable">Enabled</td></tr>
+    <tr><td>AMD fTPM</td><td class="selectable">Enabled</td></tr>
 </table>
 
 <table>
     <tr><th colspan="2">Secure Boot</th></tr>
-    <tr><td>Secure Boot</td><td class="selectable">Disabled</td></tr>
+    <tr><td>Secure Boot</td><td class="selectable">Enabled</td></tr>
     <tr><td>Secure Boot Mode</td><td class="selectable">Standard</td></tr>
     <tr><td>Secure Boot Key Management</td><td class="selectable">Enter ></td></tr>
 </table>
+
+<table>
+    <tr><th colspan="2">AMD PSP fTPM</th></tr>
+    <tr><td>AMD CPU fTPM</td><td class="selectable">Enabled</td></tr>
+    <tr><td>Clear fTPM</td><td class="selectable">Enter ></td></tr>
+</table>
 `,
-            exit: `
+    exit: `
 <table>
     <tr><th>Exit Options</th></tr>
     <tr><td class="selectable">Save Changes and Reset</td></tr>
     <tr><td class="selectable">Discard Changes and Exit</td></tr>
-    <tr><td class="selectable">Load Setup Defaults</td></tr>
-    <tr><td class="selectable">Save as User Defaults</td></tr>
-    <tr><td class="selectable">Restore User Defaults</td></tr>
+    <tr><td class="selectable">Load Optimized Defaults</td></tr>
+    <tr><td class="selectable">Save as User Profile</td></tr>
+    <tr><td class="selectable">Load User Profile</td></tr>
 </table>
 
 <div class="highlight">
@@ -315,13 +423,15 @@ Press F10 to save and exit.
 Press ESC to discard changes and exit.
 </div>
 `
-        };
+};
 
         function updateContent() {
             const activeTab = document.querySelector('.tab.active');
             content.innerHTML = tabContents[activeTab.dataset.tab];
             selectedRow = -1;
             updateSelectedRow();
+            makeRowsSelectable();
+            replaceValues();
         }
 
         function setActiveTab(index) {
@@ -340,6 +450,7 @@ Press ESC to discard changes and exit.
             rows.forEach((row, index) => {
                 if (index === selectedRow) {
                     row.style.backgroundColor = '#333';
+                    row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } else {
                     row.style.backgroundColor = '';
                 }
@@ -367,17 +478,19 @@ Press ESC to discard changes and exit.
             popupCancel.onclick = cancel;
 
             popupInput.onkeydown = function(e) {
-                e.stopPropagation(); // Prevent event bubbling
+                e.stopPropagation();
                 if (e.key === 'Enter') {
                     save();
                 } else if (e.key === 'Escape') {
-                    window.location.href = 'index.html';
+                    cancel();
                 }
             };
         }
 
-        document.addEventListener('keydown', (e) => {
-            if (isPopupOpen) return; // Ignore keyboard events when popup is open
+        function handleKeyEvent(e) {
+            if (isPopupOpen) return;
+
+            e.preventDefault(); // Prevent default scrolling behavior
 
             const rows = content.querySelectorAll('tr');
             switch(e.key) {
@@ -396,50 +509,69 @@ Press ESC to discard changes and exit.
                     updateSelectedRow();
                     break;
                 case 'Enter':
-                    if (selectedRow >= 0) {
-                        const selectedCell = rows[selectedRow].querySelector('.selectable');
-                        if (selectedCell) {
-                            const currentValue = selectedCell.textContent;
-                            if (currentValue === 'Enabled' || currentValue === 'Disabled') {
-                                selectedCell.textContent = currentValue === 'Enabled' ? 'Disabled' : 'Enabled';
-                            } else {
-                                showPopup(currentValue, (newValue) => {
-                                    selectedCell.textContent = newValue;
-                                });
-                            }
-                        }
-                    }
+                    handleEnterKey();
                     break;
                 case '+':
                 case '-':
-                    if (selectedRow >= 0) {
-                        const selectedCell = rows[selectedRow].querySelector('.selectable');
-                        if (selectedCell) {
-                            let value = selectedCell.textContent;
-                            if (value === 'Enabled' || value === 'Disabled') {
-                                selectedCell.textContent = value === 'Enabled' ? 'Disabled' : 'Enabled';
-                            } else if (!isNaN(value)) {
-                                value = parseInt(value);
-                                value += e.key === '+' ? 1 : -1;
-                                selectedCell.textContent = value;
-                            }
-                        }
-                    }
+                    handlePlusMinusKey(e.key);
                     break;
                 case 'F10':
-                    showPopup('Save changes and exit?', (response) => {
-                        if (response.toLowerCase() === 'yes') {
-                            console.log('Saving changes and exiting...');
-                        }
-                    });
+                    handleF10Key();
                     break;
                 case 'Escape':
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    });
+                    handleEscapeKey();
                     break;
             }
-        });
+        }
+
+        function handleEnterKey() {
+            const rows = content.querySelectorAll('tr');
+            if (selectedRow >= 0) {
+                const selectedCell = rows[selectedRow].querySelector('.selectable');
+                if (selectedCell) {
+                    const currentValue = selectedCell.textContent;
+                    if (currentValue === 'Enabled' || currentValue === 'Disabled') {
+                        selectedCell.textContent = currentValue === 'Enabled' ? 'Disabled' : 'Enabled';
+                    } else {
+                        showPopup(currentValue, (newValue) => {
+                            selectedCell.textContent = newValue;
+                        });
+                    }
+                }
+            }
+        }
+
+        function handlePlusMinusKey(key) {
+            const rows = content.querySelectorAll('tr');
+            if (selectedRow >= 0) {
+                const selectedCell = rows[selectedRow].querySelector('.selectable');
+                if (selectedCell) {
+                    let value = selectedCell.textContent;
+                    if (value === 'Enabled' || value === 'Disabled') {
+                        selectedCell.textContent = value === 'Enabled' ? 'Disabled' : 'Enabled';
+                    } else if (!isNaN(value)) {
+                        value = parseInt(value);
+                        value += key === '+' ? 1 : -1;
+                        selectedCell.textContent = value;
+                    }
+                }
+            }
+        }
+
+        function handleF10Key() {
+            showPopup('Save changes and exit?', (response) => {
+                if (response.toLowerCase() === 'yes') {
+                    console.log('Saving changes and exiting...');
+                    window.location.href = 'index.html';
+                }
+            });
+        }
+
+        function handleEscapeKey() {
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('keydown', handleKeyEvent);
 
         function generateValue(placeholder) {
             switch (placeholder) {
@@ -464,25 +596,48 @@ Press ESC to discard changes and exit.
             });
         }
 
-        updateContent();
-        replaceValues();
-
-        // Add custom cursor
-        const cursor = document.createElement('div');
-        cursor.style.position = 'fixed';
-        cursor.style.width = '20px';
-        cursor.style.height = '30px';
-        cursor.style.backgroundColor = '#fff';
-        cursor.style.zIndex = '9999';
-        cursor.style.pointerEvents = 'none';
-        document.body.appendChild(cursor);
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
+        function setupControls() {
+    const controlButtons = document.querySelectorAll('.control-button');
+    controlButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const key = button.textContent;
+            switch (key) {
+                case '←':
+                    handleKeyEvent({ key: 'ArrowLeft', preventDefault: () => {} });
+                    break;
+                case '→':
+                    handleKeyEvent({ key: 'ArrowRight', preventDefault: () => {} });
+                    break;
+                case '↑':
+                    handleKeyEvent({ key: 'ArrowUp', preventDefault: () => {} });
+                    break;
+                case '↓':
+                    handleKeyEvent({ key: 'ArrowDown', preventDefault: () => {} });
+                    break;
+                case 'ESC':
+                    handleEscapeKey();
+                    break;
+                case 'F10':
+                    handleF10Key();
+                    break;
+                default:
+                    handleKeyEvent({ key: key, preventDefault: () => {} });
+            }
         });
+    });
+}
 
-        // Simulate real-time updates
+        function makeRowsSelectable() {
+            const rows = content.querySelectorAll('tr');
+            rows.forEach((row, index) => {
+                row.addEventListener('click', () => {
+                    selectedRow = index;
+                    updateSelectedRow();
+                });
+            });
+        }
+
         setInterval(() => {
             document.querySelectorAll('td').forEach(td => {
                 if (td.textContent.includes('RPM')) {
@@ -491,6 +646,9 @@ Press ESC to discard changes and exit.
             });
             replaceValues();
         }, 5000);
+
+        updateContent();
+        setupControls();
     </script>
 </body>
 </html>

@@ -3,107 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TalkoBrowser Boot</title>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <title>Pulsar OS Boot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.5/cdn.min.js" defer></script>
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
             background-color: #000;
             color: #fff;
-            font-family: 'VT323', monospace;
-            overflow: hidden;
-            font-size: 24px;
         }
-        #boot-screen {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        .progress-bar {
+            background: linear-gradient(90deg, #ffffff 0%, #ffffff 50%, transparent 50%, transparent 100%);
+            background-size: 200% 100%;
+            animation: loading 2s linear infinite;
         }
-        #logo {
-            font-size: 72px;
-            text-align: center;
-            margin-bottom: 40px;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            animation: flicker 0.3s infinite;
-        }
-        #loading-bar {
-            width: 400px;
-            height: 30px;
-            background-color: #333;
-            border: 2px solid #fff;
-            margin-bottom: 20px;
-        }
-        #loading-progress {
-            width: 0%;
-            height: 100%;
-            background-color: #fff;
-            transition: width 0.5s;
-        }
-        #bios-prompt {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            font-size: 24px;
-            color: #ff0;
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: 0 0; }
         }
     </style>
 </head>
-<body>
-    <div id="boot-screen">
-        <div id="logo">🌐 TalkoBrowser</div>
-        <div id="loading-bar">
-            <div id="loading-progress"></div>
+<body class="bg-black text-white h-screen flex flex-col items-center justify-center" 
+      x-data="bootScreen()" 
+      x-init="startBoot()"
+      @keydown.window="handleKeydown($event)">
+    <div class="text-center">
+        <img src="pulsar.gif" alt="Pulsar OS Logo" class="w-64 h-64 mb-8 rounded-full shadow-lg">
+        
+        <div class="w-64 h-1 bg-gray-800 mb-4 overflow-hidden">
+            <div class="progress-bar w-full h-full"></div>
         </div>
-        <div id="bios-prompt" class="blink">Press F12 to enter BIOS</div>
+        
+        <p class="text-sm text-gray-300" x-text="statusText"></p>
     </div>
 
+    <div class="fixed bottom-4 right-4 text-gray-500 text-xs">
+        <span x-show="!isMobile">
+            Press <kbd class="bg-gray-700 px-2 py-1 rounded">B</kbd> to enter BIOS
+        </span>
+        <span x-show="isMobile">
+            Tap anywhere to enter BIOS
+        </span>
+    </div>
+
+    <!-- Invisible overlay for mobile tap -->
+    <div class="fixed inset-0 bg-transparent z-50" x-show="isMobile" @click="enterBIOS()"></div>
+
     <script>
-        const loadingProgress = document.getElementById('loading-progress');
-        const biosPrompt = document.getElementById('bios-prompt');
-        let canEnterBIOS = true;
-
-        function updateProgress(progress) {
-            loadingProgress.style.width = `${progress}%`;
+        function bootScreen() {
+            return {
+                statusText: 'Booting system...',
+                isMobile: window.innerWidth <= 768,
+                canEnterBIOS: true,
+                async startBoot() {
+                    await new Promise(resolve => setTimeout(resolve, 2500));
+                    if (this.canEnterBIOS) {
+                        this.statusText = 'Initializing system...';
+                        await new Promise(resolve => setTimeout(resolve, 3500));
+                        if (this.canEnterBIOS) {
+                            window.location.href = 'account.html';
+                        }
+                    }
+                },
+                async enterBIOS() {
+                    if (this.canEnterBIOS) {
+                        this.canEnterBIOS = false;
+                        this.statusText = 'Entering BIOS...';
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                        window.location.href = 'bios.html';
+                    }
+                },
+                handleKeydown(event) {
+                    if (event.key.toLowerCase() === 'b') {
+                        this.enterBIOS();
+                    }
+                },
+                handleResize() {
+                    this.isMobile = window.innerWidth <= 768;
+                }
+            };
         }
 
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
-        async function bootUp() {
-            for (let i = 0; i <= 100; i += 5) {
-                updateProgress(i);
-                await sleep(200);
-            }
-            await sleep(1000);
-            if (canEnterBIOS) {
-                window.location.href = 'account.html';
-            }
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'F12' && canEnterBIOS) {
-                canEnterBIOS = false;
-                biosPrompt.classList.remove('blink');
-                biosPrompt.textContent = 'Entering BIOS...';
-                setTimeout(() => {
-                    window.location.href = 'bios.html';
-                }, 1500);
-            }
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('bootScreen', bootScreen);
         });
 
-        window.onload = () => {
-            bootUp();
-            setTimeout(() => {
-                canEnterBIOS = false;
-                biosPrompt.classList.add('hidden');
-            }, 8000); // Hide BIOS prompt after 8 seconds
-        };
+        window.addEventListener('resize', () => {
+            Alpine.store('bootScreen').handleResize();
+        });
     </script>
 </body>
 </html>
