@@ -54,7 +54,7 @@ We appreciate your understanding and encourage you to report any issues or share
 
 ## Getting Started
 
-To run Pulsar OS, simply navigate to our [official website](https://mohdyahyamahmodi.github.io/pulsar-os/) and launch the OS in your web browser. No installation or additional software is required.
+To run Pulsar OS, simply navigate to our [unofficial website](https://pulsar-os.netlify.app/) and launch the OS in your web browser. No installation or additional software is required.
 
 ## Usage
 
