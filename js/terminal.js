@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
           case 'date':
               return new Date().toString();
           case 'whoami':
-              return 'user@talkobrowser-os';
+              return 'user@pulsar-os';
           default:
               return `Unknown command: ${cmd}`;
       }
