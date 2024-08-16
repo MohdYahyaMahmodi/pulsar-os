@@ -1,62 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TalkoBrowser OS</title>
+    <title>Pulsar OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+
         :root {
-    --color-dark: #202020;
+    --color-dark: #646464;
     --color-medium: #333333;
-    --color-light: #FDF5E6;
-    --color-accent: #FF9800;
+    --color-light: #454545;
+    --color-accent: #00a6ff;
+
+      
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body {
-    font-family: 'VT323', monospace;
-    background-color: var(--color-dark);
-    color: var(--color-light);
+body, html {
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-color);
     overflow: hidden;
 }
 
 .window {
     background-color: var(--color-medium);
     border: 2px solid var(--color-accent);
-    box-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+    box-shadow: 0 0 10px rgb(0, 187, 255);
+    border-radius: 25px;
 }
 
 .title-bar {
-    background: var(--color-dark);
+    background: rgb(127, 127, 127);
     border-bottom: 2px solid var(--color-accent);
 }
 
-.window-btn {
-    background: var(--color-accent);
+.window-btn1 {
+    background: yellow;
+    color: yellow;
+    border-radius: 25px;
+}
+.window-btn2 {
+    background: rgb(0, 255, 21);
+    color: rgb(0, 255, 21);
+    border-radius: 25px;
+}
+.window-btn3 {
+    background: red;
+    color: red;
+    border-radius: 25px;
+}
+.window-btn1:hover {
+    background: yellow;
     color: var(--color-dark);
+    border-radius: 25px;
+}
+.window-btn2:hover {
+    background: rgb(0, 255, 21);
+    color: var(--color-dark);
+    border-radius: 25px;
+}
+.window-btn3:hover {
+    background: red;
+    color: var(--color-dark);
+    border-radius: 25px;
 }
 
-.window-btn:hover {
-    background: #FFB74D;
-}
+
 
 .taskbar {
-    background: linear-gradient(to bottom, #3c3c3c, var(--color-medium));
+    background: blcak;
     border-top: 2px solid var(--color-accent);
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .start-btn {
-    background: linear-gradient(to bottom, #FFB74D, var(--color-accent));
+    background: var(--color-accent);
     color: var(--color-dark);
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .start-btn:hover {
-    background: linear-gradient(to bottom, #FFCC80, #FFB74D);
+    background: rgb(0, 162, 255);
 }
 
 .taskbar-icon {
@@ -87,7 +121,7 @@ body {
 }
 
 .content {
-    background-color: var(--color-light);
+    background-color: white;
     color: var(--color-dark);
 }
 
@@ -102,7 +136,7 @@ body {
 }
 
 .browser-btn:hover {
-    background-color: #FFB74D;
+    background-color: #00a2ff;
 }
 
 .search-bar {
@@ -117,7 +151,7 @@ body {
 }
 
 #custom-homepage {
-    background: linear-gradient(135deg, var(--color-dark), var(--color-medium));
+    background: wheat;
     color: var(--color-light);
 }
 
@@ -133,17 +167,18 @@ body {
 }
 
 #custom-homepage button:hover {
-    background-color: #FFB74D;
+    background-color: #0099ff;
 }
 
 .resize-handle {
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 30px;
+    height: 30px;
     background-color: var(--color-accent);
     right: 0;
     bottom: 0;
     cursor: se-resize;
+    border-top-left-radius: 8px;
 }
 
 /* Desktop Styles */
@@ -187,7 +222,7 @@ body {
     font-size: 24px;
     background-color: rgba(45, 55, 72, 0.7);
     border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
+    border-radius: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.2s ease, border-color 0.2s ease;
 }
@@ -387,11 +422,11 @@ body {
 
     <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="browser-window" style="width: 800px; height: 600px; left: 50px; top: 50px;">
         <div class="title-bar flex justify-between items-center p-2 cursor-move">
-            <span class="title px-2">TalkoBrowser</span>
+            <span class="title px-2">Pulsar OS Browser 2.3</span>
             <div class="flex space-x-2">
-                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
-                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
-                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+                <button class="window-btn1 px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn2 px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn3 px-3 py-1 rounded close-btn">X</button>
             </div>
         </div>
         <div class="browser-toolbar flex items-center p-2 space-x-2">
@@ -399,13 +434,15 @@ body {
             <button class="browser-btn px-3 py-1 rounded" id="forward-btn">→</button>
             <button class="browser-btn px-3 py-1 rounded" id="reload-btn">↻</button>
             <button class="browser-btn px-3 py-1 rounded" id="home-btn">🏠</button>
+            <!-- if you know how add a whats new in Pulsar OS pop up to the Whats New! Button :) -->
+            <button class="browser-btn px-3 py-1 rounded" id="what-new">Whats New!</button>
             <input type="text" class="search-bar flex-grow px-2 py-1 rounded" id="url-bar" placeholder="Enter search or URL">
             <button class="browser-btn px-3 py-1 rounded" id="go-btn">Go</button>
         </div>
         <div class="content flex-1 overflow-hidden bg-white">
             <iframe id="browser-frame" src="about:blank"></iframe>
             <div id="custom-homepage" class="w-full h-full flex flex-col items-center justify-center p-8">
-                <h1 class="text-4xl font-bold mb-8">Welcome to TalkoBrowser</h1>
+                <h1 class="text-4xl font-bold mb-8">Welcome to Pulsar OS Browser V2.3!</h1>
                 <div class="w-full max-w-md">
                     <input type="text" id="home-search" class="w-full px-4 py-2 rounded-full text-lg" placeholder="Search or enter URL">
                 </div>
@@ -420,9 +457,9 @@ body {
         <div class="title-bar flex justify-between items-center p-2 cursor-move">
             <span class="title px-2">Notepad</span>
             <div class="flex space-x-2">
-                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
-                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
-                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+                <button class="window-btn1 px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn2 px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn3 px-3 py-1 rounded close-btn">X</button>
             </div>
         </div>
         <div class="toolbar flex items-center p-2 space-x-2 bg-gray-700">
@@ -456,9 +493,9 @@ body {
         <div class="title-bar flex justify-between items-center p-2 cursor-move">
             <span class="title px-2">Calculator</span>
             <div class="flex space-x-2">
-                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
-                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
-                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+                <button class="window-btn1 px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn2 px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn3 px-3 py-1 rounded close-btn">X</button>
             </div>
         </div>
         <div class="content flex-1 p-2 bg-gray-800">
@@ -491,9 +528,9 @@ body {
         <div class="title-bar flex justify-between items-center p-2 cursor-move">
             <span class="title px-2">Paint</span>
             <div class="flex space-x-2">
-                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
-                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
-                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+                <button class="window-btn1 px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn2 px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn3 px-3 py-1 rounded close-btn">X</button>
             </div>
         </div>
         <div class="toolbar flex items-center p-2 space-x-2 bg-gray-700">
@@ -513,9 +550,9 @@ body {
         <div class="title-bar flex justify-between items-center p-2 cursor-move">
             <span class="title px-2">Music Player</span>
             <div class="flex space-x-2">
-                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
-                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
-                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+                <button class="window-btn1 px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn2 px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn3 px-3 py-1 rounded close-btn">X</button>
             </div>
         </div>
         <div class="content flex-1 p-4 bg-gray-800 text-white flex flex-col">
@@ -553,9 +590,9 @@ body {
     <div class="title-bar flex justify-between items-center p-2 cursor-move">
         <span class="title px-2">File Explorer</span>
         <div class="flex space-x-2">
-            <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
-            <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
-            <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+            <button class="window-btn1 px-3 py-1 rounded minimize-btn">_</button>
+            <button class="window-btn2 px-3 py-1 rounded maximize-btn">□</button>
+            <button class="window-btn3 px-3 py-1 rounded close-btn">X</button>
         </div>
     </div>
     <div class="toolbar flex items-center p-2 space-x-2 bg-gray-700">
@@ -589,9 +626,9 @@ body {
     <div class="title-bar flex justify-between items-center p-2 cursor-move">
         <span class="title px-2">Clock & Alarm</span>
         <div class="flex space-x-2">
-            <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
-            <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
-            <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+            <button class="window-btn1 px-3 py-1 rounded minimize-btn">_</button>
+            <button class="window-btn2 px-3 py-1 rounded maximize-btn">□</button>
+            <button class="window-btn3 px-3 py-1 rounded close-btn">X</button>
         </div>
     </div>
     <div class="content flex-1 p-4 bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex flex-col items-center justify-between">
@@ -616,9 +653,9 @@ body {
     <div class="title-bar flex justify-between items-center p-2 cursor-move">
         <span class="title px-2">Video Player</span>
         <div class="flex space-x-2">
-            <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
-            <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
-            <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+            <button class="window-btn1 px-3 py-1 rounded minimize-btn">_</button>
+            <button class="window-btn2 px-3 py-1 rounded maximize-btn">□</button>
+            <button class="window-btn3 px-3 py-1 rounded close-btn">X</button>
         </div>
     </div>
     <div class="content flex-1 bg-gray-900 flex flex-col">
@@ -663,15 +700,15 @@ body {
         <div class="title-bar flex justify-between items-center p-2 cursor-move">
             <span class="title px-2">Terminal</span>
             <div class="flex space-x-2">
-                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
-                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
-                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+                <button class="window-btn1 px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn2 px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn3 px-3 py-1 rounded close-btn">X</button>
             </div>
         </div>
         <div class="content flex-1 p-2 bg-black text-white flex flex-col">
             <div id="terminal-output" class="flex-1 overflow-y-auto p-2 font-mono text-sm"></div>
             <div class="flex">
-                <span class="p-2">user@talkobrowser-os:~$</span>
+                <span class="p-2">user@pulsar-os:~$</span>
                 <input id="terminal-input" type="text" class="w-full bg-black text-white p-2 outline-none" placeholder="Enter command...">
             </div>
         </div>

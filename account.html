@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pulsar OS Lock Screen</title>
@@ -182,6 +183,7 @@ body, html {
     border: 3px solid var(--accent-color);
     box-shadow: 0 0 15px rgba(58, 134, 255, 0.5);
     transition: transform 0.3s ease;
+    box-shadow: #3a86ff;
 }
 
 .profile-pic:hover {
@@ -461,20 +463,20 @@ body, html {
                 <div class="cover-time" id="coverTime"></div>
                 <div class="cover-date" id="coverDate"></div>
             </div>
-            <div class="instruction">Click anywhere to unlock</div>
+            <div class="instruction">Click or tap anywhere to unlock</div>
         </div>
 
         <div class="login-container">
             <div class="login-box">
                 <div class="profile-section">
                     <div class="profile-pic">
-                        <img src="https://via.placeholder.com/120x120.png?text=Guest" alt="Guest">
+                        <img src="user.jpg" alt="Guest">
                     </div>
                     <div class="user-name">Guest</div>
                 </div>
-                <form class="login-form">
-                    <button type="submit" class="sign-in-btn">Sign In</button>
-                </form>
+              
+                    <button onclick="window.location.href='os.html'" class="sign-in-btn" >Sign In</button>
+                
                 <div class="options">
                     <a href="#" class="option-link">Guest Login</a>
                     <a href="#" class="option-link">Forgot Password?</a>
@@ -482,11 +484,13 @@ body, html {
             </div>
             <div class="bottom-left">Guest Only</div>
             <div class="bottom-right">
-                <button class="settings-btn" id="settingsBtn">⚙️</button>
+                <div class="settings">
+                <button class="settings-btn" id="settingsBtn" onclick="opensettings()" >⚙️</button>
                 <div class="settings-menu" id="settingsMenu">
                     <button id="shutdownBtn">Shut Down</button>
                     <button id="restartBtn">Restart</button>
                     <button id="sleepBtn">Sleep</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -541,5 +545,6 @@ body, html {
             }
         });
     </script>
+    
 </body>
 </html>

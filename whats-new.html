@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whats new in Pulsar OS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+
+        :root {
+    --color-dark: #646464;
+    --color-medium: #333333;
+    --color-light: #454545;
+    --color-accent: #00a6ff;
+
+      
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-color);
+    overflow: hidden;
+}
+
+.window {
+    background-color: var(--color-medium);
+    border: 2px solid var(--color-accent);
+    box-shadow: 0 0 10px rgba(0, 187, 255, 0.3);
+}
+
+.title-bar {
+    background: rgb(127, 127, 127);
+    border-bottom: 2px solid var(--color-accent);
+}
+
+.window-btn1 {
+    background: yellow;
+    color: yellow;
+    border-radius: 25px;
+}
+.window-btn2 {
+    background: rgb(0, 255, 21);
+    color: rgb(0, 255, 21);
+    border-radius: 25px;
+}
+.window-btn3 {
+    background: red;
+    color: red;
+    border-radius: 25px;
+}
+.window-btn1:hover {
+    background: yellow;
+    color: var(--color-dark);
+    border-radius: 25px;
+}
+.window-btn2:hover {
+    background: rgb(0, 255, 21);
+    color: var(--color-dark);
+    border-radius: 25px;
+}
+.window-btn3:hover {
+    background: red;
+    color: var(--color-dark);
+    border-radius: 25px;
+}
+
+
+
+.taskbar {
+    background: blcak;
+    border-top: 2px solid var(--color-accent);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.start-btn {
+    background: var(--color-accent);
+    color: var(--color-dark);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.start-btn:hover {
+    background: rgb(0, 162, 255);
+}
+
+.taskbar-icon {
+    background-color: rgba(253, 245, 230, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.taskbar-icon:hover, .taskbar-icon.active {
+    background-color: rgba(253, 245, 230, 0.3);
+}
+
+.icon {
+    background-color: var(--color-medium);
+    border: 2px solid var(--color-accent);
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-medium);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-accent);
+    border: 1px solid var(--color-medium);
+}
+
+.content {
+    background-color: white;
+    color: var(--color-dark);
+}
+
+.browser-toolbar {
+    background-color: var(--color-medium);
+    border-bottom: 1px solid var(--color-accent);
+}
+
+.browser-btn {
+    background-color: var(--color-accent);
+    color: var(--color-dark);
+}
+
+.browser-btn:hover {
+    background-color: #00a2ff;
+}
+
+.search-bar {
+    background-color: var(--color-light);
+    color: var(--color-dark);
+}
+
+#browser-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+#custom-homepage {
+    background: wheat;
+    color: var(--color-light);
+}
+
+#custom-homepage input {
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    border: 2px solid var(--color-accent);
+}
+
+#custom-homepage button {
+    background-color: var(--color-accent);
+    color: var(--color-dark);
+}
+
+#custom-homepage button:hover {
+    background-color: #0099ff;
+}
+
+.resize-handle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-accent);
+    right: 0;
+    bottom: 0;
+    cursor: se-resize;
+}
+
+/* Desktop Styles */
+#desktop {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 56px); /* Adjust based on your taskbar height */
+    overflow: hidden;
+    background-color: var(--color-dark);
+}
+
+.desktop-icon {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: move;
+    user-select: none;
+    transition: transform 0.1s ease, opacity 0.1s ease;
+    color: var(--color-light);
+}
+
+.desktop-icon:hover {
+    opacity: 0.8;
+}
+
+.desktop-icon:active {
+    transform: scale(1.05);
+    opacity: 0.7;
+}
+
+.desktop-icon .icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    background-color: rgba(45, 55, 72, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.desktop-icon:hover .icon {
+    background-color: rgba(45, 55, 72, 0.9);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.desktop-icon .icon-title {
+    margin-top: 4px;
+    font-size: 12px;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Context Menu Styles */
+#context-menu {
+    min-width: 200px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+#context-menu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(26, 32, 44, 0.8);
+    border-radius: inherit;
+    z-index: -1;
+}
+
+#context-menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#context-menu li {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+#context-menu li:hover {
+    background-color: rgba(66, 153, 225, 0.2);
+}
+
+#context-menu li i {
+    margin-right: 10px;
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+#context-menu li:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Video Player Styles */
+#video-window .content {
+    min-height: 300px;
+}
+
+#video-window .video-container {
+    background-color: black;
+    min-height: 200px;
+}
+
+#video-window .video-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.3s ease;
+}
+
+#video-window .video-controls input[type="range"] {
+    -webkit-appearance: none;
+    height: 5px;
+    background: #ddd;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+#video-window .video-controls input[type="range"]:hover {
+    opacity: 1;
+}
+
+#video-window .video-controls input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #4299e1;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+#video-window .video-controls input[type="range"]::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: #4299e1;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+#video-window .video-controls,
+#video-window .file-input-container {
+    flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+    #video-window .video-controls .flex {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #video-window .video-controls .space-x-2 > :not([hidden]) ~ :not([hidden]) {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    #video-window .file-input-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #video-window .file-input-container label {
+        margin-bottom: 0.5rem;
+    }
+
+    #video-window #file-name {
+        margin-left: 0;
+    }
+}
+
+.terminal-output-line, .terminal-response {
+    padding: 2px 0;
+}
+
+.terminal-output-line {
+    color: #00FF00;
+}
+
+.terminal-response {
+    color: #FFFFFF;
+}
+    </style>
+</head>
+<body class="select-none text-lg">
+
+
+
+
+
+    <script src="js/main.js"></script>
+</body>
+</html>
