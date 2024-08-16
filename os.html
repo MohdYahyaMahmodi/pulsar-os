@@ -10,7 +10,7 @@
     <style>
 
         :root {
-    --color-dark: #202020;
+    --color-dark: #646464;
     --color-medium: #333333;
     --color-light: #000000;
     --color-accent: #0066ff;
@@ -41,14 +41,20 @@ body, html {
     border-bottom: 2px solid var(--color-accent);
 }
 
-.window-btn {
-    background: var(--color-accent);
+.window-btn1 {
+    background: yellow;
+    color: var(--color-dark);
+}
+.window-btn2 {
+    background: rgb(0, 255, 21);
+    color: var(--color-dark);
+}
+.window-btn3 {
+    background: red;
     color: var(--color-dark);
 }
 
-.window-btn:hover {
-    background: #FFB74D;
-}
+
 
 .taskbar {
     background: linear-gradient(to bottom, #3c3c3c, var(--color-medium));
@@ -397,9 +403,9 @@ body, html {
         <div class="title-bar flex justify-between items-center p-2 cursor-move">
             <span class="title px-2">TalkoBrowser</span>
             <div class="flex space-x-2">
-                <button class="window-btn px-3 py-1 rounded minimize-btn">_</button>
-                <button class="window-btn px-3 py-1 rounded maximize-btn">□</button>
-                <button class="window-btn px-3 py-1 rounded close-btn">X</button>
+                <button class="window-btn1 px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn2 px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn3 px-3 py-1 rounded close-btn">X</button>
             </div>
         </div>
         <div class="browser-toolbar flex items-center p-2 space-x-2">
