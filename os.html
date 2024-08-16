@@ -8,17 +8,23 @@
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        :root {
-    --color-dark: #202020;
-    --color-medium: #333333;
-    --color-light: #FDF5E6;
-    --color-accent: #FF9800;
+      :root {
+    --bg-color: rgba(0, 0, 0, 0.5);
+    --text-color: #ffffff;
+    --accent-color: #3a86ff;
+    --hover-color: rgba(255, 255, 255, 0.1);
 }
 
-body {
-    font-family: 'VT323', monospace;
-    background-color: var(--color-dark);
-    color: var(--color-light);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-color);
     overflow: hidden;
 }
 
