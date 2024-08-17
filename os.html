@@ -9,6 +9,36 @@
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+/* whats new pop up */
+/* styles.css */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+    text-align: center;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
 
         :root {
     --color-dark: #646464;
@@ -380,6 +410,22 @@ body, html {
 }
     </style>
 </head>
+<!--SCRIPT FOR WHATS NEW POP UP-->
+<script>
+document.getElementById('openPopupBtn').addEventListener('click', function() {
+    document.getElementById('popup').style.display = 'flex';
+});
+
+document.querySelector('.close-btn').addEventListener('click', function() {
+    document.getElementById('popup').style.display = 'none';
+});
+
+window.addEventListener('click', function(event) {
+    if (event.target === document.getElementById('popup')) {
+        document.getElementById('popup').style.display = 'none';
+    }
+});
+</script>
 <body class="select-none text-lg">
     <div id="desktop" class="relative w-full h-screen p-4">
         <div class="desktop-icon cursor-move m-4" id="browser-icon">
@@ -435,9 +481,16 @@ body, html {
             <button class="browser-btn px-3 py-1 rounded" id="reload-btn">↻</button>
             <button class="browser-btn px-3 py-1 rounded" id="home-btn">🏠</button>
             <!-- if you know how add a whats new in Pulsar OS pop up to the Whats New! Button :) -->
-            <button class="browser-btn px-3 py-1 rounded" id="what-new">Whats New!</button>
+            <button id="openPopupBtn">Whats New!</button>
             <input type="text" class="search-bar flex-grow px-2 py-1 rounded" id="url-bar" placeholder="Enter search or URL">
             <button class="browser-btn px-3 py-1 rounded" id="go-btn">Go</button>
+        </div>
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <span class="close-btn">&times;</span>
+                <h1>Whats New In Pulsar OS:</h1>
+                <p>New UI and you can move app icons that are on the Desktop</p>
+            </div>
         </div>
         <div class="content flex-1 overflow-hidden bg-white">
             <iframe id="browser-frame" src="about:blank"></iframe>
