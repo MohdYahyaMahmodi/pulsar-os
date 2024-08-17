@@ -14,7 +14,7 @@ const windows = {
 let highestZIndex = 100;
 let clickTimeout = null;
 
-// Desktop grid configuration
+// Desktop grid configuration! trye
 const gridSize = 80; // Size of each grid cell in pixels
 let desktopGrid = [];
 
