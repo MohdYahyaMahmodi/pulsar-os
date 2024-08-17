@@ -365,9 +365,6 @@ scripts.forEach(script => {
 });
 
 
-
-
-
 // what is now pop up script :)
 document.getElementById('openPopupBtn').addEventListener('click', function() {
   document.getElementById('popup').style.display = 'flex';
