@@ -485,13 +485,7 @@ window.addEventListener('click', function(event) {
             <input type="text" class="search-bar flex-grow px-2 py-1 rounded" id="url-bar" placeholder="Enter search or URL">
             <button class="browser-btn px-3 py-1 rounded" id="go-btn">Go</button>
         </div>
-        <div id="popup" class="popup">
-            <div class="popup-content">
-                <span class="close-btn">&times;</span>
-                <h1>Whats New In Pulsar OS:</h1>
-                <p>New UI and you can move app icons that are on the Desktop</p>
-            </div>
-        </div>
+
         <div class="content flex-1 overflow-hidden bg-white">
             <iframe id="browser-frame" src="about:blank"></iframe>
             <div id="custom-homepage" class="w-full h-full flex flex-col items-center justify-center p-8">
@@ -505,7 +499,13 @@ window.addEventListener('click', function(event) {
         </div>
         <div class="resize-handle"></div>
     </div>
-
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close-btn">&times;</span>
+            <h1>Whats New In Pulsar OS:</h1>
+            <p>New UI and you can move app icons that are on the Desktop</p>
+        </div>
+    </div>
     <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="notepad-window" style="width: 600px; height: 400px; left: 100px; top: 100px;">
         <div class="title-bar flex justify-between items-center p-2 cursor-move">
             <span class="title px-2">Notepad</span>
