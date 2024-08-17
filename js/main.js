@@ -364,11 +364,16 @@ scripts.forEach(script => {
     document.body.appendChild(scriptElement);
 });
 
+
+
+
+
+// what is now pop up script :)
 document.getElementById('openPopupBtn').addEventListener('click', function() {
   document.getElementById('popup').style.display = 'flex';
 });
 
-document.querySelector('.close-btn').addEventListener('click', function() {
+document.querySelector('.close-new').addEventListener('click', function() {
   document.getElementById('popup').style.display = 'none';
 });
 
