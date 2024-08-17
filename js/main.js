@@ -9,6 +9,7 @@ const windows = {
   'clock-window': { icon: '⏰', title: 'Clock & Alarm' },
   'video-window': { icon: '🎥', title: 'Video Player' },
   'terminal-window': { icon: '💻', title: 'Terminal' }
+  'whats-new-window': { icon: '❔', title: 'Whats New'}
 };
 
 let highestZIndex = 100;

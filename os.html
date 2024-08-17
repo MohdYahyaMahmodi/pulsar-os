@@ -467,7 +467,7 @@ window.addEventListener('click', function(event) {
         </div>
         <div class="desktop-icon cursor-move m-4" id="whats-new-icon">
             <div class="icon w-16 h-16 flex items-center justify-center text-3xl bg-gray-800 rounded-lg">❔</div>
-            <div class="mt-2 text-center text-white">Whats New</div>
+            <div class="mt-2 text-center text-white">Whats-New</div>
         </div>
     </div>
 
@@ -770,6 +770,22 @@ window.addEventListener('click', function(event) {
                 <span class="p-2">user@pulsar-os:~$</span>
                 <input id="terminal-input" type="text" class="w-full bg-black text-white p-2 outline-none" placeholder="Enter command...">
             </div>
+        </div>
+        <div class="resize-handle"></div>
+    </div>
+
+    <!-- what new app -->
+    <div class="window fixed flex flex-col hidden rounded-lg overflow-hidden" id="whats-new-window" style="width: 800px; height: 600px; left: 200px; top: 100px;">
+        <div class="title-bar flex justify-between items-center p-2 cursor-move">
+            <span class="title px-2">Whats New</span>
+            <div class="flex space-x-2">
+                <button class="window-btn1 px-3 py-1 rounded minimize-btn">_</button>
+                <button class="window-btn2 px-3 py-1 rounded maximize-btn">□</button>
+                <button class="window-btn3 px-3 py-1 rounded close-btn">X</button>
+            </div>
+        </div>
+        <h1>Whats New:</h1>
+        <p>added Whats new app, New Colors</p>
         </div>
         <div class="resize-handle"></div>
     </div>
