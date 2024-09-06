@@ -2,7 +2,7 @@
 
 [![Boot Screen](https://github.com/MohdYahyaMahmodi/pulsar-os/raw/main/boot)](https://github.com/MohdYahyaMahmodi/pulsar-os/blob/main/boot)
 
-Pulsar OS is a revolutionary, fully functional browser-based operating system that brings the desktop experience to your web browser. Developed by Talkomatic, this innovative project offers a complete OS environment, including a boot-up sequence, BIOS, login screen, and a feature-rich OS interface.
+Pulsar OS is a revolutionary, fully functional browser-based operating system that brings the desktop experience to your web browser. Developed by <a href="https://talkomatic.co">Talkomatic</a>, this innovative project offers a complete OS environment, including a boot-up sequence, BIOS, login screen, and a feature-rich OS interface.
 
 [![Join our Discord](https://img.shields.io/discord/YOUR_DISCORD_SERVER_ID?color=7289DA&logo=discord&logoColor=white)](https://discord.gg/AY7Bk6zgze)
 [![Reddit Community](https://img.shields.io/reddit/subreddit-subscribers/talkomatic?style=social)](https://www.reddit.com/r/talkomatic/)
