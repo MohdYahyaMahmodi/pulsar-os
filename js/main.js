@@ -14,7 +14,7 @@ const windows = {
 let highestZIndex = 100;
 let clickTimeout = null;
 
-// Desktop grid configuration
+// Desktop grid configuration! trye
 const gridSize = 80; // Size of each grid cell in pixels
 let desktopGrid = [];
 
@@ -362,4 +362,20 @@ scripts.forEach(script => {
     const scriptElement = document.createElement('script');
     scriptElement.src = script;
     document.body.appendChild(scriptElement);
+});
+
+
+// what is now pop up script :)
+document.getElementById('openPopupBtn').addEventListener('click', function() {
+  document.getElementById('popup').style.display = 'flex';
+});
+
+document.querySelector('.close-new').addEventListener('click', function() {
+  document.getElementById('popup').style.display = 'none';
+});
+
+window.addEventListener('click', function(event) {
+  if (event.target === document.getElementById('popup')) {
+      document.getElementById('popup').style.display = 'none';
+  }
 });
