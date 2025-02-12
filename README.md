@@ -1,22 +1,29 @@
 # Pulsar OS (Beta)
 
+<<<<<<< HEAD
 [![Boot Screen](https://github.com/MohdYahyaMahmodi/pulsar-os/raw/main/boot)](https://github.com/MohdYahyaMahmodi/pulsar-os/blob/main/boot)
 
 Pulsar OS is a revolutionary, fully functional browser-based operating system that brings the desktop experience to your web browser. Developed by Talkomatic, this innovative project offers a complete OS environment, including a boot-up sequence, BIOS, login screen, and a feature-rich OS interface.
 
 [![Join our Discord](https://img.shields.io/discord/YOUR_DISCORD_SERVER_ID?color=7289DA&logo=discord&logoColor=white)](https://discord.gg/AY7Bk6zgze)
 [![Reddit Community](https://img.shields.io/reddit/subreddit-subscribers/talkomatic?style=social)](https://www.reddit.com/r/talkomatic/)
+=======
+![TalkoBrowser OS Logo](https://placeholder.com/wp-content/uploads/2018/10/placeholder.com-logo1.png)
+>>>>>>> parent of ce28a33 (Update README.md)
 
 ## Table of Contents
+- [Introduction](#introduction)
 - [Beta Release Notice](#beta-release-notice)
 - [Features](#features)
-- [Screenshots](#screenshots)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
 - [Applications](#applications)
-- [Community](#community)
 - [Contributing](#contributing)
 - [License](#license)
+
+## Introduction
+
+TalkoBrowser OS is a fully functional, browser-based operating system that brings the desktop experience to your web browser. Developed by Talkomatic, this innovative project offers a complete OS environment, including a boot-up sequence, BIOS, login screen, and a feature-rich OS interface. We're excited to present this beta version to the community for testing and feedback.
 
 ## Beta Release Notice
 
@@ -31,6 +38,7 @@ We appreciate your understanding and encourage you to report any issues or share
 
 ## Features
 
+<<<<<<< HEAD
 - **🖥️ Full OS Experience**: Experience a complete operating system lifecycle, from boot-up to shutdown.
 - **⚙️ BIOS Interface**: Explore and modify system settings through a realistic BIOS interface.
 - **🔒 Secure Login**: Protect your virtual environment with a user authentication system.
@@ -55,6 +63,19 @@ We appreciate your understanding and encourage you to report any issues or share
 ## Getting Started
 
 To run Pulsar OS, simply navigate to our [unofficial website](https://pulsar-os.netlify.app/) and launch the OS in your web browser. No installation or additional software is required.
+=======
+- **Full OS Experience**: Experience a complete operating system lifecycle, from boot-up to shutdown.
+- **BIOS Interface**: Explore and modify system settings through a realistic BIOS interface.
+- **Secure Login**: Protect your virtual environment with a user authentication system.
+- **Intuitive Desktop**: Navigate through a user-friendly desktop environment.
+- **Multiple Applications**: Access a variety of built-in applications for productivity and entertainment.
+- **Web Browser**: Surf the internet within the OS environment.
+- **File Management**: Organize your files with the built-in file explorer.
+
+## Getting Started
+
+To run TalkoBrowser OS, simply navigate to our [official website](#) and launch the OS in your web browser. No installation or additional software is required.
+>>>>>>> parent of ce28a33 (Update README.md)
 
 ## Usage
 
@@ -67,6 +88,7 @@ To run Pulsar OS, simply navigate to our [unofficial website](https://pulsar-os.
 
 Pulsar OS comes with a suite of pre-installed applications:
 
+<<<<<<< HEAD
 - **🌐 Web Browser**: Surf the internet within the OS environment.
 - **📝 Notepad**: Create and edit text documents.
 - **🧮 Calculator**: Perform basic and advanced calculations.
@@ -83,6 +105,17 @@ Join our growing community to stay updated, share your experiences, and connect 
 
 - [Join our Discord](https://discord.gg/AY7Bk6zgze)
 - [Reddit Community](https://www.reddit.com/r/talkomatic/)
+=======
+- **Web Browser**: Surf the internet within the OS environment.
+- **Notepad**: Create and edit text documents.
+- **Calculator**: Perform basic and advanced calculations.
+- **Paint**: Express your creativity with a simple drawing application.
+- **Music Player**: Enjoy your favorite tunes.
+- **File Explorer**: Manage your files and folders.
+- **Clock**: Keep track of time and set alarms.
+- **Video Player**: Watch videos within the OS.
+- **Terminal**: Access command-line interface for advanced users.
+>>>>>>> parent of ce28a33 (Update README.md)
 
 ## Contributing
 
@@ -102,5 +135,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ---
 
+<<<<<<< HEAD
 For more information, visit our [official website](https://mohdyahyamahmodi.github.io/pulsar-os/) or contact us at [support@talkomatic.co](mailto:support@talkomatic.co).
+=======
+For more information, visit our [official website](#) or contact us at [support@talkobrowseros.com](mailto:support@talkobrowseros.com).
+>>>>>>> parent of ce28a33 (Update README.md)
 
